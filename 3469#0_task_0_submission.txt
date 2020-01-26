@@ -1,0 +1,149 @@
+"Initiating VISUAL studio Version checking" 
+"-------------------------------" 
+Visual Studio Locator version 2.5.2+gebb9f26a3d [query version 1.18.21.37008]
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+instanceId: 6e2261f7
+installDate: 21-05-2019 10:59:25 AM
+installationName: VisualStudio/15.9.12+28307.665
+installationPath: C:\Program Files (x86)\Microsoft Visual Studio\2017\Community
+installationVersion: 15.9.28307.665
+productId: Microsoft.VisualStudio.Product.Community
+productPath: C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\devenv.exe
+isPrerelease: 0
+displayName: Visual Studio Community 2017
+description: Free, fully-featured IDE for students, open-source and individual developers
+channelId: VisualStudio.15.Release
+channelUri: https://aka.ms/vs/15/release/channel
+enginePath: C:\Program Files (x86)\Microsoft Visual Studio\Installer\resources\app\ServiceHub\Services\Microsoft.VisualStudio.Setup.Service
+releaseNotes: https://go.microsoft.com/fwlink/?LinkId=660692#15.9.12
+thirdPartyNotices: https://go.microsoft.com/fwlink/?LinkId=660708
+updateDate: 2019-05-21T05:29:25.0843344Z
+catalog_buildBranch: d15.9
+catalog_buildVersion: 15.9.28307.665
+catalog_id: VisualStudio/15.9.12+28307.665
+catalog_localBuild: build-lab
+catalog_manifestName: VisualStudio
+catalog_manifestType: installer
+catalog_productDisplayVersion: 15.9.12
+catalog_productLine: Dev15
+catalog_productLineVersion: 2017
+catalog_productMilestone: RTW
+catalog_productMilestoneIsPreRelease: False
+catalog_productName: Visual Studio
+catalog_productPatchVersion: 12
+catalog_productPreReleaseMilestoneSuffix: 1.0
+catalog_productRelease: RTW
+catalog_productSemanticVersion: 15.9.12+28307.665
+catalog_requiredEngineVersion: 1.18.1049.33485
+properties_campaignId: Unity3d_Unity
+properties_channelManifestId: VisualStudio.15.Release/15.9.12+28307.665
+properties_nickname: 
+properties_setupEngineFilePath: C:\Program Files (x86)\Microsoft Visual Studio\Installer\vs_installershell.exe
+"Version checked sucessfully" 
+"Initiating V-rep Checking" 
+Loading the V-REP library...
+Done!
+Launching V-REP...
+
+V-REP PRO EDU V3.6.2. (rev. 0)
+Using the default Lua library.
+Add-on script 'vrepAddOnScript-addOnScriptDemo.lua' was loaded.
+Add-on script 'vrepAddOnScript-b0RemoteApiServer.lua' was loaded.
+Add-on script 'vrepAddOnScript_PyRep.lua' was loaded.
+Simulator launched.
+Plugin 'MeshCalc': loading...
+Plugin 'MeshCalc': load succeeded.
+Plugin 'Assimp': loading...
+Plugin 'Assimp': warning: replaced variable 'simAssimp'
+Plugin 'Assimp': load succeeded.
+Plugin 'BlueZero': loading...
+Plugin 'BlueZero': warning: replaced variable 'simB0'
+Plugin 'BlueZero': load succeeded.
+Plugin 'BubbleRob': loading...
+Plugin 'BubbleRob': load succeeded.
+Plugin 'Bwf': loading...
+Plugin 'Bwf': load succeeded.
+Plugin 'CHAI3D': loading...
+Plugin 'CHAI3D': load succeeded.
+Plugin 'Cam': loading...
+Plugin 'Cam': load succeeded.
+Plugin 'CodeEditor': loading...
+CodeEditor: cannot load in headless mode
+Error with plugin 'CodeEditor': load failed (failed initialization).
+Plugin 'Collada': loading...
+V-REP runs in headless mode. Cannot start 'Collada' plugin.
+Error with plugin 'Collada': load failed (failed initialization).
+Plugin 'ConvexDecompose': loading...
+Plugin 'ConvexDecompose': load succeeded.
+Plugin 'CustomUI': loading...
+CustomUI: doesn't work in headless mode
+Error with plugin 'CustomUI': load failed (failed initialization).
+Plugin 'DynamicsBullet-2-78': loading...
+Plugin 'DynamicsBullet-2-78': load succeeded.
+Plugin 'DynamicsBullet-2-83': loading...
+Plugin 'DynamicsBullet-2-83': load succeeded.
+Plugin 'DynamicsNewton': loading...
+Plugin 'DynamicsNewton': load succeeded.
+Plugin 'DynamicsOde': loading...
+Plugin 'DynamicsOde': load succeeded.
+Plugin 'DynamicsVortex': loading...
+Plugin 'DynamicsVortex': load succeeded.
+Plugin 'ExternalRenderer': loading...
+Plugin 'ExternalRenderer': load succeeded.
+Plugin 'ICP': loading...
+Plugin 'ICP': warning: replaced variable 'simICP'
+Plugin 'ICP': load succeeded.
+Plugin 'Image': loading...
+Plugin 'Image': warning: replaced variable 'simIM'
+Plugin 'Image': load succeeded.
+Plugin 'Joystick': loading...
+Plugin 'Joystick': load succeeded.
+Plugin 'K3': loading...
+Plugin 'K3': load succeeded.
+Plugin 'LuaCommander': loading...
+LuaCommander: cannot find the statusbar widget
+Error with plugin 'LuaCommander': load failed (failed initialization).
+Plugin 'LuaRemoteApiClient': loading...
+Plugin 'LuaRemoteApiClient': load succeeded.
+Plugin 'Mtb': loading...
+Plugin 'Mtb': load succeeded.
+Plugin 'OMPL': loading...
+Plugin 'OMPL': warning: replaced variable 'simOMPL'
+Plugin 'OMPL': load succeeded.
+Plugin 'OpenGL3Renderer': loading...
+Plugin 'OpenGL3Renderer': load succeeded.
+Plugin 'OpenMesh': loading...
+Plugin 'OpenMesh': load succeeded.
+Plugin 'Qhull': loading...
+Plugin 'Qhull': load succeeded.
+Plugin 'RRS1': loading...
+Plugin 'RRS1': load succeeded.
+Plugin 'ReflexxesTypeII': loading...
+Plugin 'ReflexxesTypeII': load succeeded.
+Plugin 'RemoteApi': loading...
+Starting a remote API server on port 19997
+Plugin 'RemoteApi': load succeeded.
+Plugin 'SDF': loading...
+SDF: doesn't work in headless mode
+Error with plugin 'SDF': load failed (failed initialization).
+Plugin 'SurfaceReconstruction': loading...
+Plugin 'SurfaceReconstruction': warning: replaced variable 'simSurfRec'
+Plugin 'SurfaceReconstruction': load succeeded.
+Plugin 'Urdf': loading...
+V-REP runs in headless mode. Cannot start 'Urdf' plugin.
+Error with plugin 'Urdf': load failed (failed initialization).
+Plugin 'Vision': loading...
+Plugin 'Vision': load succeeded.
+Plugin 'Wii': loading...
+Plugin 'Wii': load succeeded.
+Using the 'MeshCalc' plugin.
+Initializing the Bullet physics engine in plugin 'DynamicsBullet_2_78'...
+Engine version: 2.78
+Plugin version: 10
+Initialization successful.
+Simulator ended.
+....done.
+Unloading the V-REP library...
+Done!
+"Vrep Check complete" 
