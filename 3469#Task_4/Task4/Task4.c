@@ -616,7 +616,7 @@ void static_reorientation() {
 void right_turn_wls(void) {
 	
   forward();
-  _delay_ms(250);
+  _delay_ms(300);
   right(); //code which help the robot to ignore the black line which is going straight so that it can focus on line which is going to the right
   _delay_ms(200);
   stop();
@@ -640,9 +640,9 @@ void right_turn_wls(void) {
 }
 
 void left_turn_wls(void) {
-
-  forward();
-  _delay_ms(250);
+//
+  //forward();
+  //_delay_ms(250);
   left(); //code which help the robot to ignore the black line which is going straight so that it can focus on line which is going to the right
   _delay_ms(200);
   stop();
@@ -778,6 +778,7 @@ int main() {
   stop();
 
   m_pick();
+
   left_turn_wls();
   forward_wls(0);
   right_turn_wls();
@@ -792,7 +793,8 @@ int main() {
   left_turn_wls();
 
   forward_zigzag();
-
+forward();
+_delay_ms(250);
   left_turn_wls();
 
   forward_wls(0);
@@ -800,11 +802,13 @@ int main() {
   forward_wls(0);
 
   forward_wls(2);
-
+forward();
+_delay_ms(250);
   left_turn_wls();
 
   forward_wls(2);
-
+forward();
+_delay_ms(250);
   left_turn_wls();
 
   stop();
