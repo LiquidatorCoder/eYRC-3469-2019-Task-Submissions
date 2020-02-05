@@ -405,36 +405,36 @@ void LCD_Function(int a) {
 
   switch (a) {
   case 1:
-    lcd_cursor(1, 4);
+    lcd_cursor(1, 3);
     lcd_string("Line-Follower");
     break;
 
   case 2:
-    lcd_cursor(1, 4);
+    lcd_cursor(1, 3);
     lcd_string("Wall-Follower");
     break;
 
   case 3:
-    lcd_cursor(1, 4);
+    lcd_cursor(1, 3);
     lcd_string("Zig-Zag");
 
   }
 }
 /* --------------------------------------------------------------*/
 void m_pick(void) {
-  servo_1(95);
-  _delay_ms(2000);
-  servo_1_free();
-  servo_3(105);
-  _delay_ms(2000);
-  servo_3_free();
-  servo_2(155);
-  _delay_ms(2000);
-  servo_2_free();
-  servo_3(35); //35,105
-  _delay_ms(2000);
-  servo_2(0);
-  _delay_ms(2000);
+    servo_1(95);
+    _delay_ms(750);
+    servo_1_free();
+    servo_3(115);
+    _delay_ms(750);
+    servo_3_free();
+    servo_2(102);
+    _delay_ms(1000);
+ //   servo_2_free();
+    servo_3(30); //35,105
+    _delay_ms(750);
+    servo_2(0);
+    _delay_ms(1000);
 
 }
 
@@ -460,15 +460,16 @@ void s_pick(void) {
 
 void m_place_lr(void) {
   servo_1(95);
-  _delay_ms(2000);
+  _delay_ms(750);
   servo_1_free();
-  servo_3(35);
-  _delay_ms(2000);
-  servo_2(145);
-  _delay_ms(2000);
+  servo_3(30);
+  _delay_ms(750);
+  servo_2(80);
+  _delay_ms(1000);
   servo_3(105); //35,105
-  _delay_ms(2000);
-  servo_2(130);
+  _delay_ms(750);
+  servo_2(0);
+  _delay_ms(1000);
 }
 
 void s_place_lr(void) {
@@ -489,7 +490,7 @@ void s_place_lr(void) {
 void forward_wls(int a);
 
 void forward_walls() {
-  //LCD_Function(2);
+  LCD_Function(2);
   forward();
   OCR5AL = 220;
   OCR5BL = 220;
@@ -499,24 +500,24 @@ void forward_walls() {
 
     forward();
 
-    if ((wall >= 100) && (wall <= 135)) {
+    if ((wall >= 105) && (wall <= 135)) {
       OCR5AL = 220;
       OCR5BL = 220;
       _delay_ms(100);
 
     } else if (wall > 135) {
-      OCR5AL = 150;
-      OCR5BL = 150;
+      OCR5AL = 220;
+      OCR5BL = 220;
       right();
-      _delay_ms(2);
+      _delay_ms(1);
 
-    } else if (wall < 105 && wall > 50) {
-      OCR5AL = 150;
-      OCR5BL = 150;
+    } else if (wall < 105 && wall > 70) {
+      OCR5AL = 220;
+      OCR5BL = 220;
       left();
-      _delay_ms(2);
+      _delay_ms(1);
 
-    } else if (wall < 50) {
+    } else if (wall < 70) {
       _delay_ms(50);
       break;
 
@@ -528,7 +529,7 @@ void forward_walls() {
 
 void forward_wls(int a)
 
-{ //LCD_Function(1);
+{ LCD_Function(1);
   check = 0;
   //lcd_print(2,7,check,1);
   forward();
@@ -652,8 +653,8 @@ void left_turn_wls(void) {
   OCR5BL = 100;
   while (1) //while loop which detects black line using middle sensor so that the robot stops turning
   {
-    ls = ADC_Conversion(1);
-    if (ls >= 80) {
+    ms = ADC_Conversion(2);
+    if (ms >= 80) {
       PORTA = 0x00;
       break;
     }
@@ -765,7 +766,7 @@ int main() {
   init_devices();
   //buzzer_on();
 
-  forward_wls(0);
+ /* forward_wls(0);
   right_turn_wls();
 
   forward_wls(2);
@@ -777,41 +778,65 @@ int main() {
   _delay_ms(120);
   stop();
 
-  m_pick();
+  //m_pick();
 
   left_turn_wls();
   forward_wls(0);
   right_turn_wls();
 
   forward_wls(1);
-
-  left_turn_wls();
-
-  forward_wls(0);
-  forward_wls(0);
-
-  left_turn_wls();
-
-  forward_zigzag();
-forward();
-_delay_ms(250);
-  left_turn_wls();
-
-  forward_wls(0);
-  forward_wls(0);
-  forward_wls(0);
-
-  forward_wls(2);
-forward();
-_delay_ms(250);
-  left_turn_wls();
-
-  forward_wls(2);
-forward();
-_delay_ms(250);
-  left_turn_wls();
-
-  stop();
-  _delay_ms(10000);
+  */
+ //_delay_ms(1000);
+ m_pick();
+ left_turn_wls();
+ forward_wls(0);
+ forward();
+ _delay_ms(350);
+ left_turn_wls();
+back();
+_delay_ms(300);
+stop();
+ m_place_lr();
+ //_delay_ms(10000);
+  //forward();
+  //_delay_ms(250);
+  //left_turn_wls();
+//
+  //forward_wls(0);
+  //forward_wls(0);
+  //
+  //forward();
+  //_delay_ms(300);
+  //left_turn_wls();
+//
+  //forward_zigzag();
+  //forward();
+  //_delay_ms(250);
+  //left_turn_wls();
+//
+  //forward_wls(0);
+  //forward_wls(0);
+  //forward_wls(0);
+//
+  //forward_wls(2);
+  //forward();
+  //_delay_ms(250);
+  //left_turn_wls();
+//
+  //forward_wls(2);
+  //forward();
+  //_delay_ms(250);
+  //left_turn_wls();
+//
+  //stop();
+  //_delay_ms(10000);
+//while(1)
+//{
+	//servo_2(0);
+	//_delay_ms(2000);
+	//servo_2(180);
+	//_delay_ms(2000);
+	//servo_2_free();
+//}
 }
 /* --------------------------------------------------------------*/
