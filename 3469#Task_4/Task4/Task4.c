@@ -439,22 +439,22 @@ void m_pick(void) {
 }
 
 void s_pick(void) {
-  servo_1(70);
-  _delay_ms(2000);
+  servo_1(72);
+  _delay_ms(750);
   servo_1_free();
-  servo_4(60);
-  _delay_ms(2000);
+  servo_4(40);
+  _delay_ms(750);
   servo_4_free();
-  servo_2(165);
-  _delay_ms(2000);
-  servo_2_free();
-  servo_4(120); //60,120
-  _delay_ms(2000);
-  servo_2(130);
-  _delay_ms(2000);
+  servo_2(100);
+  _delay_ms(1000);
+  //servo_2_free();
+  servo_4(150); //60,120
+  _delay_ms(750);
+  servo_2(0);
+  _delay_ms(1000);
   servo_2_free();
   servo_1(95);
-  _delay_ms(1000);
+  _delay_ms(750);
   servo_1_free();
 }
 
@@ -788,15 +788,16 @@ int main() {
   */
  //_delay_ms(1000);
  m_pick();
- left_turn_wls();
- forward_wls(0);
- forward();
- _delay_ms(350);
- left_turn_wls();
-back();
-_delay_ms(300);
-stop();
- m_place_lr();
+ s_pick();
+ //left_turn_wls();
+ //forward_wls(0);
+ //forward();
+ //_delay_ms(350);
+ //left_turn_wls();
+//back();
+//_delay_ms(300);
+//stop();
+ //m_place_lr();
  //_delay_ms(10000);
   //forward();
   //_delay_ms(250);
