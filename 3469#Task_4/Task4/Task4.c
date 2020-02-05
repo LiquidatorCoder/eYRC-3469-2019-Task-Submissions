@@ -614,7 +614,10 @@ void static_reorientation() {
 }
 
 void right_turn_wls(void) {
-  right(); //code which hewall the robot to ignore the black line which is going straight so that it can focus on line which is going to the right
+	
+  forward();
+  _delay_ms(250);
+  right(); //code which help the robot to ignore the black line which is going straight so that it can focus on line which is going to the right
   _delay_ms(200);
   stop();
   _delay_ms(50);
@@ -629,10 +632,8 @@ void right_turn_wls(void) {
       break;
     }
   }
-  left();
-  _delay_ms(5);
   stop();
-  _delay_ms(500);
+  _delay_ms(200);
   OCR5AL = base;
   OCR5BL = base;
 
@@ -640,7 +641,9 @@ void right_turn_wls(void) {
 
 void left_turn_wls(void) {
 
-  left(); //code which he wall the robot to ignore the black line which is going straight so that it can focus on line which is going to the right
+  forward();
+  _delay_ms(250);
+  left(); //code which help the robot to ignore the black line which is going straight so that it can focus on line which is going to the right
   _delay_ms(200);
   stop();
   _delay_ms(50);
@@ -655,9 +658,10 @@ void left_turn_wls(void) {
       break;
     }
   }
-
+  left();
+  _delay_ms(10);
   stop();
-  _delay_ms(500);
+  _delay_ms(200);
   OCR5AL = base;
   OCR5BL = base;
 
@@ -762,18 +766,12 @@ int main() {
   //buzzer_on();
 
   forward_wls(0);
-  forward();
-  _delay_ms(250);
   right_turn_wls();
 
   forward_wls(2);
-  forward();
-  _delay_ms(250);
   right_turn_wls();
 
   forward_wls(0);
-  forward();
-  _delay_ms(250);
   right_turn_wls();
   back();
   _delay_ms(120);
@@ -782,27 +780,19 @@ int main() {
   m_pick();
   left_turn_wls();
   forward_wls(0);
-  forward();
-  _delay_ms(250);
   right_turn_wls();
 
   forward_wls(1);
 
-  forward();
-  _delay_ms(250);
   left_turn_wls();
 
   forward_wls(0);
   forward_wls(0);
 
-  forward();
-  _delay_ms(250);
   left_turn_wls();
 
   forward_zigzag();
 
-  forward();
-  _delay_ms(250);
   left_turn_wls();
 
   forward_wls(0);
@@ -811,14 +801,10 @@ int main() {
 
   forward_wls(2);
 
-  forward();
-  _delay_ms(250);
   left_turn_wls();
 
   forward_wls(2);
 
-  forward();
-  _delay_ms(250);
   left_turn_wls();
 
   stop();
