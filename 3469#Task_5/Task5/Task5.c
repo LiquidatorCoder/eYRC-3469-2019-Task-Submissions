@@ -73,7 +73,7 @@
 unsigned char ADC_Value, adc_reading;
 unsigned char sharp, distance, wall;			//ADC Output from Sharp sensor
 unsigned int value;
-unsigned char base = 255;			//base velocity of motor
+unsigned char base = 246;			//base velocity of motor
 unsigned char turn = 185;			//turn velocity of motor
 unsigned char soft = 205;			//soft turn velocity of motor
 unsigned char ls, ms, rs;			//ADC Output from line sensors
@@ -723,14 +723,12 @@ void forward_wls(int a,int node)
 			
 			if ((a == 2) && (ls + ms + rs > 300))       // Certain nodes on the edge of the arena allow only two sensor to stand on them and hence have a different threshold than standard nodes
 			{
-				stop();
 				_delay_ms(100);
 				break;
 			}
 			else if ((a == 0) && (ls + ms + rs > 400))  // Standard nodes threshold
 			{
-				stop();
-				_delay_ms(500);
+				_delay_ms(65);
 				break;
 			}
 			else if ((ls < 60 && ms >= 125 && rs < 60)) // Motor speed is changed directly to adjust the robot rather than calling left or right to increase smoothness in motion
@@ -771,7 +769,7 @@ void forward_wls(int a,int node)
 				{
 					
 					stop();
-					_delay_ms(300);
+					_delay_ms(100);
 					break;
 					
 				}
@@ -782,9 +780,10 @@ void forward_wls(int a,int node)
 		{
 			forward_walls();
 		}
-		n+=1;
+		n++;
 	}
-
+PORTA = 0x00;
+stop();
 }
 
 /*
@@ -1124,7 +1123,20 @@ int main()
 	//s_pick();
 	////75-83 master pick (100 deg)
 	////70-78 slave pick (67 deg)
-	forward_wls(1,1);
+	int pp = 0;
+while(pp<10)
+	{
+		forward_wls(2,2);
+		right_turn_wls();
+		forward_wls(0,2);
+		right_turn_wls();
+		forward_wls(1,1);
+		right_turn_wls();
+		forward_wls(0,1);
+		forward_wls(2,1);
+		right_turn_wls();
+		pp++;
+	}
 	
 }
 /* --------------------------------------------------------------*/
