@@ -12,16 +12,31 @@ The team that finishes the given task in the least amount of time whilst incurri
 
 # Results
 ## Task 0
+
 Remark : Visual Studio Installed and V_REP Installed
 Passed
 ## Task 1.1
 95/100
+
 Remark : Good Work
 ## Task 1.2
 88/100
+
 Remark : You have picked 7 and placed 2
 ## Task 2
 Remark : Good
 ## Task 3
 88/100
+
 Remark : Good Work
+
+# Demo
+## Hardware Testing
+https://youtu.be/kqlR-GdEUJE
+
+## Robot Testing
+https://youtu.be/lDrcOotHkA0
+
+## Task 4
+https://youtu.be/vr7ZOj5xuTk
+https://youtu.be/OVagyDxdAV0
