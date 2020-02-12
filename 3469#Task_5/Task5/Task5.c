@@ -564,7 +564,7 @@ void inv_place() {
   servo_1_free();
   servo_3(30);
   _delay_ms(750);
-  servo_2(65);
+  servo_2(45);
   _delay_ms(1000);
   servo_3(105);
   _delay_ms(750);
@@ -791,8 +791,13 @@ void forward_inv()
 			_delay_ms(100);
 			++w;
 			lcd_print(2,7,w,2);
+			back();
+			_delay_ms(250);
+			stop();
+			inv_place();
+			forward();
+			_delay_ms(250);
 			continue;
-			
 			
 			
 		}
@@ -1196,6 +1201,18 @@ int main() {
   forward();
   _delay_ms(250);
   left_turn_wls();
-  
+  //do
+  //{
+	  //LCD_ON();
+	  //back();
+  //} while (ADC_Conversion(13)>111);
+  back();
+  _delay_ms(200);
+  stop();
+  m_pick();
+  right_turn_wls_bwall();
+  forward_wls(2,1);
+  right_turn_inv();
+  forward_wls(3,1);
 }
 /* --------------------------------------------------------------*/
