@@ -1192,18 +1192,10 @@ void init_devices(void) {
 //Main Function ->
 int main() {
   init_devices();
-  while (1)
-  {
-	  forward_zigzag();
-	  right_turn_wls();
-	  forward_wls(0,1);
-	  forward_wls(2,1);
-	  right_turn_inv();
-	  forward_wls(3,1);
-	  right_turn_wls();
-	  forward_wls(0,2);
-	  right_turn_wls();
-  }
+  forward_wls(0,1);
+  forward();
+  _delay_ms(250);
+  left_turn_wls();
   
 }
 /* --------------------------------------------------------------*/
