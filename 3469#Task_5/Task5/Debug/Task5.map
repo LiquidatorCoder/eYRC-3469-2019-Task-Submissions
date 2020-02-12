@@ -835,10 +835,10 @@ END GROUP
  *(.debug_frame)
  .debug_frame   0x00000000      0x4b8 Task5.o
 
-.debug_str      0x00000000      0x56e
+.debug_str      0x00000000      0x561
  *(.debug_str)
- .debug_str     0x00000000      0x56e Task5.o
-                                0x5b7 (size before relaxing)
+ .debug_str     0x00000000      0x561 Task5.o
+                                0x5aa (size before relaxing)
 
 .debug_loc      0x00000000      0xd1e
  *(.debug_loc)
