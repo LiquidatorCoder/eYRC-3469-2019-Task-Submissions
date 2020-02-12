@@ -73,7 +73,7 @@
 unsigned char ADC_Value, adc_reading;
 unsigned char sharp, distance, wall;			//ADC Output from Sharp sensor
 unsigned int value;
-unsigned char base = 246;			//base velocity of motor
+unsigned char base = 240;			//base velocity of motor
 unsigned char turn = 185;			//turn velocity of motor
 unsigned char soft = 205;			//soft turn velocity of motor
 unsigned char ls, ms, rs;			//ADC Output from line sensors
@@ -728,7 +728,7 @@ void forward_wls(int a,int node)
 			}
 			else if ((a == 0) && (ls + ms + rs > 400))  // Standard nodes threshold
 			{
-				_delay_ms(65);
+				_delay_ms(80);
 				break;
 			}
 			else if ((ls < 60 && ms >= 125 && rs < 60)) // Motor speed is changed directly to adjust the robot rather than calling left or right to increase smoothness in motion
@@ -931,8 +931,8 @@ void left_turn_wls(void)
 int forward_untw()
 {
 	forward();
-	_delay_ms(50);
-	velocity(180, 180);
+	velocity(210,210);
+	_delay_ms(35);
 	int n = 0;
 	while (1)
 	{
@@ -967,12 +967,12 @@ int forward_untw()
 			OCR5AL = 210;
 			OCR5BL = 180;
 		}
-		else if (ls < 60 && ms < 40 && rs < 60)
+		else if (ls<140 &&  ms < 30 && rs<140)
 		{
 			stop();
 			break;
 		}
-		else if ((ls + ms + rs) > 450)
+		else if ((ls + ms + rs) > 360)
 		{
 			stop();
 			n = 1;
@@ -982,7 +982,8 @@ int forward_untw()
 	if (n == 0)
 	{
 		forward();
-		_delay_ms(75);
+		velocity(210,210);
+		_delay_ms(100);
 	}
 	return n;
 }
@@ -995,10 +996,37 @@ int forward_untw()
 * Logic: used to navigate the zigzag line using line sensor
 *
 */
+void right_turn_zigzag()
+{
+	right(); //code which help the robot to ignore the black line which is going straight so that it can focus on line which is going to the right
+	_delay_ms(100);
+	stop();
+	_delay_ms(50);
+	right();
+	OCR5AL = 100;
+	OCR5BL = 100;
+	while (1) //while loop which detects black line using middle sensor so that the robot stops turning
+	{
+		rs = ADC_Conversion(3);
+		if (rs >= 80)
+		{
+			PORTA = 0x00;         //Stops the robot mediately, partial condition to invoke "stop()" function
+			break;
+		}
+	}
+	stop();
+	_delay_ms(50);
+	OCR5AL = 210;
+	OCR5BL = 210;
+	_delay_ms(75);
+}
 void forward_zigzag()
 {
+	forward();
+	_delay_ms(100);
+	velocity(210,210);
 	LCD_Function(3);
-	int delay = 350;
+	int delay = 280;
 	int temp;
 	while (1) {
 		temp = forward_untw();
@@ -1007,13 +1035,12 @@ void forward_zigzag()
 		left();
 		_delay_ms(delay);
 		stop();
-		right_turn_wls();
+		right_turn_zigzag();
 	}
 	forward();
 	velocity(base, base);
-	_delay_ms(250);
+	_delay_ms(100);
 	stop();
-	_delay_ms(1000);
 
 }
 
@@ -1123,20 +1150,32 @@ int main()
 	//s_pick();
 	////75-83 master pick (100 deg)
 	////70-78 slave pick (67 deg)
-	int pp = 0;
-while(pp<10)
-	{
-		forward_wls(2,2);
+	//int pp = 0;
+//while(pp<10)
+	
+		//forward_wls(0,1);
+		//right_turn_wls();
+		//forward_wls(1,1);
+		//right_turn_wls();
+		while(1){
+		forward_wls(0,4);
 		right_turn_wls();
-		forward_wls(0,2);
+		static_reorientation();
+		forward_zigzag();
+		stop();
+		_delay_ms(500);
 		right_turn_wls();
-		forward_wls(1,1);
-		right_turn_wls();
-		forward_wls(0,1);
+		forward_wls(0,3);
 		forward_wls(2,1);
 		right_turn_wls();
-		pp++;
-	}
+		forward_wls(2,2);
+		right_turn_wls();
+		}
+		//forward_wls(0,1);
+		//forward_wls(2,1);
+		//right_turn_wls();
+		//pp++;
+	
 	
 }
 /* --------------------------------------------------------------*/
