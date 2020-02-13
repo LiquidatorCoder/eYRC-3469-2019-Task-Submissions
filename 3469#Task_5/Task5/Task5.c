@@ -567,7 +567,7 @@ void s_pick(void) {
 
 void inv_place() {
   _delay_ms(500);
-  servo_1(180);
+  servo_1(0);
   _delay_ms(1000);
   servo_1_free();
   servo_3(30);
@@ -799,10 +799,10 @@ void forward_inv()
 			_delay_ms(100);
 			++w;
 			lcd_print(2,7,w,2);
-			//back();
-			//_delay_ms(250);
-			//stop();
-			//inv_place();
+			back();
+			_delay_ms(250);
+			stop();
+			inv_place();
 			forward();
 			_delay_ms(100);
 			continue;
@@ -1037,23 +1037,33 @@ void left_turn_wls(void) {
 }
 
 void left_turn_inv(void) {
-  left();
-  OCR5AL = 100;
-  OCR5BL = 100;
-  while (1) //while loop which detects black line using middle sensor so that the robot stops turning
-  {
-    ms = ADC_Conversion(1);
-    if (ms >= 80) {
-      PORTA = 0x00; //Stops the robot mediately, partial condition to invoke "stop()" function
-      break;
-    }
-  }
-  right();
-  _delay_ms(10);
-  stop();
-  _delay_ms(200);
-  OCR5AL = base;
-  OCR5BL = base;
+
+	forward();
+	_delay_ms(200);
+	left(); //code which help the robot to ignore the black line which is going straight so that it can focus on line which is going to the right
+	_delay_ms(200);
+	stop();
+	_delay_ms(50);
+	left();
+	OCR5AL = 100;
+	OCR5BL = 100;
+	while (1) //while loop which detects black line using middle sensor so that the robot stops turning
+	{
+		rs = ADC_Conversion(3);
+		ms = ADC_Conversion(2);
+		ls = ADC_Conversion(1);
+		if (ls >= 80 && ms < 80) {
+			PORTA = 0x00; //Stops the robot mediately, partial condition to invoke "stop()" function
+			break;
+		}
+	}
+	left();
+	_delay_ms(200);
+	stop();
+	_delay_ms(200);
+	OCR5AL = base;
+	OCR5BL = base;
+	static_reorientation_inv();
 
 }
 
@@ -1294,13 +1304,16 @@ void init_devices(void) {
 int main() 
 {
   init_devices();
+  forward_wls(2,1);
+  left_turn_inv();
   forward_wls(3,1);
   stop();
   left_turn();
+  back();
+  _delay_ms(100);
+  stop();
   forward_wls(0,5);
   stop();
-  
-  
   
   
 }
