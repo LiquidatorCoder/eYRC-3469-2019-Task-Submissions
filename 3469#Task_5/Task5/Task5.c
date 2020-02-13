@@ -86,6 +86,7 @@ void forward_wls(int a, int node);
 void left_turn_wls();
 void forward_inv();
 void static_reorientation();
+void static_reorientation_inv();
 
 //Timers ->
 void timer1_init(void) {
@@ -548,7 +549,7 @@ void s_pick(void) {
   _delay_ms(1000);
   servo_4_free();
   servo_2(100);
-  _delay_ms(1000);
+  _delay_ms(1500);
   servo_4(160);
   _delay_ms(750);
   servo_2(0);
@@ -798,7 +799,7 @@ void forward_inv()
 			stop();
 			inv_place();
 			forward();
-			_delay_ms(250);
+			_delay_ms(100);
 			continue;
 			
 			
@@ -886,7 +887,7 @@ void static_reorientation_inv() {
       }
     }
     left();
-    _delay_ms(20);
+    _delay_ms(30);
     stop();
     _delay_ms(200);
     OCR5AL = base;
@@ -1213,6 +1214,12 @@ int main() {
   stop();
   m_pick();
   right_turn_wls_bwall();
+  right_turn_wls_bwall();
+  back();
+  _delay_ms(200);
+  stop();
+  s_pick();
+  left_turn_wls();
   forward_wls(2,1);
   right_turn_inv();
   forward_wls(3,1);
