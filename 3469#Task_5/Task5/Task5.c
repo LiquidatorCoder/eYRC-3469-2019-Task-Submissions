@@ -73,7 +73,7 @@
 unsigned char ADC_Value, adc_reading;
 unsigned char sharp, distance, wall; //ADC Output from Sharp sensor
 unsigned int value;
-unsigned char base = 246; //base velocity of motor
+unsigned char base = 255; //base velocity of motor
 unsigned char turn = 185; //turn velocity of motor
 unsigned char soft = 205; //soft turn velocity of motor
 unsigned char ls, ms, rs; //ADC Output from line sensors
@@ -709,7 +709,7 @@ void forward_wls(int a, int node) {
       ls = ADC_Conversion(1);
       ms = ADC_Conversion(2);
       rs = ADC_Conversion(3);
-      if ((a == 2) && (ls + ms + rs > 300)) // Certain nodes on the edge of the arena allow only two sensor to stand on them and hence have a different threshold than standard nodes
+      if ((a == 2) && (ls + ms + rs > 280)) // Certain nodes on the edge of the arena allow only two sensor to stand on them and hence have a different threshold than standard nodes
       {
 	      _delay_ms(80);
 	      break;
@@ -793,16 +793,16 @@ void forward_inv()
 		ls = ADC_Conversion(1);
 		ms = ADC_Conversion(2);
 		rs = ADC_Conversion(3);
-		if ( ls+ms+rs < 330 && ms <90)
+		if ( ls+ms+rs < 330 && ms <90 && w==0)
 		{
 			
 			_delay_ms(100);
 			++w;
 			lcd_print(2,7,w,2);
-			back();
-			_delay_ms(250);
-			stop();
-			inv_place();
+			//back();
+			//_delay_ms(250);
+			//stop();
+			//inv_place();
 			forward();
 			_delay_ms(100);
 			continue;
@@ -815,19 +815,23 @@ void forward_inv()
 			OCR5AL = base;
 			OCR5BL = base;
 		}
-		else if ((ls < 80 && ms > 130 && rs > 140))
-		{
-			OCR5AL = turn;
+		else if ((ls < 80 && ms > 130 && rs > 150))
+		{   
+			soft_left();
+			OCR5AL = turn-50;
 			OCR5BL = base;
+			_delay_ms(1);
 			
 		}
-		else if (rs < 80 && ms > 130 && ls > 140)
+		else if (rs < 150 && ms > 130 && ls > 80)
 		{
+			soft_right();
 			OCR5AL = base;
-			OCR5BL = turn;
+			OCR5BL = turn-50;
+			_delay_ms(1);
 			
 		}
-		else if( rs< 80 && ms > 120 && ls < 80)
+		else if( rs< 100 && ms > 100 && ls < 100)
 		{
 			break;
 		}
@@ -1130,53 +1134,7 @@ void forward_zigzag()
  * Logic: used to navigate the entire arena as per the requirements in Task 4
  *
  */
-void Wall_run(void) {
-  forward_wls(0, 1); //1st Node
-  right_turn_wls();
-  forward_wls(2, 1); //2nd Node
-  right_turn_wls();
-  forward_wls(0, 1); //3rd Node
-  forward();
-  _delay_ms(250);
-  left_turn_wls();
-  back();
-  _delay_ms(160);
-  stop();
-  s_pick(); //<-------- 1st Pick Slave
-  right_turn_wls_bwall();
-  forward_wls(0, 2); //4th Node//5th Node
-  forward();
-  _delay_ms(250);
-  left_turn_wls();
-  back();
-  _delay_ms(140);
-  stop();
-  m_pick(); //   <--------- 2nd Pick Master
-  left_turn_wls();
-  forward_wls(0, 1); //4th Node
-  forward();
-  _delay_ms(300);
-  left_turn_wls();
-  static_reorientation();
-  forward_wls(1, 1); //Wall Following, 14th Node
-  static_reorientation();
-  m_place_lr(); // <----------- 1st Place Master
-  forward();
-  _delay_ms(300);
-  left_turn_wls();
-  forward_wls(0, 1); //13th Node
-  static_reorientation();
-  forward_wls(0, 1); //12th Node
-  right_turn_wls();
-  back();
-  _delay_ms(300);
-  stop();
-  s_place_hr(); // <------ 2nd Place slave
-  LCD_Function(8);
-  _delay_ms(1000);
-  buzzer_on();
 
-}
 
 //Function used for turning robot by specified degrees
 void angle_rotate(unsigned int Degrees)
@@ -1280,19 +1238,32 @@ void soft_right_2_degrees(unsigned int Degrees)
 }
 void left_turn(void)
 {
-	forward_mm(165);
+	forward_mm(95);
 	stop();
+    left();
+	velocity(120,120);
+	float ReqdShaftCount = 0;
+	unsigned long int ReqdShaftCountInt = 0;
+
+	ReqdShaftCount = (float) Degrees /4.090; // division by resolution to get shaft count
+	ReqdShaftCountInt = (unsigned int) ReqdShaftCount;
 	ShaftCountRight = 0;
 	ShaftCountLeft = 0;
-	left();
-	velocity(150,150);
+
 	while (1)
 	{
-		ms = ADC_Conversion(1);
-		if((ShaftCountRight >= 328) && (ms > 70) )
-		break;
+		if((ShaftCountRight >= ReqdShaftCountInt) | (ShaftCountLeft >= ReqdShaftCountInt))
+		{
+			ls = ADC_Conversion(1);
+			if (ls > 80)
+			{
+			break;
+			}
+		}
+		
 	}
 	stop(); //Stop robot
+
 }
 
 /* -------------------------------------------------------------*/
@@ -1323,7 +1294,7 @@ void init_devices(void) {
 int main() 
 {
   init_devices();
-  forward_wls(2,1);
+  forward_wls(3,1);
   stop();
   left_turn();
   forward_wls(0,5);
