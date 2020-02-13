@@ -77,6 +77,9 @@ unsigned char base = 246; //base velocity of motor
 unsigned char turn = 185; //turn velocity of motor
 unsigned char soft = 205; //soft turn velocity of motor
 unsigned char ls, ms, rs; //ADC Output from line sensors
+unsigned long int ShaftCountLeft = 0; //to keep track of left position encoder
+unsigned long int ShaftCountRight = 0; //to keep track of right position encoder
+unsigned int Degrees; //to accept angle in degrees for turning
 
 /* --------------------------------------------------------------*/
 
@@ -142,7 +145,7 @@ void motion_pin_config(void) {
   PORTL = PORTL | 0x18; //PL3 and PL4 pins are for velocity control using PWM
 }
 
-/*//Function to configure INT4 (PORTE 4) pin as input for the left position encoder
+//Function to configure INT4 (PORTE 4) pin as input for the left position encoder
 void left_encoder_pin_config(void) {
   DDRE = DDRE & 0xEF; //Set the direction of the PORTE 4 pin as input
   PORTE = PORTE | 0x10; //Enable internal pull-up for PORTE 4 pin
@@ -168,7 +171,7 @@ void right_position_encoder_interrupt_config(void) //Interrupt 5 enable
   EICRB = EICRB | 0x08; // INT5 is set to trigger with falling edge
   EIMSK = EIMSK | 0x20; // Enable Interrupt INT5 for right position encoder
   sei(); // Enables the global interrupt
-}*/
+}
 
 //Configure PORTB 5 pin for servo motor 1 operation
 void servo1_pin_config(void) {
@@ -216,10 +219,10 @@ void adc_pin_config(void) {
 void port_init(void) {
   buzzer_pin_config();
   motion_pin_config();
-  //left_encoder_pin_config();
-  //right_encoder_pin_config();
-  //left_position_encoder_interrupt_config();
-  //right_position_encoder_interrupt_config();
+  left_encoder_pin_config();
+  right_encoder_pin_config();
+  left_position_encoder_interrupt_config();
+  right_position_encoder_interrupt_config();
   servo1_pin_config();
   servo2_pin_config();
   servo3_pin_config();
@@ -227,7 +230,7 @@ void port_init(void) {
   lcd_port_config();
   adc_pin_config();
 }
-/* --------------------------------------------------------------
+/* --------------------------------------------------------------*/
 
 //Interrupt Service Routines ->
 //ISR for right position encoder
@@ -239,8 +242,8 @@ ISR(INT5_vect) {
 ISR(INT4_vect) {
   ShaftCountLeft++; //increment left shaft position count
 }
- --------------------------------------------------------------
-*/
+/* --------------------------------------------------------------*/
+
 //Other Functions ->
 void buzzer_off(void) {
   unsigned char port_restore = 0;
@@ -1173,6 +1176,107 @@ void Wall_run(void) {
 
 }
 
+//Function used for turning robot by specified degrees
+void angle_rotate(unsigned int Degrees)
+{
+	float ReqdShaftCount = 0;
+	unsigned long int ReqdShaftCountInt = 0;
+
+	ReqdShaftCount = (float) Degrees * 3.8033; // division by resolution to get shaft count
+	ReqdShaftCountInt = (unsigned int) ReqdShaftCount;
+	ShaftCountRight = 0;
+	ShaftCountLeft = 0;
+
+	while (1)
+	{
+		if((ShaftCountRight >= ReqdShaftCountInt) | (ShaftCountLeft >= ReqdShaftCountInt))
+		break;
+	}
+	stop(); //Stop robot
+}
+
+//Function used for moving robot forward by specified distance
+
+void linear_distance_mm(unsigned int DistanceInMM)
+{
+	float ReqdShaftCount = 0;
+	unsigned long int ReqdShaftCountInt = 0;
+
+	ReqdShaftCount = DistanceInMM * 2.1888; // division by resolution to get shaft count
+	ReqdShaftCountInt = (unsigned long int) ReqdShaftCount;
+	
+	ShaftCountRight = 0;
+	while(1)
+	{
+		if(ShaftCountRight > ReqdShaftCountInt)
+		{
+			break;
+		}
+	}
+	stop(); //Stop robot
+}
+
+void forward_mm(unsigned int DistanceInMM)
+{
+	forward();
+	linear_distance_mm(DistanceInMM);
+}
+
+void back_mm(unsigned int DistanceInMM)
+{
+	back();
+	linear_distance_mm(DistanceInMM);
+}
+
+void left_degrees(unsigned int Degrees)
+{
+	// 88 pulses for 360 degrees rotation 4.090 degrees per count
+	left(); //Turn left
+	angle_rotate(Degrees);
+}
+
+
+
+void right_degrees(unsigned int Degrees)
+{
+	// 88 pulses for 360 degrees rotation 4.090 degrees per count
+	right(); //Turn right
+	angle_rotate(Degrees);
+}
+
+
+void soft_left_degrees(unsigned int Degrees)
+{
+	// 176 pulses for 360 degrees rotation 2.045 degrees per count
+	soft_left(); //Turn soft left
+	Degrees=Degrees*2;
+	angle_rotate(Degrees);
+}
+
+void soft_right_degrees(unsigned int Degrees)
+{
+	// 176 pulses for 360 degrees rotation 2.045 degrees per count
+	soft_right();  //Turn soft right
+	Degrees=Degrees*2;
+	angle_rotate(Degrees);
+}
+
+void soft_left_2_degrees(unsigned int Degrees)
+{
+	// 176 pulses for 360 degrees rotation 2.045 degrees per count
+	soft_left_2(); //Turn reverse soft left
+	Degrees=Degrees*2;
+	angle_rotate(Degrees);
+}
+
+void soft_right_2_degrees(unsigned int Degrees)
+{
+	// 176 pulses for 360 degrees rotation 2.045 degrees per count
+	soft_right_2();  //Turn reverse soft right
+	Degrees=Degrees*2;
+	angle_rotate(Degrees);
+}
+
 /* -------------------------------------------------------------*/
 
 //Devices Initialization Function ->
@@ -1200,28 +1304,32 @@ void init_devices(void) {
 //Main Function ->
 int main() {
   init_devices();
-  forward_wls(0,1);
-  forward();
-  _delay_ms(250);
-  left_turn_wls();
-  //do
-  //{
-	  //LCD_ON();
-	  //back();
-  //} while (ADC_Conversion(13)>111);
-  back();
-  _delay_ms(200);
+  //forward_wls(0,1);
+  //forward();
+  //_delay_ms(250);
+  //left_turn_wls();
+  ////do
+  ////{
+	  ////LCD_ON();
+	  ////back();
+  ////} while (ADC_Conversion(13)>111);
+  //back();
+  //_delay_ms(200);
+  //stop();
+  //m_pick();
+  //right_turn_wls_bwall();
+  //right_turn_wls_bwall();
+  //back();
+  //_delay_ms(200);
+  //stop();
+  //s_pick();
+  //left_turn_wls();
+  //forward_wls(2,1);
+  //right_turn_inv();
+  //forward_wls(3,1);
+left_degrees(90);
+ 
+ 
   stop();
-  m_pick();
-  right_turn_wls_bwall();
-  right_turn_wls_bwall();
-  back();
-  _delay_ms(200);
-  stop();
-  s_pick();
-  left_turn_wls();
-  forward_wls(2,1);
-  right_turn_inv();
-  forward_wls(3,1);
 }
 /* --------------------------------------------------------------*/
