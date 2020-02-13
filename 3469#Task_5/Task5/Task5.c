@@ -341,19 +341,21 @@ void servo_2(unsigned char degrees) {
 
 //Function to rotate Servo 3 by a specified angle in the multiples of 1.86 degrees
 void servo_3(unsigned char degrees) {
-  PORTH &= ~(1 << 0); //Master Servo motor demux pin set to 0
-  float Pos = 0;
-  Pos = ((float) degrees / 1.86) + 35.0;
-  OCR1CH = 0x00;
-  OCR1CL = (unsigned char) Pos;
+	PORTH |= (1 << 0);  //Master Servo motor demux pin set to 0
+	_delay_ms(20);
+	float Pos = 0;
+	Pos = ((float) degrees / 1.86) + 35.0;
+	OCR1CH = 0x00;
+	OCR1CL = (unsigned char) Pos;
 }
 
 void servo_4(unsigned char degrees) {
-  PORTH |= (1 << 0); //Slave Servo motor demux pin set to 1
-  float Pos = 0;
-  Pos = ((float) degrees / 1.86) + 35.0;
-  OCR1CH = 0x00;
-  OCR1CL = (unsigned char) Pos;
+	PORTH &= ~(1 << 0);//Slave Servo motor demux pin set to 1
+	_delay_ms(20);
+	float Pos = 0;
+	Pos = ((float) degrees / 1.86) + 35.0;
+	OCR1CH = 0x00;
+	OCR1CL = (unsigned char) Pos;
 }
 
 void servo_1_free(void) //makes servo 1 free rotating
