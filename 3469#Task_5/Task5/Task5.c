@@ -90,6 +90,8 @@ void left_turn_wls();
 void forward_inv();
 void static_reorientation();
 void static_reorientation_inv();
+void forward_mm(unsigned int DistanceInMM);
+
 
 //Timers ->
 void timer1_init(void) {
@@ -736,10 +738,10 @@ void forward_wls(int a, int node) {
 		  }
 	  }
 	  else if ((a == 0) && (ls + ms + rs > 400)) // Standard nodes threshold
-      {
-        _delay_ms(65);
+      { 
         break;
-      } else if ((ls < 60 && ms >= 125 && rs < 60)) // Motor speed is changed directly to adjust the robot rather than calling left or right to increase smoothness in motion
+      } 
+	  else if ((ls < 60 && ms >= 125 && rs < 60)) // Motor speed is changed directly to adjust the robot rather than calling left or right to increase smoothness in motion
       { // Velocity function was not called and values were configured directly as function calling was increasing bot response time in while(1) loop
 
         OCR5AL = base;
@@ -1276,6 +1278,22 @@ void soft_right_2_degrees(unsigned int Degrees)
 	Degrees=Degrees*2;
 	angle_rotate(Degrees);
 }
+void left_turn(void)
+{
+	forward_mm(165);
+	stop();
+	ShaftCountRight = 0;
+	ShaftCountLeft = 0;
+	left();
+	velocity(150,150);
+	while (1)
+	{
+		ms = ADC_Conversion(1);
+		if((ShaftCountRight >= 328) && (ms > 70) )
+		break;
+	}
+	stop(); //Stop robot
+}
 
 /* -------------------------------------------------------------*/
 
@@ -1302,34 +1320,17 @@ void init_devices(void) {
 /* --------------------------------------------------------------*/
 
 //Main Function ->
-int main() {
+int main() 
+{
   init_devices();
-  //forward_wls(0,1);
-  //forward();
-  //_delay_ms(250);
-  //left_turn_wls();
-  ////do
-  ////{
-	  ////LCD_ON();
-	  ////back();
-  ////} while (ADC_Conversion(13)>111);
-  //back();
-  //_delay_ms(200);
-  //stop();
-  //m_pick();
-  //right_turn_wls_bwall();
-  //right_turn_wls_bwall();
-  //back();
-  //_delay_ms(200);
-  //stop();
-  //s_pick();
-  //left_turn_wls();
-  //forward_wls(2,1);
-  //right_turn_inv();
-  //forward_wls(3,1);
-left_degrees(90);
- 
- 
+  forward_wls(2,1);
   stop();
+  left_turn();
+  forward_wls(0,5);
+  stop();
+  
+  
+  
+  
 }
 /* --------------------------------------------------------------*/
