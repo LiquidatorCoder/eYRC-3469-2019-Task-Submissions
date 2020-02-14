@@ -1,3 +1,4 @@
+
 /*
  *
  * Team Id: 3469
@@ -19,7 +20,6 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
-#include <math.h>
 #include "lcd.h"
 
 /* --------------------------------------------------------------*/
@@ -131,7 +131,7 @@ void timer5_init() {
 
   TCCR5B = 0x0B; //WGM12=1; CS12=0, CS11=1, CS10=1 (Prescaler=64)
 }
-/* --------------------------------------------------------------*/
+/* --------------------------------------------------------------ELECTRONIC SECTION -----------------------------------------------------------------------*/
 
 //Configuration Functions ->
 //Function to initialize Buzzer
@@ -387,7 +387,7 @@ void servo_4_free(void) //makes servo 4 free rotating
   OCR1CH = 0x03;
   OCR1CL = 0xFF; //Servo 4 off
 }
-/* --------------------------------------------------------------*/
+/* --------------------------------------------------------------SENSOR SECTION------------------------------------------------------------------------*/
 
 //This Function accepts the Channel Number and returns the corresponding Analog Value
 unsigned char ADC_Conversion(unsigned char Ch) {
@@ -424,7 +424,7 @@ unsigned int Sharp_GP2D12_estimation(unsigned char adc_reading) {
   }
   return distanceInt;
 }
-
+/*---------------------------------------------------------------------------LCD Section--------------------------------------------------------------------*/
 /*
  *
  * Function Name: LCD_ON
@@ -454,65 +454,50 @@ void LCD_ON(void) {
  * Logic: prints the given text onto the LCD, was used to determine which function was called at what moment
  *
  */
-void LCD_Function(int a) {
+void LCD_Function(int a) 
+{
   lcd_init();
 
-  switch (a) {
-  case 1:
+  switch (a) 
+  {
+  case 0:
     lcd_cursor(1, 3);
     lcd_string("Line-Follower");
     break;
 
-  case 2:
+  case 1:
     lcd_cursor(1, 3);
     lcd_string("Wall-Follower");
     break;
 
-  case 3:
+  case 5:
     lcd_cursor(1, 3);
     lcd_string("Zig-Zag");
     break;
 
-  case 4:
-    lcd_cursor(1, 3);
-    lcd_string(" 1st Pick -> Master");
-    break;
-
-  case 5:
-    lcd_cursor(1, 3);
-    lcd_string(" 2nd Pick -> Slave");
-    break;
-
+  
   case 6:
-    lcd_cursor(1, 3);
-    lcd_string(" 1st Place -> Master ");
-    break;
-
-  case 7:
-    lcd_cursor(1, 3);
-    lcd_string(" 2nd Place -> Slave ");
-    break;
-
-  case 8:
-    lcd_cursor(1, 7);
+    lcd_cursor(1, 6);
     lcd_string(" END ");
-    lcd_cursor(2, 3);
-    lcd_string("---***---");
+    lcd_cursor(2, 1);
+    lcd_string("-----****-----");
     break;
 
-  case 9:
+  case 4:
     lcd_cursor(1, 6);
     lcd_string("Static");
     lcd_cursor(2, 3);
     lcd_string("Reorientation");
     break;
-  case 10:
+  
+  case 3:
     lcd_cursor(1, 3);
     lcd_string("Inversion");
+	break;
 
   }
 }
-/* --------------------------------------------------------------*/
+/* --------------------------------------------------------------ARM MECHANISM----------------------------------------------------------------------*/
 
 /*
  *
@@ -523,7 +508,7 @@ void LCD_Function(int a) {
  *
  */
 void m_pick(void) {
-  servo_1(95);
+  servo_1(90);
   _delay_ms(750);
   servo_1_free();
   servo_3(120);
@@ -550,7 +535,7 @@ void s_pick(void) {
   servo_1(67);
   _delay_ms(750);
   servo_1_free();
-  servo_4(60);
+  servo_4(40);
   _delay_ms(1000);
   servo_4_free();
   servo_2(100);
@@ -560,7 +545,7 @@ void s_pick(void) {
   servo_2(0);
   _delay_ms(1000);
   servo_2_free();
-  servo_1(95);
+  servo_1(90);
   _delay_ms(750);
   servo_1_free();
 }
@@ -650,7 +635,12 @@ void s_place_hr(void) {
   _delay_ms(1000);
   servo_1(95);
 }
-/* --------------------------------------------------------------*/
+
+void m_place_hr()
+{
+	//write your code here
+}
+/* --------------------------------------------------------------NAVIGATION SECTION---------------------------------------------------------------------------*/
 
 /*
  *
@@ -661,7 +651,7 @@ void s_place_hr(void) {
  *
  */
 void forward_walls() {
-  LCD_Function(2);
+  LCD_Function(1);
   forward();
   velocity(base, base);
   _delay_ms(500);
@@ -684,7 +674,9 @@ void forward_walls() {
       OCR5BL = 117;
       _delay_ms(2);
 
-    } else if (wall < 80) {
+    } else if (wall < 80) 
+	{
+		stop();
       break;
     }
   }
@@ -702,7 +694,7 @@ void forward_walls() {
 void forward_wls(int a, int node) {
   int n = 1;
   while (n <= node) {
-    LCD_Function(1);
+    LCD_Function(0);
     forward();
     velocity(base, base);
     while (1) {
@@ -781,7 +773,7 @@ void forward_inv()
 {
 	unsigned char w = 0;
 	
-	LCD_Function(10);
+	LCD_Function(3);
 	lcd_print(2,7,w,2);
 	
 	
@@ -852,7 +844,7 @@ void forward_inv()
  *
  */
 void static_reorientation() {
-  //	LCD_Function(9);
+  LCD_Function(4);
   ls = ADC_Conversion(1);
   ms = ADC_Conversion(2);
   rs = ADC_Conversion(3);
@@ -870,7 +862,7 @@ void static_reorientation() {
 }
 
 void static_reorientation_inv() {
-  //LCD_Function(9);
+  LCD_Function(4);
   ls = ADC_Conversion(1);
   ms = ADC_Conversion(2);
   rs = ADC_Conversion(3);
@@ -903,7 +895,66 @@ void static_reorientation_inv() {
     OCR5BL = base;
   }
 }
+void forward_zigzag()
+{
+	LCD_Function(5);
+	
+	
+	while (1)
+	{
+		ls = ADC_Conversion(1);
+		ms = ADC_Conversion(2);
+		rs = ADC_Conversion(3);
+		forward();
+		velocity(250, 250);
+		
+		if ((ls + ms + rs) > 400)
+		{
+			stop();
+			//_delay_ms(100);
+			break;
+		}
+		
+		else	if ( ms > 100)
+		{
+			forward();
+			OCR5AL = 250;
+			OCR5BL = 250;
+			_delay_ms(5);
+		}
+		else if (ls < 20 && ms < 20 && rs < 20)
+		{
+			
+			static_reorientation();
+			
+		}
+		else if (ls > ms)
+		{
+			left();
+			OCR5AL = 180;
+			OCR5BL = 160;
+			_delay_ms(1);
+			
+		}
+		else if (ms < rs)
+		{
+			right();
+			OCR5AL = 160;
+			OCR5BL = 180;
+			_delay_ms(1);
+			
 
+		}
+		
+		
+		
+	}
+	
+	stop();
+	_delay_ms(100);
+}
+
+/*----------------------------------------------------------TURNING MECHANISM ---------------------------------------------------------------*/
 /*
  *
  * Function Name: right_turn_wls
@@ -969,14 +1020,6 @@ void right_turn_inv(void) {
 
 }
 
-/*
- *
- * Function Name: right_turn_wls_bwall
- * Input: void
- * Output: void
- * Logic: used to turn the robot to the right using the line sensor before the walls
- *
- */
 void right_turn_wls_bwall(void) {
 
   right(); //code which help the robot to ignore the black line which is going straight so that it can focus on line which is going to the right
@@ -1003,6 +1046,34 @@ void right_turn_wls_bwall(void) {
 
 }
 
+void right_turn(void)
+{
+	forward_mm(80);
+	stop();
+	right();
+	velocity(120,120);
+	float ReqdShaftCount = 0;
+	unsigned long int ReqdShaftCountInt = 0;
+
+	ReqdShaftCount = (float) Degrees /4.090; // division by resolution to get shaft count
+	ReqdShaftCountInt = (unsigned int) ReqdShaftCount;
+	ShaftCountRight = 0;
+	ShaftCountLeft = 0;
+
+	while (1)
+	{
+		if((ShaftCountRight >= ReqdShaftCountInt) | (ShaftCountLeft >= ReqdShaftCountInt))
+		{
+			ls = ADC_Conversion(1);
+			if (ls > 80)
+			{
+				break;
+			}
+		}
+		
+	}
+	stop(); //Stop robot
+}
 /*
  *
  * Function Name: left_turn_wls
@@ -1027,8 +1098,6 @@ void left_turn_wls(void) {
       break;
     }
   }
-  right();
-  _delay_ms(10);
   stop();
   _delay_ms(200);
   OCR5AL = base;
@@ -1067,83 +1136,70 @@ void left_turn_inv(void) {
 
 }
 
-/*
- *
- * Function Name: forward_untw
- * Input: void
- * Output: void
- * Logic: used to sense the white node in zigzag line
- *
- */
-void forward_zigzag()
+
+void left_turn(void)
 {
-	LCD_Function(3);
-	
-	
+	forward_mm(80);
+	stop();
+	left();
+	velocity(120,120);
+	float ReqdShaftCount = 0;
+	unsigned long int ReqdShaftCountInt = 0;
+
+	ReqdShaftCount = (float) Degrees /4.090; // division by resolution to get shaft count
+	ReqdShaftCountInt = (unsigned int) ReqdShaftCount;
+	ShaftCountRight = 0;
+	ShaftCountLeft = 0;
+
 	while (1)
 	{
-		ls = ADC_Conversion(1);
-		ms = ADC_Conversion(2);
-		rs = ADC_Conversion(3);
-		forward();
-		velocity(250, 250);
-		
-		if ((ls + ms + rs) > 400)
+		if((ShaftCountRight >= ReqdShaftCountInt) | (ShaftCountLeft >= ReqdShaftCountInt))
 		{
-			stop();
-			//_delay_ms(100);
-			break;
+			ls = ADC_Conversion(1);
+			if (ls > 80)
+			{
+				break;
+			}
 		}
-		
-		else	if ( ms > 100)
-		{
-			forward();
-			OCR5AL = 250;
-			OCR5BL = 250;
-			_delay_ms(5);
-		}
-		else if (ls < 20 && ms < 20 && rs < 20)
-		{
-			
-			static_reorientation();
-			
-		}
-		else if (ls > ms)
-		{
-			left();
-			OCR5AL = 180;
-			OCR5BL = 160;
-			_delay_ms(1);
-			
-		}
-		else if (ms < rs)
-		{
-			right();
-			OCR5AL = 160;
-			OCR5BL = 180;
-			_delay_ms(1);
-			
-
-		}
-		
-		
 		
 	}
-	
-	stop();
-	_delay_ms(100);
+	stop(); //Stop robot
+
 }
 
-/* --------------------------------------------------------------*/
+void left_turn_wls_bwall(void)
+{
+	left(); //code which help the robot to ignore the black line which is going straight so that it can focus on line which is going to the right
+	_delay_ms(200);
+	stop();
+	_delay_ms(50);
+	left();
+	OCR5AL = 100;
+	OCR5BL = 100;
+	while (1) //while loop which detects black line using middle sensor so that the robot stops turning
+	{
+		ls = ADC_Conversion(1);
+		if (ls >= 80) {
+			PORTA = 0x00; //Stops the robot mediately, partial condition to invoke "stop()" function
+			break;
+		}
+	}
+	left();
+	_delay_ms(5);
+	stop();
+	_delay_ms(200);
+	OCR5AL = base;
+	OCR5BL = base;
+	
+}
 
-/*
- *
- * Function Name: Wall_run
- * Input: void
- * Output: void
- * Logic: used to navigate the entire arena as per the requirements in Task 4
- *
- */
+
+
+
+
+
+/* --------------------------------------------------------------POSITION CONTROL INTERRUPTS----------------------------------------------*/
+
 
 
 //Function used for turning robot by specified degrees
@@ -1198,87 +1254,11 @@ void back_mm(unsigned int DistanceInMM)
 	linear_distance_mm(DistanceInMM);
 }
 
-void left_degrees(unsigned int Degrees)
-{
-	// 88 pulses for 360 degrees rotation 4.090 degrees per count
-	left(); //Turn left
-	angle_rotate(Degrees);
-}
 
 
 
-void right_degrees(unsigned int Degrees)
-{
-	// 88 pulses for 360 degrees rotation 4.090 degrees per count
-	right(); //Turn right
-	angle_rotate(Degrees);
-}
+/* -------------------------------------------------------------INITIALIZATION--------------------------------------------------*/
 
-
-void soft_left_degrees(unsigned int Degrees)
-{
-	// 176 pulses for 360 degrees rotation 2.045 degrees per count
-	soft_left(); //Turn soft left
-	Degrees=Degrees*2;
-	angle_rotate(Degrees);
-}
-
-void soft_right_degrees(unsigned int Degrees)
-{
-	// 176 pulses for 360 degrees rotation 2.045 degrees per count
-	soft_right();  //Turn soft right
-	Degrees=Degrees*2;
-	angle_rotate(Degrees);
-}
-
-void soft_left_2_degrees(unsigned int Degrees)
-{
-	// 176 pulses for 360 degrees rotation 2.045 degrees per count
-	soft_left_2(); //Turn reverse soft left
-	Degrees=Degrees*2;
-	angle_rotate(Degrees);
-}
-
-void soft_right_2_degrees(unsigned int Degrees)
-{
-	// 176 pulses for 360 degrees rotation 2.045 degrees per count
-	soft_right_2();  //Turn reverse soft right
-	Degrees=Degrees*2;
-	angle_rotate(Degrees);
-}
-void left_turn(void)
-{
-	forward_mm(95);
-	stop();
-    left();
-	velocity(120,120);
-	float ReqdShaftCount = 0;
-	unsigned long int ReqdShaftCountInt = 0;
-
-	ReqdShaftCount = (float) Degrees /4.090; // division by resolution to get shaft count
-	ReqdShaftCountInt = (unsigned int) ReqdShaftCount;
-	ShaftCountRight = 0;
-	ShaftCountLeft = 0;
-
-	while (1)
-	{
-		if((ShaftCountRight >= ReqdShaftCountInt) | (ShaftCountLeft >= ReqdShaftCountInt))
-		{
-			ls = ADC_Conversion(1);
-			if (ls > 80)
-			{
-			break;
-			}
-		}
-		
-	}
-	stop(); //Stop robot
-
-}
-
-/* -------------------------------------------------------------*/
-
-//Devices Initialization Function ->
 //Function to Initialize ADC
 void adc_init() {
   ADCSRA = 0x00;
@@ -1298,23 +1278,35 @@ void init_devices(void) {
   lcd_set_4bit(); //These functions need not to be inside interrupt blocked code
   lcd_init();
 }
-/* --------------------------------------------------------------*/
+/* --------------------------------------------------------------MAIN-----------------------------------------------------------*/
 
-//Main Function ->
+
 int main() 
 {
   init_devices();
+  forward_wls(0,1);
+  right_turn_wls();
   forward_wls(2,1);
-  left_turn_inv();
-  forward_wls(3,1);
+  right_turn_wls();
+  forward_wls(0,1);
+  forward();
+  _delay_ms(270);
   stop();
-  left_turn();
+  left_turn_wls();
   back();
-  _delay_ms(100);
+  _delay_ms(200);
   stop();
-  forward_wls(0,5);
+  m_pick();
+  right_turn_wls_bwall();
+  forward_wls(0,2);
+  forward();
+  _delay_ms(270);
   stop();
-  
+  left_turn_wls();
+  back();
+  _delay_ms(200);
+  stop();
+  s_pick();
   
 }
 /* --------------------------------------------------------------*/
