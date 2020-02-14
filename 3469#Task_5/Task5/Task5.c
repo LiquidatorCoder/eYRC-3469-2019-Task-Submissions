@@ -21,6 +21,8 @@
 #include <avr/interrupt.h>
 #include <util/delay.h>
 #include "lcd.h"
+#define inf 0
+#define infi 9999
 
 /* --------------------------------------------------------------*/
 
@@ -70,6 +72,112 @@
 
 //Global Variables ->
 
+/* ----------------------------CHANGE THESE CONFIGURATION----------------------------------*/
+int n = 15;							//total node count and initial node
+int u = 0;
+char face = 'w';					//direction variables which include directions w,n,e,s
+char fdir = 'n';
+int house_config[5] = {1,0,0,1,0};
+int house_req[5] = {2,2,2,1,2};
+int which_material[10] = {3,11,9,5,4,7,1,0,2,8};
+/* ----------------------------DIJKSTRA----------------------------------*/
+
+#define wf 6
+#define zz 8
+#define in 8
+int G[15][15] = {
+	// 0  1	  2   3   4	  5	  6	  7	  8	  9	 10	 11	 12	 13	 14
+	{inf,2,inf,inf,inf,inf,inf,inf,inf,inf,inf,inf,inf,inf,2},//0
+	{2,inf,1,inf,inf,inf,inf,inf,inf,inf,inf,inf,inf,inf,inf},//1
+	{inf,1,inf,1,inf,inf,inf,inf,inf,inf,inf,inf,inf,inf,inf},//2
+	{inf,inf,1,inf,1,inf,inf,inf,inf,inf,inf,inf,wf,inf,inf},//3
+	{inf,inf,inf,1,inf,1,inf,inf,inf,inf,inf,inf,inf,inf,inf},//4
+	{inf,inf,inf,inf,1,inf,1,inf,inf,inf,zz,inf,inf,inf,inf},//5
+	{inf,inf,inf,inf,inf,1,inf,1,inf,inf,inf,inf,inf,inf,inf},//6
+	{inf,inf,inf,inf,inf,inf,1,inf,in,inf,inf,inf,inf,inf,inf},//7
+	{inf,inf,inf,inf,inf,inf,inf,in,inf,1,inf,inf,inf,inf,inf},//8
+	{inf,inf,inf,inf,inf,inf,inf,inf,1,inf,1,inf,inf,inf,inf},//9
+	{inf,inf,inf,inf,inf,zz,inf,inf,inf,1,inf,1,inf,inf,inf},//10
+	{inf,inf,inf,inf,inf,inf,inf,inf,inf,inf,1,inf,1,inf,inf},//11
+	{inf,inf,inf,wf,inf,inf,inf,inf,inf,inf,inf,1,inf,1,inf},//12
+	{inf,inf,inf,inf,inf,inf,inf,inf,inf,inf,inf,inf,1,inf,1},//13
+	{2,inf,inf,inf,inf,inf,inf,inf,inf,inf,inf,inf,inf,1,inf}//14
+};
+
+int dis[15];
+int pre[15];
+
+int movement_array[15][4] = {
+	{inf,14,inf,1},
+	{2,0,inf,inf},
+	{3,inf,1,inf},
+	{4,12,2,inf},
+	{5,inf,3,inf},
+	{6,10,4,inf},
+	{7,inf,5,inf},
+	{inf,8,6,inf},
+	{inf,inf,9,7},
+	{8,inf,10,inf},
+	{9,inf,11,5},
+	{10,inf,12,inf},
+	{11,inf,13,3},
+	{12,inf,14,inf},
+	{13,inf,inf,0}
+};
+
+/*
+*
+* Function Name: dijkstra
+* Input: adjacency matrix, total nodes, initial node
+* Output: void
+* Logic: calculates the minimum distance between the initial node and every other node using weights stored in adjacency matrix
+* Example Call: dijkstra(G, 32, 4); //calculates minimum distance between the 4th node and every other node based on the weights given in adjacency matrix
+*
+*/
+void dijkstra(int G[15][15], int n, int startnode) {
+	int cost[32][32], distance[32], pred[32];					//initialising cost, distance and perd arrays
+	int visited[32], count, mindistance, nextnode, i, j;
+	for (i = 0; i < n; i++)										//generating cost matrix
+	for (j = 0; j < n; j++)
+	if (G[i][j] == 0)
+	cost[i][j] = infi;
+	else
+	cost[i][j] = G[i][j];
+	for (i = 0; i < n; i++) {									//for loop to initialise visited array
+		distance[i] = cost[startnode][i];
+		pred[i] = startnode;
+		visited[i] = 0;
+	}
+	distance[startnode] = 0;
+	visited[startnode] = 1;
+	count = 1;
+	while (count < n - 1) {										//main while loop which calculates the distance using dijkstra algorithm
+		mindistance = infi;
+		for (i = 0; i < n; i++)
+		if (distance[i] < mindistance && !visited[i]) {
+			mindistance = distance[i];
+			nextnode = i;
+		}
+		visited[nextnode] = 1;
+		for (i = 0; i < n; i++)
+		if (!visited[i])
+		if (mindistance + cost[nextnode][i] < distance[i]) {
+			distance[i] = mindistance + cost[nextnode][i];
+			pred[i] = nextnode;
+		}
+		count++;
+	}
+	for (i = 0; i < n; i++)									//generating dis and pre arrays from distance and pred
+	{
+		dis[i] = distance[i];
+	}
+	for (i = 0; i < n; i++)
+	{
+		pre[i] = pred[i];
+	}
+}
+
+/* --------------------------------------------------------------*/
 unsigned char ADC_Value, adc_reading;
 unsigned char sharp, distance, wall; //ADC Output from Sharp sensor
 unsigned int value;
@@ -1284,29 +1392,5 @@ void init_devices(void) {
 int main() 
 {
   init_devices();
-  forward_wls(0,1);
-  right_turn_wls();
-  forward_wls(2,1);
-  right_turn_wls();
-  forward_wls(0,1);
-  forward();
-  _delay_ms(270);
-  stop();
-  left_turn_wls();
-  back();
-  _delay_ms(200);
-  stop();
-  m_pick();
-  right_turn_wls_bwall();
-  forward_wls(0,2);
-  forward();
-  _delay_ms(270);
-  stop();
-  left_turn_wls();
-  back();
-  _delay_ms(200);
-  stop();
-  s_pick();
-  
 }
 /* --------------------------------------------------------------*/
