@@ -22,6 +22,7 @@
 #include <util/delay.h>
 #include "lcd.h"
 #define inf 0
+#define max 15
 #define infi 9999
 
 /* --------------------------------------------------------------*/
@@ -80,11 +81,68 @@ char fdir = 'n';
 int house_config[5] = {1,0,0,1,0};
 int house_req[5] = {2,2,2,1,2};
 int which_material[10] = {3,11,9,5,4,7,1,0,2,8};
+int dis[15];
+int pre[15];
+int b1n = 1;
+int b2n = 1;
+int b3n = 13;
+int b4n = 13;
+int b5n = 4;
+int b6n = 4;
+int b7n = 11;
+int b8n = 11;
+int b9n = 6;
+int b10n = 6;
+int b11n = 9;
+int b12n = 9;
+
+int h1 = 3;
+int h2 = 12;
+int h3 = 5;
+int h4 = 10;
+
+int b1 = 17;
+int b2 = 18;
+int b3 = 17;
+int b4 = 18;
+int b5 = 17;
+int b6 = 18;
+int b7 = 17;
+int b8 = 18;
+int b9 = 17;
+int b10 = 18;
+int b11 = 17;
+int b12 = 18;
+unsigned char ADC_Value, adc_reading;
+unsigned char sharp, distance, wall; //ADC Output from Sharp sensor
+unsigned int value;
+unsigned char base = 255; //base velocity of motor
+unsigned char turn = 185; //turn velocity of motor
+unsigned char soft = 205; //soft turn velocity of motor
+unsigned char ls, ms, rs; //ADC Output from line sensors
+unsigned long int ShaftCountLeft = 0; //to keep track of left position encoder
+unsigned long int ShaftCountRight = 0; //to keep track of right position encoder
+unsigned int Degrees; //to accept angle in degrees for turning
+
 /* ----------------------------DIJKSTRA----------------------------------*/
 
 #define wf 6
 #define zz 8
 #define in 8
+void reverse(int a[],int n)
+{
+	int l=n-1;
+	int i=0;
+	while(i<=l)
+	{
+		int temp;
+		temp=a[i];
+		a[i]=a[l];
+		a[l]=temp;
+		i++;
+		l--;
+	}
+}
 int G[15][15] = {
 	// 0  1	  2   3   4	  5	  6	  7	  8	  9	 10	 11	 12	 13	 14
 	{inf,2,inf,inf,inf,inf,inf,inf,inf,inf,inf,inf,inf,inf,2},//0
@@ -104,9 +162,7 @@ int G[15][15] = {
 	{2,inf,inf,inf,inf,inf,inf,inf,inf,inf,inf,inf,inf,1,inf}//14
 };
 
-int dis[15];
-int pre[15];
-
+//n,e,s,w
 int movement_array[15][4] = {
 	{inf,14,inf,1},
 	{2,0,inf,inf},
@@ -135,8 +191,8 @@ int movement_array[15][4] = {
 *
 */
 void dijkstra(int G[15][15], int n, int startnode) {
-	int cost[32][32], distance[32], pred[32];					//initialising cost, distance and perd arrays
-	int visited[32], count, mindistance, nextnode, i, j;
+	int cost[15][15], distance[15], pred[15];					//initialising cost, distance and perd arrays
+	int visited[15], count, mindistance, nextnode, i, j;
 	for (i = 0; i < n; i++)										//generating cost matrix
 	for (j = 0; j < n; j++)
 	if (G[i][j] == 0)
@@ -177,17 +233,43 @@ void dijkstra(int G[15][15], int n, int startnode) {
 	}
 }
 
-/* --------------------------------------------------------------*/
-unsigned char ADC_Value, adc_reading;
-unsigned char sharp, distance, wall; //ADC Output from Sharp sensor
-unsigned int value;
-unsigned char base = 255; //base velocity of motor
-unsigned char turn = 185; //turn velocity of motor
-unsigned char soft = 205; //soft turn velocity of motor
-unsigned char ls, ms, rs; //ADC Output from line sensors
-unsigned long int ShaftCountLeft = 0; //to keep track of left position encoder
-unsigned long int ShaftCountRight = 0; //to keep track of right position encoder
-unsigned int Degrees; //to accept angle in degrees for turning
+void dist_comp(int x, int y, int path[], int *index)
+{
+	if (dis[x] <= dis[y])
+	{
+		if (u != x)
+		{
+			int j = x;
+			path[*index] = x;
+			*index = *index + 1;
+			do {
+				j = pre[j];
+				path[*index] = j;
+				*index = *index + 1;
+			} while (j != u);
+		}
+		reverse(path, *index);
+		u = x;
+
+	}
+	else
+	{
+		if (u != y)
+		{
+			int j = y;
+			path[*index] = y;
+			*index = *index + 1;
+			do {
+				j = pre[j];
+				path[*index] = j;
+				*index = *index + 1;
+			} while (j != u);
+		}
+		reverse(path, *index);
+		u = y;
+
+	}
+}
 
 /* --------------------------------------------------------------*/
 
@@ -200,7 +282,7 @@ void static_reorientation();
 void static_reorientation_inv();
 void forward_mm(unsigned int DistanceInMM);
 
-
+/* --------------------------------------------------------------*/
 //Timers ->
 void timer1_init(void) {
   TCCR1B = 0x00; //stop
@@ -1191,6 +1273,8 @@ void right_turn(void)
  *
  */
 void left_turn_wls(void) {
+	forward();
+	_delay_ms(250);
   left(); //code which help the robot to ignore the black line which is going straight so that it can focus on line which is going to the right
   _delay_ms(200);
   stop();
@@ -1386,11 +1470,194 @@ void init_devices(void) {
   lcd_set_4bit(); //These functions need not to be inside interrupt blocked code
   lcd_init();
 }
-/* --------------------------------------------------------------MAIN-----------------------------------------------------------*/
+int which_node(int block)
+{
+	if (block == 1) return b1n;
+	else if (block == 2) return b2n;
+	else if (block == 3) return b3n;
+	else if (block == 4) return b4n;
+	else if (block == 5) return b5n;
+	else if (block == 6) return b6n;
+	else if (block == 7) return b7n;
+	else if (block == 8) return b8n;
+	else if (block == 9) return b9n;
+	else if (block == 10) return b10n;
+	else if (block == 11) return b11n;
+	else if (block == 12) return b12n;
+}
 
+/*
+*
+* Function Name: traverse
+* Input: array, current face direction, initial node
+* Output: void
+* Logic: uses direction knowledge and the distance array generated by dijkstra to traverse to any node from the current node through shortest path
+* Example Call: traverse(path,n,12); //uses direction knowledge and the distance array generated by dijkstra to traverse to any node from the current node through shortest path
+*
+*/
+void traverse(int path[], char face, int u, int *size)
+{
+	int ps = *size;
+	for (int i = 0; i < ps - 1; i++)
+	{
+		for (int a = 0; a < 4; a++)
+		{
+			if (movement_array[path[i]][a] == path[i + 1])
+			{
+				if (a == 0)
+				{
+					fdir = 'n';
+				}
+				else if (a == 1)
+				{
+					fdir = 'e';
+				}
+				else if (a == 2)
+				{
+					fdir = 's';
+				}
+				else if (a == 3)
+				{
+					fdir = 'w';
+				}
+			}
+		}
+		if (face == 'n' && fdir == 'n')
+		{
+			forward_wls(0,1);
+			face = fdir;
+		}
+		else if (face == 'n' && fdir == 'e')
+		{
+			right_turn_wls();
+			forward_wls(0,1);
+			face = fdir;
+		}
+		else if (face == 'n' && fdir == 's')
+		{
+			right_turn_wls();
+			right_turn_wls();
+			forward_wls(0,1);
+		}
+		else if (face == 'n' && fdir == 'w')
+		{
+			left_turn_wls();
+			forward_wls(0,1);
+			face = fdir;
+		}
+		else if (face == 'e' && fdir == 'e')
+		{
+			forward_wls(0,1);
+			face = fdir;
+		}
+		else if (face == 'e' && fdir == 's')
+		{
+			right_turn_wls();
+			forward_wls(0,1);
+			face = fdir;
+		}
+		else if (face == 'e' && fdir == 'w')
+		{
+			right_turn_wls();
+			right_turn_wls();
+			forward_wls(0,1);
+			face = fdir;
+		}
+		else if (face == 'e' && fdir == 'n')
+		{
+			left_turn_wls();
+			forward_wls(0,1);
+			face = fdir;
+		}
+		else if (face == 's' && fdir == 's')
+		{
+			forward_wls(0,1);
+			face = fdir;
+		}
+		else if (face == 's' && fdir == 'w')
+		{
+			right_turn_wls();
+			forward_wls(0,1);
+			face = fdir;
+		}
+		else if (face == 's' && fdir == 'n')
+		{
+			right_turn_wls();
+			right_turn_wls();
+			forward_wls(0,1);
+			face = fdir;
+		}
+		else if (face == 's' && fdir == 'e')
+		{
+			left_turn_wls();
+			forward_wls(0,1);
+			face = fdir;
+		}
+		else if (face == 'w' && fdir == 'w')
+		{
+			forward_wls(0,1);
+			face = fdir;
+		}
+		else if (face == 'w' && fdir == 'n')
+		{
+			right_turn_wls();
+			forward_wls(0,1);
+			face = fdir;
+		}
+		else if (face == 'w' && fdir == 'e')
+		{
+			right_turn_wls();
+			right_turn_wls();
+			forward_wls(0,1);
+			face = fdir;
+		}
+		else if (face == 'w' && fdir == 's')
+		{
+			left_turn_wls();
+			forward_wls(0,1);
+			face = fdir;
+		}
+	}
+}
+/* --------------------------------------------------------------MAIN-----------------------------------------------------------*/
 
 int main() 
 {
   init_devices();
+  int house_no;
+  int block;
+  int bnode;
+  int len = 0;
+  u = 0;
+  face = 's';
+  block = which_material[8];
+  bnode = which_node(block);
+  dijkstra(G,bnode,u);
+  int path[20];
+  dist_comp(bnode,bnode,path,&len);
+  traverse(path,face,u,&len);
+  free(path);
+  //right_turn_wls();
+  //u = 0;
+  //face = 'w';
+  //forward_wls(2,1);
+  //u = 1;
+  //face = 'w';
+  //right_turn_wls();
+  //u = 1;
+  //face = 'n';
+  //forward_wls(0,1);
+  //u = 2;
+  //face = 'n';
+  //left_turn_wls();
+  //u = 2;
+  //face = 'e';
+  //for (int i = 0; i < 10; i++)
+  //{
+	  //if (1 == which_material[i])
+	  //{
+		  //house_no = i;
+	  //}
+  //}
 }
 /* --------------------------------------------------------------*/
