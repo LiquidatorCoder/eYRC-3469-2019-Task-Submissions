@@ -20,6 +20,7 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
+#include <stdlib.h>
 #include "lcd.h"
 #define inf 0
 #define max 15
@@ -101,18 +102,8 @@ int h2 = 12;
 int h3 = 5;
 int h4 = 10;
 
-int b1 = 17;
-int b2 = 18;
-int b3 = 17;
-int b4 = 18;
-int b5 = 17;
-int b6 = 18;
-int b7 = 17;
-int b8 = 18;
-int b9 = 17;
-int b10 = 18;
-int b11 = 17;
-int b12 = 18;
+int block_placed[12] = {0,0,0,0,0,0,0,0,0,0,0,0};
+
 unsigned char ADC_Value, adc_reading;
 unsigned char sharp, distance, wall; //ADC Output from Sharp sensor
 unsigned int value;
@@ -126,8 +117,8 @@ unsigned int Degrees; //to accept angle in degrees for turning
 
 /* ----------------------------DIJKSTRA----------------------------------*/
 
-#define wf 6
-#define zz 8
+#define wf 8
+#define zz 6
 #define in 8
 void reverse(int a[],int n)
 {
@@ -1484,6 +1475,7 @@ int which_node(int block)
 	else if (block == 10) return b10n;
 	else if (block == 11) return b11n;
 	else if (block == 12) return b12n;
+	return -1;
 }
 
 /*
@@ -1500,122 +1492,462 @@ void traverse(int path[], char face, int u, int *size)
 	int ps = *size;
 	for (int i = 0; i < ps - 1; i++)
 	{
-		for (int a = 0; a < 4; a++)
+		if ((path[i] == 0 && path[i + 1] == 1) || (path[i] == 0 && path[i + 1] == 14))
 		{
-			if (movement_array[path[i]][a] == path[i + 1])
+			for (int a = 0; a < 4; a++)
 			{
-				if (a == 0)
+				if (movement_array[path[i]][a] == path[i + 1])
 				{
-					fdir = 'n';
-				}
-				else if (a == 1)
-				{
-					fdir = 'e';
-				}
-				else if (a == 2)
-				{
-					fdir = 's';
-				}
-				else if (a == 3)
-				{
-					fdir = 'w';
+					if (a == 0)
+					{
+						fdir = 'n';
+					}
+					else if (a == 1)
+					{
+						fdir = 'e';
+					}
+					else if (a == 2)
+					{
+						fdir = 's';
+					}
+					else if (a == 3)
+					{
+						fdir = 'w';
+					}
 				}
 			}
+			if (face == 'n' && fdir == 'n')
+			{
+				forward_wls(2,1);
+				face = fdir;
+			}
+			else if (face == 'n' && fdir == 'e')
+			{
+				right_turn_wls();
+				forward_wls(2,1);
+				face = fdir;
+			}
+			else if (face == 'n' && fdir == 's')
+			{
+				right_turn_wls();
+				right_turn_wls();
+				forward_wls(2,1);
+				face = fdir;
+			}
+			else if (face == 'n' && fdir == 'w')
+			{
+				left_turn_wls();
+				forward_wls(2,1);
+				face = fdir;
+			}
+			else if (face == 'e' && fdir == 'e')
+			{
+				forward_wls(2,1);
+				face = fdir;
+			}
+			else if (face == 'e' && fdir == 's')
+			{
+				right_turn_wls();
+				forward_wls(2,1);
+				face = fdir;
+			}
+			else if (face == 'e' && fdir == 'w')
+			{
+				right_turn_wls();
+				right_turn_wls();
+				forward_wls(2,1);
+				face = fdir;
+			}
+			else if (face == 'e' && fdir == 'n')
+			{
+				left_turn_wls();
+				forward_wls(2,1);
+				face = fdir;
+			}
+			else if (face == 's' && fdir == 's')
+			{
+				forward_wls(2,1);
+				face = fdir;
+			}
+			else if (face == 's' && fdir == 'w')
+			{
+				right_turn_wls();
+				forward_wls(2,1);
+				face = fdir;
+			}
+			else if (face == 's' && fdir == 'n')
+			{
+				right_turn_wls();
+				right_turn_wls();
+				forward_wls(2,1);
+				face = fdir;
+			}
+			else if (face == 's' && fdir == 'e')
+			{
+				left_turn_wls();
+				forward_wls(2,1);
+				face = fdir;
+			}
+			else if (face == 'w' && fdir == 'w')
+			{
+				forward_wls(2,1);
+				face = fdir;
+			}
+			else if (face == 'w' && fdir == 'n')
+			{
+				right_turn_wls();
+				forward_wls(2,1);
+				face = fdir;
+			}
+			else if (face == 'w' && fdir == 'e')
+			{
+				right_turn_wls();
+				right_turn_wls();
+				forward_wls(2,1);
+				face = fdir;
+			}
+			else if (face == 'w' && fdir == 's')
+			{
+				left_turn_wls();
+				forward_wls(2,1);
+				face = fdir;
+			}
 		}
-		if (face == 'n' && fdir == 'n')
+		else
 		{
-			forward_wls(0,1);
-			face = fdir;
+			for (int a = 0; a < 4; a++)
+			{
+				if (movement_array[path[i]][a] == path[i + 1])
+				{
+					if (a == 0)
+					{
+						fdir = 'n';
+					}
+					else if (a == 1)
+					{
+						fdir = 'e';
+					}
+					else if (a == 2)
+					{
+						fdir = 's';
+					}
+					else if (a == 3)
+					{
+						fdir = 'w';
+					}
+				}
+			}
+			if (face == 'n' && fdir == 'n')
+			{
+				forward_wls(0,1);
+				face = fdir;
+			}
+			else if (face == 'n' && fdir == 'e')
+			{
+				right_turn_wls();
+				forward_wls(0,1);
+				face = fdir;
+			}
+			else if (face == 'n' && fdir == 's')
+			{
+				right_turn_wls();
+				right_turn_wls();
+				forward_wls(0,1);
+				face = fdir;
+			}
+			else if (face == 'n' && fdir == 'w')
+			{
+				left_turn_wls();
+				forward_wls(0,1);
+				face = fdir;
+			}
+			else if (face == 'e' && fdir == 'e')
+			{
+				forward_wls(0,1);
+				face = fdir;
+			}
+			else if (face == 'e' && fdir == 's')
+			{
+				right_turn_wls();
+				forward_wls(0,1);
+				face = fdir;
+			}
+			else if (face == 'e' && fdir == 'w')
+			{
+				right_turn_wls();
+				right_turn_wls();
+				forward_wls(0,1);
+				face = fdir;
+			}
+			else if (face == 'e' && fdir == 'n')
+			{
+				left_turn_wls();
+				forward_wls(0,1);
+				face = fdir;
+			}
+			else if (face == 's' && fdir == 's')
+			{
+				forward_wls(0,1);
+				face = fdir;
+			}
+			else if (face == 's' && fdir == 'w')
+			{
+				right_turn_wls();
+				forward_wls(0,1);
+				face = fdir;
+			}
+			else if (face == 's' && fdir == 'n')
+			{
+				right_turn_wls();
+				right_turn_wls();
+				forward_wls(0,1);
+				face = fdir;
+			}
+			else if (face == 's' && fdir == 'e')
+			{
+				left_turn_wls();
+				forward_wls(0,1);
+				face = fdir;
+			}
+			else if (face == 'w' && fdir == 'w')
+			{
+				forward_wls(0,1);
+				face = fdir;
+			}
+			else if (face == 'w' && fdir == 'n')
+			{
+				right_turn_wls();
+				forward_wls(0,1);
+				face = fdir;
+			}
+			else if (face == 'w' && fdir == 'e')
+			{
+				right_turn_wls();
+				right_turn_wls();
+				forward_wls(0,1);
+				face = fdir;
+			}
+			else if (face == 'w' && fdir == 's')
+			{
+				left_turn_wls();
+				forward_wls(0,1);
+				face = fdir;
+			}
+			
 		}
-		else if (face == 'n' && fdir == 'e')
+	}
+}
+
+void block_traverse(char face,char fdir)
+{
+	if (face == 'n' && fdir == 'n')
+	{
+		face = fdir;
+	}
+	else if (face == 'n' && fdir == 'e')
+	{
+		right_turn_wls();
+		face = fdir;
+	}
+	else if (face == 'n' && fdir == 's')
+	{
+		right_turn_wls();
+		right_turn_wls_bwall();
+		face = fdir;
+	}
+	else if (face == 'n' && fdir == 'w')
+	{
+		left_turn_wls();
+		face = fdir;
+	}
+	else if (face == 'e' && fdir == 'e')
+	{
+		face = fdir;
+	}
+	else if (face == 'e' && fdir == 's')
+	{
+		right_turn_wls();
+		face = fdir;
+	}
+	else if (face == 'e' && fdir == 'w')
+	{
+		right_turn_wls();
+		right_turn_wls_bwall();
+		face = fdir;
+	}
+	else if (face == 'e' && fdir == 'n')
+	{
+		left_turn_wls();
+		face = fdir;
+	}
+	else if (face == 's' && fdir == 's')
+	{
+		face = fdir;
+	}
+	else if (face == 's' && fdir == 'w')
+	{
+		right_turn_wls();
+		face = fdir;
+	}
+	else if (face == 's' && fdir == 'n')
+	{
+		right_turn_wls();
+		right_turn_wls_bwall();
+		face = fdir;
+	}
+	else if (face == 's' && fdir == 'e')
+	{
+		left_turn_wls();
+		face = fdir;
+	}
+	else if (face == 'w' && fdir == 'w')
+	{
+		face = fdir;
+	}
+	else if (face == 'w' && fdir == 'n')
+	{
+		right_turn_wls();
+		face = fdir;
+	}
+	else if (face == 'w' && fdir == 'e')
+	{
+		right_turn_wls();
+		right_turn_wls_bwall();
+		face = fdir;
+	}
+	else if (face == 'w' && fdir == 's')
+	{
+		left_turn_wls();
+		face = fdir;
+	}
+}
+
+void block_choose(int bnode,int block_placed[],char face,char fdir)
+{
+	if (bnode == 2)
+	{
+		if (block_placed[0] == 0)
 		{
-			right_turn_wls();
-			forward_wls(0,1);
-			face = fdir;
+			fdir = 'w';
+			block_traverse(face,fdir);
+			block_placed[0] = 1;
+			back();
+			_delay_ms(200);
+			stop();
 		}
-		else if (face == 'n' && fdir == 's')
+		else if (block_placed[1] == 0)
 		{
-			right_turn_wls();
-			right_turn_wls();
-			forward_wls(0,1);
+			fdir = 'e';
+			block_traverse(face,fdir);
+			block_placed[1] = 1;
+			back();
+			_delay_ms(200);
+			stop();
 		}
-		else if (face == 'n' && fdir == 'w')
+	}
+	else if (bnode == 13)
+	{
+		if (block_placed[2] == 0)
 		{
-			left_turn_wls();
-			forward_wls(0,1);
-			face = fdir;
+			fdir = 'w';
+			block_traverse(face,fdir);
+			block_placed[2] = 1;
+			back();
+			_delay_ms(200);
+			stop();
 		}
-		else if (face == 'e' && fdir == 'e')
+		else if (block_placed[3] == 0)
 		{
-			forward_wls(0,1);
-			face = fdir;
+			fdir = 'e';
+			block_traverse(face,fdir);
+			block_placed[3] = 1;
+			back();
+			_delay_ms(200);
+			stop();
 		}
-		else if (face == 'e' && fdir == 's')
+	}
+	else if (bnode == 4)
+	{
+		if (block_placed[4] == 0)
 		{
-			right_turn_wls();
-			forward_wls(0,1);
-			face = fdir;
+			fdir = 'w';
+			block_traverse(face,fdir);
+			block_placed[4] = 1;
+			back();
+			_delay_ms(200);
+			stop();
 		}
-		else if (face == 'e' && fdir == 'w')
+		else if (block_placed[5] == 0)
 		{
-			right_turn_wls();
-			right_turn_wls();
-			forward_wls(0,1);
-			face = fdir;
+			fdir = 'e';
+			block_traverse(face,fdir);
+			block_placed[5] = 1;
+			back();
+			_delay_ms(200);
+			stop();
 		}
-		else if (face == 'e' && fdir == 'n')
+	}
+	else if (bnode == 11)
+	{
+		if (block_placed[6] == 0)
 		{
-			left_turn_wls();
-			forward_wls(0,1);
-			face = fdir;
+			fdir = 'w';
+			block_traverse(face,fdir);
+			block_placed[6] = 1;
+			back();
+			_delay_ms(200);
+			stop();
 		}
-		else if (face == 's' && fdir == 's')
+		else if (block_placed[7] == 0)
 		{
-			forward_wls(0,1);
-			face = fdir;
+			fdir = 'e';
+			block_traverse(face,fdir);
+			block_placed[7] = 1;
+			back();
+			_delay_ms(200);
+			stop();
 		}
-		else if (face == 's' && fdir == 'w')
+	}
+	else if (bnode == 6)
+	{
+		if (block_placed[8] == 0)
 		{
-			right_turn_wls();
-			forward_wls(0,1);
-			face = fdir;
+			fdir = 'w';
+			block_traverse(face,fdir);
+			block_placed[8] = 1;
+			back();
+			_delay_ms(200);
+			stop();
 		}
-		else if (face == 's' && fdir == 'n')
+		else if (block_placed[9] == 0)
 		{
-			right_turn_wls();
-			right_turn_wls();
-			forward_wls(0,1);
-			face = fdir;
+			fdir = 'e';
+			block_traverse(face,fdir);
+			block_placed[9] = 1;
+			back();
+			_delay_ms(200);
+			stop();
 		}
-		else if (face == 's' && fdir == 'e')
+	}
+	else if (bnode == 9)
+	{
+		if (block_placed[10] == 0)
 		{
-			left_turn_wls();
-			forward_wls(0,1);
-			face = fdir;
+			fdir = 'w';
+			block_traverse(face,fdir);
+			block_placed[10] = 1;
+			back();
+			_delay_ms(200);
+			stop();
 		}
-		else if (face == 'w' && fdir == 'w')
+		else if (block_placed[11] == 0)
 		{
-			forward_wls(0,1);
-			face = fdir;
-		}
-		else if (face == 'w' && fdir == 'n')
-		{
-			right_turn_wls();
-			forward_wls(0,1);
-			face = fdir;
-		}
-		else if (face == 'w' && fdir == 'e')
-		{
-			right_turn_wls();
-			right_turn_wls();
-			forward_wls(0,1);
-			face = fdir;
-		}
-		else if (face == 'w' && fdir == 's')
-		{
-			left_turn_wls();
-			forward_wls(0,1);
-			face = fdir;
+			fdir = 'e';
+			block_traverse(face,fdir);
+			block_placed[11] = 1;
+			back();
+			_delay_ms(200);
+			stop();
 		}
 	}
 }
@@ -1624,19 +1956,43 @@ void traverse(int path[], char face, int u, int *size)
 int main() 
 {
   init_devices();
-  int house_no;
+  //int house_no;
   int block;
   int bnode;
   int len = 0;
+  char apfdir = 'w';
   u = 0;
   face = 's';
+  
   block = which_material[8];
   bnode = which_node(block);
-  dijkstra(G,bnode,u);
-  int path[20];
+  dijkstra(G,n,u);
+  int *path = (int*)malloc(80);
   dist_comp(bnode,bnode,path,&len);
   traverse(path,face,u,&len);
   free(path);
+  apfdir=face;
+  block_choose(bnode,block_placed,face,fdir);
+  m_pick();
+  block_traverse(face,apfdir);
+  u=bnode;
+  
+  block = which_material[9];
+  bnode = which_node(block);
+  dijkstra(G,n,u);
+  //int *path = (int*)malloc(80);
+  dist_comp(bnode,bnode,path,&len);
+  traverse(path,face,u,&len);
+  free(path);
+  apfdir=face;
+  block_choose(bnode,block_placed,face,fdir);
+  m_pick();
+  block_traverse(face,apfdir);
+  u=bnode;
+  
+  dijkstra(G,n,u);
+  //int *path = (int*)malloc(80);
+  dist_comp(7,8,path,&len);
   //right_turn_wls();
   //u = 0;
   //face = 'w';
