@@ -107,7 +107,7 @@ int block_placed[12] = {0,0,0,0,0,0,0,0,0,0,0,0};
 unsigned char ADC_Value, adc_reading;
 unsigned char sharp, distance, wall; //ADC Output from Sharp sensor
 unsigned int value;
-unsigned char base = 255; //base velocity of motor
+unsigned char base = 230; //base velocity of motor
 unsigned char turn = 185; //turn velocity of motor
 unsigned char soft = 205; //soft turn velocity of motor
 unsigned char ls, ms, rs; //ADC Output from line sensors
@@ -328,34 +328,6 @@ void motion_pin_config(void) {
   PORTL = PORTL | 0x18; //PL3 and PL4 pins are for velocity control using PWM
 }
 
-//Function to configure INT4 (PORTE 4) pin as input for the left position encoder
-void left_encoder_pin_config(void) {
-  DDRE = DDRE & 0xEF; //Set the direction of the PORTE 4 pin as input
-  PORTE = PORTE | 0x10; //Enable internal pull-up for PORTE 4 pin
-}
-
-//Function to configure INT5 (PORTE 5) pin as input for the right position encoder
-void right_encoder_pin_config(void) {
-  DDRE = DDRE & 0xDF; //Set the direction of the PORTE 5 pin as input
-  PORTE = PORTE | 0x20; //Enable internal pull-up for PORTE 5 pin
-}
-
-void left_position_encoder_interrupt_config(void) //Interrupt 4 enable
-{
-  cli(); //Clears the global interrupt
-  EICRB = EICRB | 0x02; // INT4 is set to trigger with falling edge
-  EIMSK = EIMSK | 0x10; // Enable Interrupt INT4 for left position encoder
-  sei(); // Enables the global interrupt
-}
-
-void right_position_encoder_interrupt_config(void) //Interrupt 5 enable
-{
-  cli(); //Clears the global interrupt
-  EICRB = EICRB | 0x08; // INT5 is set to trigger with falling edge
-  EIMSK = EIMSK | 0x20; // Enable Interrupt INT5 for right position encoder
-  sei(); // Enables the global interrupt
-}
-
 //Configure PORTB 5 pin for servo motor 1 operation
 void servo1_pin_config(void) {
   DDRB = DDRB | 0x20; //making PORTB 5 pin output
@@ -402,10 +374,6 @@ void adc_pin_config(void) {
 void port_init(void) {
   buzzer_pin_config();
   motion_pin_config();
-  left_encoder_pin_config();
-  right_encoder_pin_config();
-  left_position_encoder_interrupt_config();
-  right_position_encoder_interrupt_config();
   servo1_pin_config();
   servo2_pin_config();
   servo3_pin_config();
@@ -831,35 +799,51 @@ void m_place_hr()
  * Logic: used to navigate through the walls using sharp sensor, is called automatically by line follower " forward_wls(int a)"
  *
  */
-void forward_walls() {
-  LCD_Function(1);
-  forward();
+void forward_walls() 
+{
+	forward();
+	_delay_ms(200);
+ // LCD_Function(1);
+  
   velocity(base, base);
-  _delay_ms(500);
-  while (1) {
+  
+  while (1) 
+  {  forward();
     wall = ADC_Conversion(11);
-    if ((wall >= 115) && (wall <= 130)) {
-      forward();
+	rs = ADC_Conversion(3);
+	ms = ADC_Conversion(2);
+	 if (((rs > 80  ) || ( ms > 80) )&&( wall < 100))
+	 {
+		 stop();
+		 break;
+	 }
+    if ((wall >= 115) && (wall <= 130)) 
+	{
       OCR5AL = 220;
       OCR5BL = 220;
-      _delay_ms(45);
-    } else if (wall > 130) {
+      _delay_ms(50);
+    } 
+	else if (wall > 130) 
+	{
 
       soft_right();
       OCR5AL = 117;
-      OCR5BL = 111;
+      OCR5BL = 120;
       _delay_ms(2);
-    } else if (wall < 115 && wall > 80) {
+    } 
+	else if (wall < 115 && wall > 80) 
+	{
       soft_left();
-      OCR5AL = 114;
+      OCR5AL = 120;
       OCR5BL = 117;
       _delay_ms(2);
 
-    } else if (wall < 80) 
-	{
-		stop();
-      break;
     }
+	else if (wall<80)
+	{
+		continue;
+	}
+	
   }
   forward_wls(0, 1);
 }
@@ -875,16 +859,18 @@ void forward_walls() {
 void forward_wls(int a, int node) {
   int n = 1;
   while (n <= node) {
-    LCD_Function(0);
+  //  LCD_Function(0);
     forward();
     velocity(base, base);
-    while (1) {
+    while (1) 
+	{
       ls = ADC_Conversion(1);
       ms = ADC_Conversion(2);
       rs = ADC_Conversion(3);
       if ((a == 2) && (ls + ms + rs > 280)) // Certain nodes on the edge of the arena allow only two sensor to stand on them and hence have a different threshold than standard nodes
-      {
-	      _delay_ms(80);
+      {  
+	      _delay_ms(150);
+		  stop();
 	      break;
       }
 	  else if ( a == 3)
@@ -892,7 +878,7 @@ void forward_wls(int a, int node) {
 	      if (ls > 120 && rs > 120)
 	      {
 		      stop();
-		      _delay_ms(100);
+		      //_delay_ms(100);
 		      break;
 	      }
       } 
@@ -900,19 +886,20 @@ void forward_wls(int a, int node) {
 	  {
 		  wall = ADC_Conversion(11);
 
-		  if ((wall > 75) && (ls < 80) && (rs < 80))
+		  if ((wall > 70) && (ls < 80) && (ms < 80))
 
-		  {
+		  { 
+	
 
 			  stop();
-			  _delay_ms(100);
 			  break;
 
 		  }
 	  }
 	  else if ((a == 0) && (ls + ms + rs > 400)) // Standard nodes threshold
-      { 
-        break;
+      {  
+       _delay_ms(65);
+		break;
       } 
 	  else if ((ls < 60 && ms >= 125 && rs < 60)) // Motor speed is changed directly to adjust the robot rather than calling left or right to increase smoothness in motion
       { // Velocity function was not called and values were configured directly as function calling was increasing bot response time in while(1) loop
@@ -937,7 +924,8 @@ void forward_wls(int a, int node) {
       } 
 
     }
-    if (a == 1) {
+    if (a == 1) 
+	{
       forward_walls();
     }
     if (a == 3) {
@@ -946,7 +934,7 @@ void forward_wls(int a, int node) {
     }
     n++;
   }
-  PORTA = 0x00;
+  _delay_ms(20);
   stop();
 }
 
@@ -1058,8 +1046,8 @@ void static_reorientation_inv() {
     _delay_ms(250);
     stop();
     left();
-    OCR5AL = 100;
-    OCR5BL = 100;
+    OCR5AL = 120;
+    OCR5BL = 120;
     while (1) //while loop which detects black line using middle sensor so that the robot stops turning
     {
       ms = ADC_Conversion(1);
@@ -1072,8 +1060,8 @@ void static_reorientation_inv() {
     _delay_ms(30);
     stop();
     _delay_ms(200);
-    OCR5AL = base;
-    OCR5BL = base;
+    OCR5AL = 250;
+    OCR5BL = 250;
   }
 }
 void forward_zigzag()
@@ -1147,7 +1135,7 @@ void forward_zigzag()
 void right_turn_wls(void) {
 
   forward();
-  _delay_ms(250);
+  _delay_ms(200);
   right(); //code which help the robot to ignore the black line which is going straight so that it can focus on line which is going to the right
   _delay_ms(200);
   stop();
@@ -1195,8 +1183,8 @@ void right_turn_inv(void) {
   _delay_ms(200);
   stop();
   _delay_ms(200);
-  OCR5AL = base;
-  OCR5BL = base;
+  OCR5AL = 250;
+  OCR5BL = 250;
   static_reorientation_inv();
 
 }
@@ -1227,34 +1215,6 @@ void right_turn_wls_bwall(void) {
 
 }
 
-void right_turn(void)
-{
-	forward_mm(80);
-	stop();
-	right();
-	velocity(120,120);
-	float ReqdShaftCount = 0;
-	unsigned long int ReqdShaftCountInt = 0;
-
-	ReqdShaftCount = (float) Degrees /4.090; // division by resolution to get shaft count
-	ReqdShaftCountInt = (unsigned int) ReqdShaftCount;
-	ShaftCountRight = 0;
-	ShaftCountLeft = 0;
-
-	while (1)
-	{
-		if((ShaftCountRight >= ReqdShaftCountInt) | (ShaftCountLeft >= ReqdShaftCountInt))
-		{
-			ls = ADC_Conversion(1);
-			if (ls > 80)
-			{
-				break;
-			}
-		}
-		
-	}
-	stop(); //Stop robot
-}
 /*
  *
  * Function Name: left_turn_wls
@@ -1320,36 +1280,6 @@ void left_turn_inv(void) {
 }
 
 
-void left_turn(void)
-{
-	forward_mm(80);
-	stop();
-	left();
-	velocity(120,120);
-	float ReqdShaftCount = 0;
-	unsigned long int ReqdShaftCountInt = 0;
-
-	ReqdShaftCount = (float) Degrees /4.090; // division by resolution to get shaft count
-	ReqdShaftCountInt = (unsigned int) ReqdShaftCount;
-	ShaftCountRight = 0;
-	ShaftCountLeft = 0;
-
-	while (1)
-	{
-		if((ShaftCountRight >= ReqdShaftCountInt) | (ShaftCountLeft >= ReqdShaftCountInt))
-		{
-			ls = ADC_Conversion(1);
-			if (ls > 80)
-			{
-				break;
-			}
-		}
-		
-	}
-	stop(); //Stop robot
-
-}
-
 void left_turn_wls_bwall(void)
 {
 	left(); //code which help the robot to ignore the black line which is going straight so that it can focus on line which is going to the right
@@ -1376,70 +1306,32 @@ void left_turn_wls_bwall(void)
 	
 }
 
-
-
-
-
-
-/* --------------------------------------------------------------POSITION CONTROL INTERRUPTS----------------------------------------------*/
-
-
-
-//Function used for turning robot by specified degrees
-void angle_rotate(unsigned int Degrees)
+/*--------------------------------------------------------TEST CIRCUITS---------------------------------------------------------------------------------*/
+void circuit_1(void)
 {
-	float ReqdShaftCount = 0;
-	unsigned long int ReqdShaftCountInt = 0;
-
-	ReqdShaftCount = (float) Degrees * 3.8033; // division by resolution to get shaft count
-	ReqdShaftCountInt = (unsigned int) ReqdShaftCount;
-	ShaftCountRight = 0;
-	ShaftCountLeft = 0;
-
-	while (1)
-	{
-		if((ShaftCountRight >= ReqdShaftCountInt) | (ShaftCountLeft >= ReqdShaftCountInt))
-		break;
-	}
-	stop(); //Stop robot
-}
-
-//Function used for moving robot forward by specified distance
-
-void linear_distance_mm(unsigned int DistanceInMM)
-{
-	float ReqdShaftCount = 0;
-	unsigned long int ReqdShaftCountInt = 0;
-
-	ReqdShaftCount = DistanceInMM * 2.1888; // division by resolution to get shaft count
-	ReqdShaftCountInt = (unsigned long int) ReqdShaftCount;
 	
-	ShaftCountRight = 0;
-	while(1)
-	{
-		if(ShaftCountRight > ReqdShaftCountInt)
-		{
-			break;
-		}
-	}
-	stop(); //Stop robot
+	forward_wls(0,1);
+	right_turn_wls();
+	forward_wls(2,1);
+	right_turn_wls();
+	forward_wls(0,2);
+	right_turn_wls();
+	forward_wls(1,1);
+	left_turn_wls();
+	forward_wls(0,2);
+	left_turn_wls();
+	forward_zigzag();
+	right_turn_wls();
+	forward_wls(0,1);
+	forward_wls(2,1);
+	right_turn_inv();
+	forward_wls(3,1);
+	right_turn_wls();
+	forward_wls(0,5);
+	forward_wls(2,1);
+	right_turn_wls();
+	forward_wls(2,1);	
 }
-
-void forward_mm(unsigned int DistanceInMM)
-{
-	forward();
-	linear_distance_mm(DistanceInMM);
-}
-
-void back_mm(unsigned int DistanceInMM)
-{
-	back();
-	linear_distance_mm(DistanceInMM);
-}
-
-
-
-
 /* -------------------------------------------------------------INITIALIZATION--------------------------------------------------*/
 
 //Function to Initialize ADC
