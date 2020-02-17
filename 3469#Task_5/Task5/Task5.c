@@ -84,8 +84,8 @@ int house_req[5] = {2,2,2,1,2};
 int which_material[10] = {3,11,9,5,4,7,1,0,2,8};
 int dis[15];
 int pre[15];
-int b1n = 1;
-int b2n = 1;
+int b1n = 2;
+int b2n = 2;
 int b3n = 13;
 int b4n = 13;
 int b5n = 4;
@@ -117,7 +117,7 @@ unsigned int Degrees; //to accept angle in degrees for turning
 
 /* ----------------------------DIJKSTRA----------------------------------*/
 
-#define wf 8
+#define wf 6
 #define zz 6
 #define in 8
 void reverse(int a[],int n)
@@ -1412,12 +1412,16 @@ void traverse(int path[], char face, int u, int *size)
 			{
 				forward_wls(2,1);
 				face = fdir;
+				lcd_cursor(2, 7);
+				lcd_wr_char(face);
 			}
 			else if (face == 'n' && fdir == 'e')
 			{
 				right_turn_wls();
 				forward_wls(2,1);
 				face = fdir;
+				lcd_cursor(2, 7);
+				lcd_wr_char(face);
 			}
 			else if (face == 'n' && fdir == 's')
 			{
@@ -1425,23 +1429,31 @@ void traverse(int path[], char face, int u, int *size)
 				right_turn_wls();
 				forward_wls(2,1);
 				face = fdir;
+				lcd_cursor(2, 7);
+				lcd_wr_char(face);
 			}
 			else if (face == 'n' && fdir == 'w')
 			{
 				left_turn_wls();
 				forward_wls(2,1);
 				face = fdir;
+				lcd_cursor(2, 7);
+				lcd_wr_char(face);
 			}
 			else if (face == 'e' && fdir == 'e')
 			{
 				forward_wls(2,1);
 				face = fdir;
+				lcd_cursor(2, 7);
+				lcd_wr_char(face);
 			}
 			else if (face == 'e' && fdir == 's')
 			{
 				right_turn_wls();
 				forward_wls(2,1);
 				face = fdir;
+				lcd_cursor(2, 7);
+				lcd_wr_char(face);
 			}
 			else if (face == 'e' && fdir == 'w')
 			{
@@ -1449,23 +1461,31 @@ void traverse(int path[], char face, int u, int *size)
 				right_turn_wls();
 				forward_wls(2,1);
 				face = fdir;
+				lcd_cursor(2, 7);
+				lcd_wr_char(face);
 			}
 			else if (face == 'e' && fdir == 'n')
 			{
 				left_turn_wls();
 				forward_wls(2,1);
 				face = fdir;
+				lcd_cursor(2, 7);
+				lcd_wr_char(face);
 			}
 			else if (face == 's' && fdir == 's')
 			{
 				forward_wls(2,1);
 				face = fdir;
+				lcd_cursor(2, 7);
+				lcd_wr_char(face);
 			}
 			else if (face == 's' && fdir == 'w')
 			{
 				right_turn_wls();
 				forward_wls(2,1);
 				face = fdir;
+				lcd_cursor(2, 7);
+				lcd_wr_char(face);
 			}
 			else if (face == 's' && fdir == 'n')
 			{
@@ -1473,23 +1493,31 @@ void traverse(int path[], char face, int u, int *size)
 				right_turn_wls();
 				forward_wls(2,1);
 				face = fdir;
+				lcd_cursor(2, 7);
+				lcd_wr_char(face);
 			}
 			else if (face == 's' && fdir == 'e')
 			{
 				left_turn_wls();
 				forward_wls(2,1);
 				face = fdir;
+				lcd_cursor(2, 7);
+				lcd_wr_char(face);
 			}
 			else if (face == 'w' && fdir == 'w')
 			{
 				forward_wls(2,1);
 				face = fdir;
+				lcd_cursor(2, 7);
+				lcd_wr_char(face);
 			}
 			else if (face == 'w' && fdir == 'n')
 			{
 				right_turn_wls();
 				forward_wls(2,1);
 				face = fdir;
+				lcd_cursor(2, 7);
+				lcd_wr_char(face);
 			}
 			else if (face == 'w' && fdir == 'e')
 			{
@@ -1497,12 +1525,169 @@ void traverse(int path[], char face, int u, int *size)
 				right_turn_wls();
 				forward_wls(2,1);
 				face = fdir;
+				lcd_cursor(2, 7);
+				lcd_wr_char(face);
 			}
 			else if (face == 'w' && fdir == 's')
 			{
 				left_turn_wls();
 				forward_wls(2,1);
 				face = fdir;
+				lcd_cursor(2, 7);
+				lcd_wr_char(face);
+			}
+		}
+		else if ((path[i] == 2 && path[i + 1] == 13) || (path[i] == 13 && path[i + 1] == 2))
+		{
+			for (int a = 0; a < 4; a++)
+			{
+				if (movement_array[path[i]][a] == path[i + 1])
+				{
+					if (a == 0)
+					{
+						fdir = 'n';
+					}
+					else if (a == 1)
+					{
+						fdir = 'e';
+					}
+					else if (a == 2)
+					{
+						fdir = 's';
+					}
+					else if (a == 3)
+					{
+						fdir = 'w';
+					}
+				}
+			}
+			if (face == 'n' && fdir == 'n')
+			{
+				forward_wls(1,1);
+				face = fdir;
+				lcd_cursor(2, 7);
+				lcd_wr_char(face);
+			}
+			else if (face == 'n' && fdir == 'e')
+			{
+				right_turn_wls();
+				forward_wls(1,1);
+				face = fdir;
+				lcd_cursor(2, 7);
+				lcd_wr_char(face);
+			}
+			else if (face == 'n' && fdir == 's')
+			{
+				right_turn_wls();
+				right_turn_wls();
+				forward_wls(1,1);
+				face = fdir;
+				lcd_cursor(2, 7);
+				lcd_wr_char(face);
+			}
+			else if (face == 'n' && fdir == 'w')
+			{
+				left_turn_wls();
+				forward_wls(1,1);
+				face = fdir;
+				lcd_cursor(2, 7);
+				lcd_wr_char(face);
+			}
+			else if (face == 'e' && fdir == 'e')
+			{
+				forward_wls(1,1);
+				face = fdir;
+				lcd_cursor(2, 7);
+				lcd_wr_char(face);
+			}
+			else if (face == 'e' && fdir == 's')
+			{
+				right_turn_wls();
+				forward_wls(1,1);
+				face = fdir;
+				lcd_cursor(2, 7);
+				lcd_wr_char(face);
+			}
+			else if (face == 'e' && fdir == 'w')
+			{
+				right_turn_wls();
+				right_turn_wls();
+				forward_wls(1,1);
+				face = fdir;
+				lcd_cursor(2, 7);
+				lcd_wr_char(face);
+			}
+			else if (face == 'e' && fdir == 'n')
+			{
+				left_turn_wls();
+				forward_wls(1,1);
+				face = fdir;
+				lcd_cursor(2, 7);
+				lcd_wr_char(face);
+			}
+			else if (face == 's' && fdir == 's')
+			{
+				forward_wls(1,1);
+				face = fdir;
+				lcd_cursor(2, 7);
+				lcd_wr_char(face);
+			}
+			else if (face == 's' && fdir == 'w')
+			{
+				right_turn_wls();
+				forward_wls(1,1);
+				face = fdir;
+				lcd_cursor(2, 7);
+				lcd_wr_char(face);
+			}
+			else if (face == 's' && fdir == 'n')
+			{
+				right_turn_wls();
+				right_turn_wls();
+				forward_wls(1,1);
+				face = fdir;
+				lcd_cursor(2, 7);
+				lcd_wr_char(face);
+			}
+			else if (face == 's' && fdir == 'e')
+			{
+				left_turn_wls();
+				forward_wls(1,1);
+				face = fdir;
+				lcd_cursor(2, 7);
+				lcd_wr_char(face);
+			}
+			else if (face == 'w' && fdir == 'w')
+			{
+				forward_wls(1,1);
+				face = fdir;
+				lcd_cursor(2, 7);
+				lcd_wr_char(face);
+			}
+			else if (face == 'w' && fdir == 'n')
+			{
+				right_turn_wls();
+				forward_wls(1,1);
+				face = fdir;
+				lcd_cursor(2, 7);
+				lcd_wr_char(face);
+			}
+			else if (face == 'w' && fdir == 'e')
+			{
+				right_turn_wls();
+				right_turn_wls();
+				forward_wls(1,1);
+				face = fdir;
+				lcd_cursor(2, 7);
+				lcd_wr_char(face);
+			}
+			else if (face == 'w' && fdir == 's')
+			{
+				left_turn_wls();
+				forward_wls(1,1);
+				face = fdir;
+				lcd_cursor(2, 7);
+				lcd_wr_char(face);
 			}
 		}
 		else
@@ -1533,12 +1718,16 @@ void traverse(int path[], char face, int u, int *size)
 			{
 				forward_wls(0,1);
 				face = fdir;
+				lcd_cursor(2, 7);
+				lcd_wr_char(face);
 			}
 			else if (face == 'n' && fdir == 'e')
 			{
 				right_turn_wls();
 				forward_wls(0,1);
 				face = fdir;
+				lcd_cursor(2, 7);
+				lcd_wr_char(face);
 			}
 			else if (face == 'n' && fdir == 's')
 			{
@@ -1546,23 +1735,31 @@ void traverse(int path[], char face, int u, int *size)
 				right_turn_wls();
 				forward_wls(0,1);
 				face = fdir;
+				lcd_cursor(2, 7);
+				lcd_wr_char(face);
 			}
 			else if (face == 'n' && fdir == 'w')
 			{
 				left_turn_wls();
 				forward_wls(0,1);
 				face = fdir;
+				lcd_cursor(2, 7);
+				lcd_wr_char(face);
 			}
 			else if (face == 'e' && fdir == 'e')
 			{
 				forward_wls(0,1);
 				face = fdir;
+				lcd_cursor(2, 7);
+				lcd_wr_char(face);
 			}
 			else if (face == 'e' && fdir == 's')
 			{
 				right_turn_wls();
 				forward_wls(0,1);
 				face = fdir;
+				lcd_cursor(2, 7);
+				lcd_wr_char(face);
 			}
 			else if (face == 'e' && fdir == 'w')
 			{
@@ -1570,23 +1767,31 @@ void traverse(int path[], char face, int u, int *size)
 				right_turn_wls();
 				forward_wls(0,1);
 				face = fdir;
+				lcd_cursor(2, 7);
+				lcd_wr_char(face);
 			}
 			else if (face == 'e' && fdir == 'n')
 			{
 				left_turn_wls();
 				forward_wls(0,1);
 				face = fdir;
+				lcd_cursor(2, 7);
+				lcd_wr_char(face);
 			}
 			else if (face == 's' && fdir == 's')
 			{
 				forward_wls(0,1);
 				face = fdir;
+				lcd_cursor(2, 7);
+				lcd_wr_char(face);
 			}
 			else if (face == 's' && fdir == 'w')
 			{
 				right_turn_wls();
 				forward_wls(0,1);
 				face = fdir;
+				lcd_cursor(2, 7);
+				lcd_wr_char(face);
 			}
 			else if (face == 's' && fdir == 'n')
 			{
@@ -1594,23 +1799,31 @@ void traverse(int path[], char face, int u, int *size)
 				right_turn_wls();
 				forward_wls(0,1);
 				face = fdir;
+				lcd_cursor(2, 7);
+				lcd_wr_char(face);
 			}
 			else if (face == 's' && fdir == 'e')
 			{
 				left_turn_wls();
 				forward_wls(0,1);
 				face = fdir;
+				lcd_cursor(2, 7);
+				lcd_wr_char(face);
 			}
 			else if (face == 'w' && fdir == 'w')
 			{
 				forward_wls(0,1);
 				face = fdir;
+				lcd_cursor(2, 7);
+				lcd_wr_char(face);
 			}
 			else if (face == 'w' && fdir == 'n')
 			{
 				right_turn_wls();
 				forward_wls(0,1);
 				face = fdir;
+				lcd_cursor(2, 7);
+				lcd_wr_char(face);
 			}
 			else if (face == 'w' && fdir == 'e')
 			{
@@ -1618,12 +1831,16 @@ void traverse(int path[], char face, int u, int *size)
 				right_turn_wls();
 				forward_wls(0,1);
 				face = fdir;
+				lcd_cursor(2, 7);
+				lcd_wr_char(face);
 			}
 			else if (face == 'w' && fdir == 's')
 			{
 				left_turn_wls();
 				forward_wls(0,1);
 				face = fdir;
+				lcd_cursor(2, 7);
+				lcd_wr_char(face);
 			}
 			
 		}
@@ -1635,11 +1852,15 @@ void block_traverse(char face,char fdir)
 	if (face == 'n' && fdir == 'n')
 	{
 		face = fdir;
+		lcd_cursor(2, 7);
+		lcd_wr_char(face);
 	}
 	else if (face == 'n' && fdir == 'e')
 	{
 		right_turn_wls();
 		face = fdir;
+		lcd_cursor(2, 7);
+		lcd_wr_char(face);
 	}
 	else if (face == 'n' && fdir == 's')
 	{
@@ -1651,66 +1872,92 @@ void block_traverse(char face,char fdir)
 	{
 		left_turn_wls();
 		face = fdir;
+		lcd_cursor(2, 7);
+		lcd_wr_char(face);
 	}
 	else if (face == 'e' && fdir == 'e')
 	{
 		face = fdir;
+		lcd_cursor(2, 7);
+		lcd_wr_char(face);
 	}
 	else if (face == 'e' && fdir == 's')
 	{
 		right_turn_wls();
 		face = fdir;
+		lcd_cursor(2, 7);
+		lcd_wr_char(face);
 	}
 	else if (face == 'e' && fdir == 'w')
 	{
 		right_turn_wls();
 		right_turn_wls_bwall();
 		face = fdir;
+		lcd_cursor(2, 7);
+		lcd_wr_char(face);
 	}
 	else if (face == 'e' && fdir == 'n')
 	{
 		left_turn_wls();
 		face = fdir;
+		lcd_cursor(2, 7);
+		lcd_wr_char(face);
 	}
 	else if (face == 's' && fdir == 's')
 	{
 		face = fdir;
+		lcd_cursor(2, 7);
+		lcd_wr_char(face);
 	}
 	else if (face == 's' && fdir == 'w')
 	{
 		right_turn_wls();
 		face = fdir;
+		lcd_cursor(2, 7);
+		lcd_wr_char(face);
 	}
 	else if (face == 's' && fdir == 'n')
 	{
 		right_turn_wls();
 		right_turn_wls_bwall();
 		face = fdir;
+		lcd_cursor(2, 7);
+		lcd_wr_char(face);
 	}
 	else if (face == 's' && fdir == 'e')
 	{
 		left_turn_wls();
 		face = fdir;
+		lcd_cursor(2, 7);
+		lcd_wr_char(face);
 	}
 	else if (face == 'w' && fdir == 'w')
 	{
 		face = fdir;
+		lcd_cursor(2, 7);
+		lcd_wr_char(face);
 	}
 	else if (face == 'w' && fdir == 'n')
 	{
 		right_turn_wls();
 		face = fdir;
+		lcd_cursor(2, 7);
+		lcd_wr_char(face);
 	}
 	else if (face == 'w' && fdir == 'e')
 	{
 		right_turn_wls();
 		right_turn_wls_bwall();
 		face = fdir;
+		lcd_cursor(2, 7);
+		lcd_wr_char(face);
 	}
 	else if (face == 'w' && fdir == 's')
 	{
 		left_turn_wls();
 		face = fdir;
+		lcd_cursor(2, 7);
+		lcd_wr_char(face);
 	}
 }
 
@@ -1849,42 +2096,85 @@ int main()
 {
   init_devices();
   //int house_no;
-  int block;
+  int block = 0;
   int bnode;
   int len = 0;
   char apfdir = 'w';
   u = 0;
   face = 's';
   
+  forward_wls(0,1);
   block = which_material[8];
+  lcd_init();
+  lcd_print(2,1,block,3);
   bnode = which_node(block);
+  lcd_print(2,14,bnode,3);
   dijkstra(G,n,u);
   int *path = (int*)malloc(80);
   dist_comp(bnode,bnode,path,&len);
+  
+  for(int p = 0;p<len;p++)
+  {
+	  lcd_print(1,2*p,path[p],2);
+  }
+  
   traverse(path,face,u,&len);
+  lcd_cursor(2, 7);
+  lcd_wr_char(face);
   free(path);
-  apfdir=face;
+  len = 0;
   block_choose(bnode,block_placed,face,fdir);
   m_pick();
-  block_traverse(face,apfdir);
+  lcd_cursor(2, 7);
+  lcd_wr_char(face);
+  
+  lcd_init();
+  for(int p = 0;p<=12;p++)
+  {
+	  if (path[p] == 1) lcd_print(1,1,p,2);
+  }
+  apfdir='s';
+  lcd_cursor(2, 7);
+  lcd_wr_char(face);
+  //right_turn_wls_bwall();
+  face = 'e';
+  //block_traverse(face,apfdir);
   u=bnode;
   
+  lcd_cursor(2, 7);
+  lcd_wr_char(face);
   block = which_material[9];
+  lcd_init();
+  lcd_print(2,1,block,3);
   bnode = which_node(block);
+  lcd_print(2,14,bnode,3);
   dijkstra(G,n,u);
-  //int *path = (int*)malloc(80);
   dist_comp(bnode,bnode,path,&len);
+   
+   for(int p = 0;p<len;p++)
+   {
+	   lcd_print(1,2*p,path[p],2);
+   }
   traverse(path,face,u,&len);
   free(path);
-  apfdir=face;
+  len = 0;
   block_choose(bnode,block_placed,face,fdir);
-  m_pick();
+  s_pick();
+  lcd_init();
+  for(int p = 0;p<=12;p++)
+  {
+	  if (path[p] == 1) lcd_print(1,1,p,2);
+  }
+  apfdir='n';
   block_traverse(face,apfdir);
   u=bnode;
   
   dijkstra(G,n,u);
   //int *path = (int*)malloc(80);
   dist_comp(7,8,path,&len);
+  
+  
+  
   //right_turn_wls();
   //u = 0;
   //face = 'w';
