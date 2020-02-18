@@ -29,7 +29,10 @@ Remark : Good
 88/100
 
 Remark : Good Work
+## Task 4
+433/380 (30% bonus for early submission)
 
+Remark : Good work, Make your arm sturdy.
 # Demo
 ## Hardware Testing
 https://youtu.be/kqlR-GdEUJE
