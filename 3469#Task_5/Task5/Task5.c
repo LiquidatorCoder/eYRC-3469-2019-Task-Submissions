@@ -35,7 +35,9 @@ void forward_wls(int a, int node);
 void left_turn_wls();
 void right_turn_wls();
 void right_turn_wls_bwall();
+void left_turn_wls_bwall();
 void forward_inv();
+void forward_zigzag();
 void back();
 void stop();
 void static_reorientation();
@@ -672,6 +674,176 @@ void traverse(int path[], int u, int *size)
 				lcd_wr_char(face);
 			}
 		}
+		else if ((path[i] == 10 && path[i + 1] == 5) || (path[i] == 5 && path[i + 1] == 10))
+		{
+			for (int a = 0; a < 4; a++)
+			{
+				if (movement_array[path[i]][a] == path[i + 1])
+				{
+					if (a == 0)
+					{
+						fdir = 'n';
+					}
+					else if (a == 1)
+					{
+						fdir = 'e';
+					}
+					else if (a == 2)
+					{
+						fdir = 's';
+					}
+					else if (a == 3)
+					{
+						fdir = 'w';
+					}
+				}
+			}
+			if (face == 'n' && fdir == 'n')
+			{
+				//printf("wf 1\n");
+				forward_zigzag();
+				face = fdir;
+				lcd_cursor(2, 7);
+				lcd_wr_char(face);
+			}
+			else if (face == 'n' && fdir == 'e')
+			{
+				//printf("wf 2\n");
+				right_turn_wls();
+				forward_zigzag();
+				face = fdir;
+				lcd_cursor(2, 7);
+				lcd_wr_char(face);
+			}
+			else if (face == 'n' && fdir == 's')
+			{
+				//printf("wf 3\n");
+				right_turn_wls();
+				right_turn_wls();
+				forward_zigzag();
+				face = fdir;
+				lcd_cursor(2, 7);
+				lcd_wr_char(face);
+			}
+			else if (face == 'n' && fdir == 'w')
+			{
+				//printf("wf 4\n");
+				left_turn_wls();
+				forward_zigzag();
+				face = fdir;
+				lcd_cursor(2, 7);
+				lcd_wr_char(face);
+			}
+			else if (face == 'e' && fdir == 'e')
+			{
+				//printf("wf 5\n");
+				forward_zigzag();
+				face = fdir;
+				lcd_cursor(2, 7);
+				lcd_wr_char(face);
+			}
+			else if (face == 'e' && fdir == 's')
+			{
+				//printf("wf 6\n");
+				right_turn_wls();
+				forward_zigzag();
+				face = fdir;
+				lcd_cursor(2, 7);
+				lcd_wr_char(face);
+			}
+			else if (face == 'e' && fdir == 'w')
+			{
+				//printf("wf 7\n");
+				right_turn_wls();
+				right_turn_wls();
+				forward_zigzag();
+				face = fdir;
+				lcd_cursor(2, 7);
+				lcd_wr_char(face);
+			}
+			else if (face == 'e' && fdir == 'n')
+			{
+				//printf("wf 8\n");
+				left_turn_wls();
+				forward_zigzag();
+				face = fdir;
+				lcd_cursor(2, 7);
+				lcd_wr_char(face);
+			}
+			else if (face == 's' && fdir == 's')
+			{
+				//printf("wf 9\n");
+				forward_zigzag();
+				face = fdir;
+				lcd_cursor(2, 7);
+				lcd_wr_char(face);
+			}
+			else if (face == 's' && fdir == 'w')
+			{
+				//printf("wf 10\n");
+				right_turn_wls();
+				forward_zigzag();
+				face = fdir;
+				lcd_cursor(2, 7);
+				lcd_wr_char(face);
+			}
+			else if (face == 's' && fdir == 'n')
+			{
+				//printf("wf 11\n");
+				right_turn_wls();
+				right_turn_wls();
+				forward_zigzag();
+				face = fdir;
+				lcd_cursor(2, 7);
+				lcd_wr_char(face);
+			}
+			else if (face == 's' && fdir == 'e')
+			{
+				//printf("wf 12\n");
+				left_turn_wls();
+				forward_zigzag();
+				face = fdir;
+				lcd_cursor(2, 7);
+				lcd_wr_char(face);
+			}
+			else if (face == 'w' && fdir == 'w')
+			{
+				//printf("wf 13\n");
+				forward_zigzag();
+				face = fdir;
+				lcd_cursor(2, 7);
+				lcd_wr_char(face);
+			}
+			else if (face == 'w' && fdir == 'n')
+			{
+				//printf("wf 14\n");
+				right_turn_wls();
+				forward_zigzag();
+				face = fdir;
+				lcd_cursor(2, 7);
+				lcd_wr_char(face);
+			}
+			else if (face == 'w' && fdir == 'e')
+			{
+				//printf("wf 15\n");
+				right_turn_wls();
+				right_turn_wls();
+				forward_zigzag();
+				face = fdir;
+				lcd_cursor(2, 7);
+				lcd_wr_char(face);
+			}
+			else if (face == 'w' && fdir == 's')
+			{
+				//printf("wf 16\n");
+				left_turn_wls();
+				forward_zigzag();
+				face = fdir;
+				lcd_cursor(2, 7);
+				lcd_wr_char(face);
+			}
+		}
+		
 		else
 		{
 			for (int a = 0; a < 4; a++)
@@ -1489,6 +1661,7 @@ void LCD_Function(int a)
  *
  */
 void m_pick(void) {
+	static_reorientation();
   servo_1(90);
   _delay_ms(750);
   servo_1_free();
@@ -1513,6 +1686,7 @@ void m_pick(void) {
  *
  */
 void s_pick(void) {
+	static_reorientation();
   servo_1(67);
   _delay_ms(750);
   servo_1_free();
@@ -1633,12 +1807,10 @@ void m_place_hr()
  */
 void forward_walls() 
 {
+ LCD_Function(1);
 	forward();
-	_delay_ms(200);
- // LCD_Function(1);
-  
+	_delay_ms(250);
   velocity(base, base);
-  
   while (1) 
   {  forward();
     wall = ADC_Conversion(11);
@@ -1653,29 +1825,22 @@ void forward_walls()
 	{
       OCR5AL = 220;
       OCR5BL = 220;
-      _delay_ms(50);
+      _delay_ms(20);
     } 
 	else if (wall > 130) 
 	{
-
-      soft_right();
+      right();
       OCR5AL = 117;
       OCR5BL = 120;
-      _delay_ms(2);
+      _delay_ms(1);
     } 
-	else if (wall < 115 && wall > 80) 
+	else if (wall < 115 && wall > 50) 
 	{
-      soft_left();
+      left();
       OCR5AL = 120;
       OCR5BL = 117;
-      _delay_ms(2);
-
+      _delay_ms(1);
     }
-	else if (wall<80)
-	{
-		continue;
-	}
-	
   }
   forward_wls(0, 1);
 }
@@ -1689,16 +1854,19 @@ void forward_walls()
  *
  */
 void forward_wls(int a, int node) {
-  int n = 1;
-  while (n <= node) {
-  //  LCD_Function(0);
-    forward();
-    velocity(base, base);
+  //int n = 1;
+   LCD_Function(0);
+  //while (n <= node) 
+  //{
     while (1) 
-	{
+	{forward();
+	 OCR5AL = base;
+	 OCR5BL = base;
       ls = ADC_Conversion(1);
       ms = ADC_Conversion(2);
       rs = ADC_Conversion(3);
+	  wall =ADC_Conversion(11);
+	  
       if ((a == 2) && (ls + ms + rs > 280)) // Certain nodes on the edge of the arena allow only two sensor to stand on them and hence have a different threshold than standard nodes
       {  
 	      _delay_ms(150);
@@ -1716,16 +1884,11 @@ void forward_wls(int a, int node) {
       } 
 	  else if (a == 1) // Condition to invoke forward_walls
 	  {
-		  wall = ADC_Conversion(11);
-
-		  if ((wall > 70) && (ls < 80) && (ms < 80))
-
+		 
+		  if ((ms < 100) && (wall >= 85))
 		  { 
-	
-
 			  stop();
 			  break;
-
 		  }
 	  }
 	  else if ((a == 0) && (ls + ms + rs > 400)) // Standard nodes threshold
@@ -1738,22 +1901,30 @@ void forward_wls(int a, int node) {
 
         OCR5AL = base;
         OCR5BL = base;
-      } else if ((ls < 40 && ms < 60 && rs > 140)) {
-        OCR5AL = base;
-        OCR5BL = turn;
-
-      } else if (rs < 40 && ms < 60 && ls > 140) {
-        OCR5AL = turn;
-        OCR5BL = base;
-
+		_delay_ms(3);
       } else if ((ls + ms + rs) < 200 && (ms > 50 && ms < 100) && ls > rs) {
-        OCR5AL = soft;
-        OCR5BL = base;
+      OCR5AL = soft;
+      OCR5BL = base;
+	  _delay_ms(2);
 
       } else if ((ls + ms + rs) < 200 && (ms > 50 && ms < 100) && ls < rs) {
-        OCR5AL = base;
-        OCR5BL = soft;
+      OCR5AL = base;
+      OCR5BL = soft;
+	  _delay_ms(2);
       } 
+	  else if ((ls < 40 && ms < 60 && rs > 140)) {
+       soft_right();
+	    OCR5AL = 120;
+        OCR5BL = 120;
+		_delay_ms(1);
+
+      } else if (rs < 40 && ms < 60 && ls > 140) {
+        soft_left();
+		OCR5AL = 120;
+        OCR5BL = 120;
+		_delay_ms(1);
+
+      }
 
     }
     if (a == 1) 
@@ -1762,10 +1933,9 @@ void forward_wls(int a, int node) {
     }
     if (a == 3) {
       forward_inv();
-
     }
-    n++;
-  }
+    //n++;
+  //}
   _delay_ms(20);
   stop();
 }
@@ -1841,7 +2011,7 @@ void forward_inv()
  * Function Name: static_reorientation
  * Input: void
  * Output: void
- * Logic: used to aling the robot to the black line
+ * Logic: used to align the robot to the black line
  *
  */
 void static_reorientation() {
@@ -1858,8 +2028,11 @@ void static_reorientation() {
     right();
     _delay_ms(280);
     stop();
-    left_turn_wls();
+    left_turn_wls_bwall();
   }
+  left();
+  _delay_ms(25);
+  stop();
 }
 
 void static_reorientation_inv() {
@@ -1889,7 +2062,7 @@ void static_reorientation_inv() {
       }
     }
     left();
-    _delay_ms(30);
+    _delay_ms(20);
     stop();
     _delay_ms(200);
     OCR5AL = 250;
@@ -1983,6 +2156,8 @@ void right_turn_wls(void) {
       break;
     }
   }
+  left();
+  _delay_ms(15);
   stop();
   _delay_ms(200);
   OCR5AL = base;
@@ -2067,7 +2242,7 @@ void left_turn_wls(void) {
   OCR5BL = 100;
   while (1) //while loop which detects black line using middle sensor so that the robot stops turning
   {
-    ms = ADC_Conversion(1);
+    ms = ADC_Conversion(2);
     if (ms >= 80) {
       PORTA = 0x00; //Stops the robot mediately, partial condition to invoke "stop()" function 
       break;
@@ -2083,14 +2258,14 @@ void left_turn_wls(void) {
 void left_turn_inv(void) {
 
 	forward();
-	_delay_ms(200);
+	_delay_ms(250);
 	left(); //code which help the robot to ignore the black line which is going straight so that it can focus on line which is going to the right
 	_delay_ms(200);
 	stop();
 	_delay_ms(50);
 	left();
-	OCR5AL = 100;
-	OCR5BL = 100;
+	OCR5AL = 120;
+	OCR5BL = 120;
 	while (1) //while loop which detects black line using middle sensor so that the robot stops turning
 	{
 		rs = ADC_Conversion(3);
@@ -2102,11 +2277,11 @@ void left_turn_inv(void) {
 		}
 	}
 	left();
-	_delay_ms(200);
+	_delay_ms(180);
 	stop();
 	_delay_ms(200);
-	OCR5AL = base;
-	OCR5BL = base;
+	OCR5AL = 250;
+	OCR5BL = 250;
 	static_reorientation_inv();
 
 }
@@ -2331,14 +2506,14 @@ int main()
 	if (u==7)
 	{
 		right_turn_inv();
-		forward_wls(4,1);
+		forward_wls(3,1);
 		face = 'e';
 		u = 8;
 	}
 	else if (u==8)
 	{
 		left_turn_inv();
-		forward_wls(4,1);
+		forward_wls(3,1);
 		face = 'w';
 		u = 7;
 	}
