@@ -1707,14 +1707,19 @@ void s_pick(void) {
 
 void inv_place() {
   _delay_ms(500);
-  servo_1(0);
+  servo_1(5);
   _delay_ms(1000);
   servo_1_free();
   servo_3(30);
   _delay_ms(750);
+  servo_4(150);
+  _delay_ms(750);
   servo_2(45);
   _delay_ms(1000);
   servo_3(105);
+  _delay_ms(750);
+  servo_3_free();
+  servo_4(40);
   _delay_ms(750);
   servo_3_free();
   servo_2(0);
@@ -2027,7 +2032,7 @@ void static_reorientation()
     OCR5AL = 150;
     OCR5BL = 150;
     right();
-    _delay_ms(400);
+    _delay_ms(300);
     stop();
 	OCR5AL = 110;
 	OCR5BL = 110;
@@ -2048,38 +2053,38 @@ void static_reorientation()
 
 }
 
-void static_reorientation_inv() {
+void static_reorientation_inv() 
+{
   LCD_Function(4);
+  stop();
   ls = ADC_Conversion(1);
   ms = ADC_Conversion(2);
   rs = ADC_Conversion(3);
-  if ((ls > 150 && ms <= 70 && rs < 150)) {
-    PORTA = 0x00; //Stops the robot mediately, partial condition to invoke "stop()" function
-  } else {
-    OCR5AL = 155;
-    OCR5BL = 155;
-    stop();
-    _delay_ms(10);
-    right();
-    _delay_ms(250);
-    stop();
-    left();
-    OCR5AL = 120;
-    OCR5BL = 120;
-    while (1) //while loop which detects black line using middle sensor so that the robot stops turning
-    {
-      ms = ADC_Conversion(1);
-      if (ms <= 70) {
-        PORTA = 0x00; //Stops the robot mediately, partial condition to invoke "stop()" function
-        break;
-      }
-    }
-    left();
-    _delay_ms(20);
-    stop();
-    _delay_ms(200);
-    OCR5AL = 250;
-    OCR5BL = 250;
+  
+  if (ms > 110)
+  {
+	  OCR5AL = 150;
+	  OCR5BL = 150;
+	  right();
+	  _delay_ms(400);
+	  stop();
+	  OCR5AL = 110;
+	  OCR5BL = 110;
+	  left();
+	  _delay_ms(50);
+	  while (1)
+	  { ls = ADC_Conversion(1);
+		  ms = ADC_Conversion(2);
+		  rs = ADC_Conversion(3);
+		  if ((ls + ms <= 250)&&(rs>= 130))
+		  {
+			  PORTA = 0x00;
+			  break;
+		  }
+	  }
+	  stop();
+	  OCR5AL = base;
+	  OCR5BL = base;
   }
 }
 void forward_zigzag()
@@ -2274,27 +2279,21 @@ void left_turn_inv(void) {
 	_delay_ms(250);
 	left(); //code which help the robot to ignore the black line which is going straight so that it can focus on line which is going to the right
 	_delay_ms(200);
-	stop();
-	_delay_ms(50);
-	left();
-	OCR5AL = 120;
-	OCR5BL = 120;
+	OCR5AL = 110;
+	OCR5BL = 110;
 	while (1) //while loop which detects black line using middle sensor so that the robot stops turning
 	{
-		rs = ADC_Conversion(3);
+	
 		ms = ADC_Conversion(2);
 		ls = ADC_Conversion(1);
-		if (ls >= 80 && ms < 80) {
-			PORTA = 0x00; //Stops the robot mediately, partial condition to invoke "stop()" function
+		rs = ADC_Conversion(3);
+		if ((ls + ms <= 250)&&(rs>= 130))
+		{	PORTA = 0x00;//Stops the robot mediately, partial condition to invoke "stop()" function
+			stop(); 
 			break;
 		}
 	}
-	left();
-	_delay_ms(180);
-	stop();
-	_delay_ms(200);
-	OCR5AL = 250;
-	OCR5BL = 250;
+	
 	static_reorientation_inv();
 
 }
@@ -2378,7 +2377,12 @@ void init_devices(void) {
 int main()
 {
 	init_devices();
-	static_reorientation();
+	while (1)
+	{
+		LCD_ON();
+	}
+	//left_turn_inv();
+	//forward_wls(3,1);
 	
 	/*int house_no = 0;
 	int block = 0;

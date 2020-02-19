@@ -86,12 +86,10 @@ Discarded input sections
  .text          0x00000000        0x0 Task5.o
  .data          0x00000000        0x0 Task5.o
  .bss           0x00000000        0x0 Task5.o
- .text.lcd_home
-                0x00000000        0x8 Task5.o
+ .text.lcd_string
+                0x00000000       0x1e Task5.o
  .text.lcd_cursor
                 0x00000000       0x3e Task5.o
- .text.lcd_print
-                0x00000000      0x230 Task5.o
  .text.reverse  0x00000000       0x3c Task5.o
  .text.dijkstra
                 0x00000000      0x302 Task5.o
@@ -107,8 +105,12 @@ Discarded input sections
                 0x00000000        0x8 Task5.o
  .text.buzzer_on
                 0x00000000       0x1e Task5.o
+ .text.motion_set
+                0x00000000        0xc Task5.o
  .text.back     0x00000000        0x8 Task5.o
  .text.forward  0x00000000        0x8 Task5.o
+ .text.right    0x00000000        0x8 Task5.o
+ .text.left     0x00000000        0x8 Task5.o
  .text.soft_right
                 0x00000000        0x8 Task5.o
  .text.soft_left
@@ -117,6 +119,7 @@ Discarded input sections
                 0x00000000        0x8 Task5.o
  .text.soft_left_2
                 0x00000000        0x8 Task5.o
+ .text.stop     0x00000000        0x8 Task5.o
  .text.velocity
                 0x00000000        0xa Task5.o
  .text.servo_1  0x00000000       0x32 Task5.o
@@ -131,13 +134,14 @@ Discarded input sections
                 0x00000000        0xe Task5.o
  .text.servo_4_free
                 0x00000000        0xe Task5.o
- .text.print_sensor
-                0x00000000       0x28 Task5.o
  .text.Sharp_GP2D12_estimation
                 0x00000000       0x54 Task5.o
- .text.LCD_ON   0x00000000       0x54 Task5.o
+ .rodata.str1.1
+                0x00000000       0x58 Task5.o
+ .text.LCD_Function
+                0x00000000       0xac Task5.o
  .text.inv_place
-                0x00000000       0xc4 Task5.o
+                0x00000000       0xf8 Task5.o
  .text.m_place_lr
                 0x00000000       0x8a Task5.o
  .text.s_place_lr
@@ -152,10 +156,12 @@ Discarded input sections
                 0x00000000      0x234 Task5.o
  .text.forward_walls
                 0x00000000      0x10a Task5.o
+ .text.static_reorientation
+                0x00000000       0x92 Task5.o
  .text.m_pick   0x00000000       0x92 Task5.o
  .text.s_pick   0x00000000       0xb6 Task5.o
  .text.static_reorientation_inv
-                0x00000000       0xc4 Task5.o
+                0x00000000       0xc6 Task5.o
  .text.forward_zigzag
                 0x00000000      0x10c Task5.o
  .text.right_turn_wls
@@ -173,7 +179,7 @@ Discarded input sections
  .text.block_choose
                 0x00000000      0x2be Task5.o
  .text.left_turn_inv
-                0x00000000       0xb6 Task5.o
+                0x00000000       0x78 Task5.o
  .text.left_turn_wls_bwall
                 0x00000000       0x82 Task5.o
  .text.circuit_1
@@ -183,6 +189,7 @@ Discarded input sections
  .data.G        0x00000000      0x1c2 Task5.o
  .data.soft     0x00000000        0x1 Task5.o
  .data.turn     0x00000000        0x1 Task5.o
+ .data.base     0x00000000        0x1 Task5.o
  .bss.block_placed
                 0x00000000       0x18 Task5.o
  .data.h52      0x00000000        0x2 Task5.o
@@ -388,8 +395,6 @@ Discarded input sections
  .text          0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr6\libgcc.a(_umulhisi3.o)
  .data          0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr6\libgcc.a(_umulhisi3.o)
  .bss           0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr6\libgcc.a(_umulhisi3.o)
- .text.libgcc.mul
-                0x00000000       0x1e c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr6\libgcc.a(_umulhisi3.o)
  .text.libgcc.div
                 0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr6\libgcc.a(_umulhisi3.o)
  .text.libgcc   0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr6\libgcc.a(_umulhisi3.o)
@@ -518,7 +523,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000      0x5a4
+.text           0x00000000      0x6f6
  *(.vectors)
  .vectors       0x00000000       0xe4 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr6/crtm2560.o
                 0x00000000                __vector_default
@@ -647,76 +652,72 @@ END GROUP
  .text.lcd_wr_char
                 0x00000228       0x4a Task5.o
                 0x00000228                lcd_wr_char
- .text.lcd_string
-                0x00000272       0x1c Task5.o
-                0x00000272                lcd_string
+ .text.lcd_home
+                0x00000272        0x6 Task5.o
+                0x00000272                lcd_home
+ .text.lcd_print
+                0x00000278      0x20a Task5.o
+                0x00000278                lcd_print
  .text.timer1_init
-                0x0000028e       0x46 Task5.o
-                0x0000028e                timer1_init
+                0x00000482       0x46 Task5.o
+                0x00000482                timer1_init
  .text.timer5_init
-                0x000002d4       0x36 Task5.o
-                0x000002d4                timer5_init
+                0x000004c8       0x36 Task5.o
+                0x000004c8                timer5_init
  .text.buzzer_pin_config
-                0x0000030a        0x6 Task5.o
-                0x0000030a                buzzer_pin_config
+                0x000004fe        0x6 Task5.o
+                0x000004fe                buzzer_pin_config
  .text.motion_pin_config
-                0x00000310       0x22 Task5.o
-                0x00000310                motion_pin_config
+                0x00000504       0x22 Task5.o
+                0x00000504                motion_pin_config
  .text.servo1_pin_config
-                0x00000332        0x6 Task5.o
-                0x00000332                servo1_pin_config
+                0x00000526        0x6 Task5.o
+                0x00000526                servo1_pin_config
  .text.servo2_pin_config
-                0x00000338        0x6 Task5.o
-                0x00000338                servo2_pin_config
+                0x0000052c        0x6 Task5.o
+                0x0000052c                servo2_pin_config
  .text.servo3_pin_config
-                0x0000033e        0x6 Task5.o
-                0x0000033e                servo3_pin_config
+                0x00000532        0x6 Task5.o
+                0x00000532                servo3_pin_config
  .text.demux_pin_config
-                0x00000344       0x16 Task5.o
-                0x00000344                demux_pin_config
+                0x00000538       0x16 Task5.o
+                0x00000538                demux_pin_config
  .text.adc_pin_config
-                0x0000035a        0xe Task5.o
-                0x0000035a                adc_pin_config
+                0x0000054e        0xe Task5.o
+                0x0000054e                adc_pin_config
  .text.port_init
-                0x00000368       0x12 Task5.o
-                0x00000368                port_init
+                0x0000055c       0x12 Task5.o
+                0x0000055c                port_init
  .text.__vector_6
-                0x0000037a       0x4a Task5.o
-                0x0000037a                __vector_6
+                0x0000056e       0x4a Task5.o
+                0x0000056e                __vector_6
  .text.__vector_5
-                0x000003c4       0x4a Task5.o
-                0x000003c4                __vector_5
- .text.motion_set
-                0x0000040e        0xc Task5.o
-                0x0000040e                motion_set
- .text.right    0x0000041a        0x6 Task5.o
-                0x0000041a                right
- .text.left     0x00000420        0x6 Task5.o
-                0x00000420                left
- .text.stop     0x00000426        0x6 Task5.o
-                0x00000426                stop
+                0x000005b8       0x4a Task5.o
+                0x000005b8                __vector_5
  .text.ADC_Conversion
-                0x0000042c       0x36 Task5.o
-                0x0000042c                ADC_Conversion
- .text.LCD_Function
-                0x00000462       0x8a Task5.o
-                0x00000462                LCD_Function
- .text.static_reorientation
-                0x000004ec       0x7e Task5.o
-                0x000004ec                static_reorientation
+                0x00000602       0x36 Task5.o
+                0x00000602                ADC_Conversion
+ .text.print_sensor
+                0x00000638       0x24 Task5.o
+                0x00000638                print_sensor
+ .text.LCD_ON   0x0000065c       0x46 Task5.o
+                0x0000065c                LCD_ON
  .text.adc_init
-                0x0000056a       0x1a Task5.o
-                0x0000056a                adc_init
+                0x000006a2       0x1a Task5.o
+                0x000006a2                adc_init
  .text.init_devices
-                0x00000584       0x12 Task5.o
-                0x00000584                init_devices
- .text.main     0x00000596        0xa Task5.o
-                0x00000596                main
-                0x000005a0                . = ALIGN (0x2)
+                0x000006bc       0x12 Task5.o
+                0x000006bc                init_devices
+ .text.main     0x000006ce        0x6 Task5.o
+                0x000006ce                main
+ .text.libgcc.mul
+                0x000006d4       0x1e c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr6\libgcc.a(_umulhisi3.o)
+                0x000006d4                __umulhisi3
+                0x000006f2                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x000005a0        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr6\libgcc.a(_exit.o)
-                0x000005a0                _exit
-                0x000005a0                exit
+ .fini9         0x000006f2        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr6\libgcc.a(_exit.o)
+                0x000006f2                _exit
+                0x000006f2                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -735,66 +736,61 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x000005a0        0x4 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr6\libgcc.a(_exit.o)
+ .fini0         0x000006f2        0x4 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr6\libgcc.a(_exit.o)
  *(.fini0)
-                0x000005a4                _etext = .
+                0x000006f6                _etext = .
 
-.data           0x00800200       0x5a load address 0x000005a4
+.data           0x00800200        0x0 load address 0x000006f6
                 0x00800200                PROVIDE (__data_start, .)
  *(.data)
  *(.data*)
- .data.base     0x00800200        0x1 Task5.o
-                0x00800200                base
  *(.rodata)
  *(.rodata*)
- .rodata.str1.1
-                0x00800201       0x58 Task5.o
  *(.gnu.linkonce.d*)
-                0x0080025a                . = ALIGN (0x2)
- *fill*         0x00800259        0x1 
-                0x0080025a                _edata = .
-                0x0080025a                PROVIDE (__data_end, .)
+                0x00800200                . = ALIGN (0x2)
+                0x00800200                _edata = .
+                0x00800200                PROVIDE (__data_end, .)
 
-.bss            0x0080025a       0x5c
-                0x0080025a                PROVIDE (__bss_start, .)
+.bss            0x00800200       0x5c
+                0x00800200                PROVIDE (__bss_start, .)
  *(.bss)
  *(.bss*)
  .bss.ShaftCountRight
-                0x0080025a        0x4 Task5.o
-                0x0080025a                ShaftCountRight
+                0x00800200        0x4 Task5.o
+                0x00800200                ShaftCountRight
  .bss.ShaftCountLeft
-                0x0080025e        0x4 Task5.o
-                0x0080025e                ShaftCountLeft
+                0x00800204        0x4 Task5.o
+                0x00800204                ShaftCountLeft
  *(COMMON)
- COMMON         0x00800262       0x54 Task5.o
-                0x00800262                pre
-                0x00800280                Degrees
-                0x00800282                million
-                0x00800284                adc_reading
-                0x00800285                ms
-                0x00800286                temp
-                0x00800288                rs
-                0x00800289                distance
-                0x0080028a                ADC_Value
-                0x0080028b                tens
-                0x0080028d                hundred
-                0x0080028f                wall
-                0x00800290                ls
-                0x00800291                sharp
-                0x00800292                dis
-                0x008002b0                unit
-                0x008002b2                thousand
-                0x008002b4                value
-                0x008002b6                PROVIDE (__bss_end, .)
-                0x000005a4                __data_load_start = LOADADDR (.data)
-                0x000005fe                __data_load_end = (__data_load_start + SIZEOF (.data))
+ COMMON         0x00800208       0x54 Task5.o
+                0x00800208                pre
+                0x00800226                Degrees
+                0x00800228                million
+                0x0080022a                adc_reading
+                0x0080022b                ms
+                0x0080022c                temp
+                0x0080022e                rs
+                0x0080022f                distance
+                0x00800230                ADC_Value
+                0x00800231                tens
+                0x00800233                hundred
+                0x00800235                wall
+                0x00800236                ls
+                0x00800237                sharp
+                0x00800238                dis
+                0x00800256                unit
+                0x00800258                thousand
+                0x0080025a                value
+                0x0080025c                PROVIDE (__bss_end, .)
+                0x000006f6                __data_load_start = LOADADDR (.data)
+                0x000006f6                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x008002b6        0x0
-                0x008002b6                PROVIDE (__noinit_start, .)
+.noinit         0x0080025c        0x0
+                0x0080025c                PROVIDE (__noinit_start, .)
  *(.noinit*)
-                0x008002b6                PROVIDE (__noinit_end, .)
-                0x008002b6                _end = .
-                0x008002b6                PROVIDE (__heap_start, .)
+                0x0080025c                PROVIDE (__noinit_end, .)
+                0x0080025c                _end = .
+                0x0080025c                PROVIDE (__heap_start, .)
 
 .eeprom         0x00810000        0x0
  *(.eeprom*)
@@ -861,17 +857,17 @@ END GROUP
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000     0x5bf7
+.debug_info     0x00000000     0x5b72
  *(.debug_info .gnu.linkonce.wi.*)
- .debug_info    0x00000000     0x5bf7 Task5.o
+ .debug_info    0x00000000     0x5b72 Task5.o
 
 .debug_abbrev   0x00000000      0x459
  *(.debug_abbrev)
  .debug_abbrev  0x00000000      0x459 Task5.o
 
-.debug_line     0x00000000     0x324a
+.debug_line     0x00000000     0x3217
  *(.debug_line .debug_line.* .debug_line_end)
- .debug_line    0x00000000     0x324a Task5.o
+ .debug_line    0x00000000     0x3217 Task5.o
 
 .debug_frame    0x00000000      0x6e4
  *(.debug_frame)
@@ -882,9 +878,9 @@ END GROUP
  .debug_str     0x00000000      0x6e3 Task5.o
                                 0x74f (size before relaxing)
 
-.debug_loc      0x00000000     0x31d0
+.debug_loc      0x00000000     0x325e
  *(.debug_loc)
- .debug_loc     0x00000000     0x31d0 Task5.o
+ .debug_loc     0x00000000     0x325e Task5.o
 
 .debug_macinfo
  *(.debug_macinfo)
