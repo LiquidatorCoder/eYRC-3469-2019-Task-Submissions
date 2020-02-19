@@ -1809,14 +1809,15 @@ void forward_walls()
 {
  LCD_Function(1);
 	forward();
-	_delay_ms(250);
-  velocity(base, base);
+	velocity(base, base);
+	_delay_ms(500);
   while (1) 
-  {  forward();
+  {  
+	forward();
     wall = ADC_Conversion(11);
 	rs = ADC_Conversion(3);
 	ms = ADC_Conversion(2);
-	 if (((rs > 80  ) || ( ms > 80) )&&( wall < 100))
+	 if (((rs > 80  ) || ( ms > 80) )&&( wall < 80))
 	 {
 		 stop();
 		 break;
@@ -2014,25 +2015,37 @@ void forward_inv()
  * Logic: used to align the robot to the black line
  *
  */
-void static_reorientation() {
+void static_reorientation() 
+{
   LCD_Function(4);
+  stop();
   ls = ADC_Conversion(1);
   ms = ADC_Conversion(2);
-  rs = ADC_Conversion(3);
-  if ((ls < 70 && ms >= 110 && rs < 70)) {
-    PORTA = 0x00; //Stops the robot mediately, partial condition to invoke "stop()" function 
-  } else {
+  
+  if (ms < 110) 
+  {
     OCR5AL = 150;
     OCR5BL = 150;
-    stop();
     right();
-    _delay_ms(280);
+    _delay_ms(400);
     stop();
-    left_turn_wls_bwall();
-  }
-  left();
-  _delay_ms(25);
-  stop();
+	OCR5AL = 110;
+	OCR5BL = 110;
+	left();
+	while (1) 
+	  { ls = ADC_Conversion(1);
+		  ms = ADC_Conversion(2);
+		  if (ls + ms >= 160) 
+		  {
+			  PORTA = 0x00; 
+			  break;
+		  }
+	  }
+	  stop();
+	  OCR5AL = base;
+	  OCR5BL = base;
+	 }
+
 }
 
 void static_reorientation_inv() {
@@ -2365,7 +2378,9 @@ void init_devices(void) {
 int main()
 {
 	init_devices();
-	int house_no = 0;
+	static_reorientation();
+	
+	/*int house_no = 0;
 	int block = 0;
 	int bnode;
 	int len = 0;
@@ -3113,7 +3128,7 @@ int main()
 	//{
 	//house_no = i;
 	//}
-	//}
+	//}*/
 }
 
 /* --------------------------------------------------------------*/
