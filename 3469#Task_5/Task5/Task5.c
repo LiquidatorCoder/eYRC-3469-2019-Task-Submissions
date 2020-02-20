@@ -1285,7 +1285,7 @@ void block_choose2(int block,int block_placed[])
 		block_traverse();
 		block_placed[block-1] = 1;
 		back();
-		_delay_ms(200);
+		_delay_ms(250);
 		stop();
 	}
 	else if (block%2 == 1)
@@ -1294,7 +1294,7 @@ void block_choose2(int block,int block_placed[])
 		block_traverse();
 		block_placed[block-1] = 1;
 		back();
-		_delay_ms(200);
+		_delay_ms(250);
 		stop();
 	}
 }
@@ -2402,7 +2402,6 @@ int main()
 	int block = 0;
 	int bnode;
 	int len = 0;
-	char apfdir = 'w';
 	int *path = (int*)malloc(80);
 	u = 0;
 	face = 's';

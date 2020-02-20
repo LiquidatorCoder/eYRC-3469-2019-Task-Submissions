@@ -13,19 +13,19 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY
   4 .debug_aranges 00000298  00000000  00000000  0000460a  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   00007439  00000000  00000000  000048a2  2**0
+  5 .debug_info   0000742c  00000000  00000000  000048a2  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 00000497  00000000  00000000  0000bcdb  2**0
+  6 .debug_abbrev 00000488  00000000  00000000  0000bcce  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   00003f5a  00000000  00000000  0000c172  2**0
+  7 .debug_line   00003f5a  00000000  00000000  0000c156  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  0000074c  00000000  00000000  000100cc  2**2
+  8 .debug_frame  0000074c  00000000  00000000  000100b0  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    0000071c  00000000  00000000  00010818  2**0
+  9 .debug_str    0000071a  00000000  00000000  000107fc  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    000044e1  00000000  00000000  00010f34  2**0
+ 10 .debug_loc    000044e1  00000000  00000000  00010f16  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000338  00000000  00000000  00015415  2**0
+ 11 .debug_ranges 00000338  00000000  00000000  000153f7  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -4728,8 +4728,8 @@ Disassembly of section .text:
     2968:	80 83       	st	Z, r24
     296a:	0e 94 d3 05 	call	0xba6	; 0xba6 <back>
     296e:	8f ef       	ldi	r24, 0xFF	; 255
-    2970:	9f ef       	ldi	r25, 0xFF	; 255
-    2972:	28 e0       	ldi	r18, 0x08	; 8
+    2970:	9f e3       	ldi	r25, 0x3F	; 63
+    2972:	2b e0       	ldi	r18, 0x0B	; 11
     2974:	81 50       	subi	r24, 0x01	; 1
     2976:	90 40       	sbci	r25, 0x00	; 0
     2978:	20 40       	sbci	r18, 0x00	; 0
@@ -4768,8 +4768,8 @@ Disassembly of section .text:
     29be:	80 83       	st	Z, r24
     29c0:	0e 94 d3 05 	call	0xba6	; 0xba6 <back>
     29c4:	8f ef       	ldi	r24, 0xFF	; 255
-    29c6:	9f ef       	ldi	r25, 0xFF	; 255
-    29c8:	28 e0       	ldi	r18, 0x08	; 8
+    29c6:	9f e3       	ldi	r25, 0x3F	; 63
+    29c8:	2b e0       	ldi	r18, 0x0B	; 11
     29ca:	81 50       	subi	r24, 0x01	; 1
     29cc:	90 40       	sbci	r25, 0x00	; 0
     29ce:	20 40       	sbci	r18, 0x00	; 0
@@ -4906,7 +4906,6 @@ int main()
 	int len = 0;
     2ab4:	1a 82       	std	Y+2, r1	; 0x02
     2ab6:	19 82       	std	Y+1, r1	; 0x01
-	char apfdir = 'w';
 	int *path = (int*)malloc(80);
     2ab8:	80 e5       	ldi	r24, 0x50	; 80
     2aba:	90 e0       	ldi	r25, 0x00	; 0
