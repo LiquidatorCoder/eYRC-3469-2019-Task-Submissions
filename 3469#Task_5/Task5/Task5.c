@@ -134,6 +134,7 @@ unsigned char ls, ms, rs; //ADC Output from line sensors
 unsigned long int ShaftCountLeft = 0; //to keep track of left position encoder
 unsigned long int ShaftCountRight = 0; //to keep track of right position encoder
 unsigned int Degrees; //to accept angle in degrees for turning
+int count1 = 0;
 
 /* ----------------------------DIJKSTRA----------------------------------*/
 
@@ -1881,90 +1882,108 @@ void forward_walls()
  *
  */
 void forward_wls(int a, int node) {
-  //int n = 1;
-   LCD_Function(0);
-  //while (n <= node) 
-  //{
-    while (1) 
+	//int n = 1;
+	
+	LCD_Function(0);
+	//while (n <= node)
+	//{
+	while (1)
 	{forward();
-	 OCR5AL = base;
-	 OCR5BL = base;
-      ls = ADC_Conversion(1);
-      ms = ADC_Conversion(2);
-      rs = ADC_Conversion(3);
-	  wall =ADC_Conversion(11);
-	  
-      if ((a == 2) && (ls + ms + rs > 280)) // Certain nodes on the edge of the arena allow only two sensor to stand on them and hence have a different threshold than standard nodes
-      {  
-	      _delay_ms(150);
-		  stop();
-	      break;
-      }
-	  else if ( a == 3)
-      {
-	      if (ls > 120 && rs > 120)
-	      {
-		      stop();
-		      //_delay_ms(100);
-		      break;
-	      }
-      } 
-	  else if (a == 1) // Condition to invoke forward_walls
-	  {
-		 
-		  if ((ms < 100) && (wall >= 85))
-		  { 
-			  stop();
-			  break;
-		  }
-	  }
-	  else if ((a == 0) && (ls + ms + rs > 400)) // Standard nodes threshold
-      {  
-       _delay_ms(65);
-		break;
-      } 
-	  else if ((ls < 60 && ms >= 125 && rs < 60)) // Motor speed is changed directly to adjust the robot rather than calling left or right to increase smoothness in motion
-      { // Velocity function was not called and values were configured directly as function calling was increasing bot response time in while(1) loop
+		OCR5AL = base;
+		OCR5BL = base;
+		ls = ADC_Conversion(1);
+		ms = ADC_Conversion(2);
+		rs = ADC_Conversion(3);
+		wall =ADC_Conversion(11);
+		
+		if (rs < 20 && ms < 20 && ls < 20)
+		{
+			++count1;
+			if ((count1>=8) && (a != 2))
+			{
+				static_reorientation();
+				count1 = 0;
+			}
+			else
+			{
+				continue;
+			}
+			
+			
+		}
+		if ((a == 2) && (ls + ms + rs > 280)) // Certain nodes on the edge of the arena allow only two sensor to stand on them and hence have a different threshold than standard nodes
+		{
+			_delay_ms(150);
+			stop();
+			break;
+		}
+		
+		else if ( a == 3)
+		{
+			if (ls > 120 && rs > 120)
+			{
+				stop();
+				//_delay_ms(100);
+				break;
+			}
+		}
+		else if (a == 1) // Condition to invoke forward_walls
+		{
+			
+			if ((ms < 100) && (wall >= 85))
+			{
+				stop();
+				break;
+			}
+		}
+		else if ((a == 0) && (ls + ms + rs > 400)) // Standard nodes threshold
+		{
+			_delay_ms(65);
+			break;
+		}
+		else if ((ls < 60 && ms >= 125 && rs < 60)) // Motor speed is changed directly to adjust the robot rather than calling left or right to increase smoothness in motion
+		{ // Velocity function was not called and values were configured directly as function calling was increasing bot response time in while(1) loop
 
-        OCR5AL = base;
-        OCR5BL = base;
-		_delay_ms(3);
-      } else if ((ls + ms + rs) < 200 && (ms > 50 && ms < 100) && ls > rs) {
-      OCR5AL = soft;
-      OCR5BL = base;
-	  _delay_ms(2);
+			OCR5AL = base;
+			OCR5BL = base;
+			_delay_ms(3);
+			} else if ((ls + ms + rs) < 200 && (ms > 50 && ms < 100) && ls > rs) {
+			OCR5AL = soft;
+			OCR5BL = base;
+			_delay_ms(2);
 
-      } else if ((ls + ms + rs) < 200 && (ms > 50 && ms < 100) && ls < rs) {
-      OCR5AL = base;
-      OCR5BL = soft;
-	  _delay_ms(2);
-      } 
-	  else if ((ls < 40 && ms < 60 && rs > 140)) {
-       soft_right();
-	    OCR5AL = 120;
-        OCR5BL = 120;
-		_delay_ms(1);
+			} else if ((ls + ms + rs) < 200 && (ms > 50 && ms < 100) && ls < rs) {
+			OCR5AL = base;
+			OCR5BL = soft;
+			_delay_ms(2);
+		}
+		else if ((ls < 40 && ms < 60 && rs > 140)) {
+			soft_right();
+			OCR5AL = 120;
+			OCR5BL = 120;
+			_delay_ms(1);
 
-      } else if (rs < 40 && ms < 60 && ls > 140) {
-        soft_left();
-		OCR5AL = 120;
-        OCR5BL = 120;
-		_delay_ms(1);
+			} else if (rs < 40 && ms < 60 && ls > 140) {
+			soft_left();
+			OCR5AL = 120;
+			OCR5BL = 120;
+			_delay_ms(1);
 
-      }
+		}
+		
 
-    }
-    if (a == 1) 
+	}
+	if (a == 1)
 	{
-      forward_walls();
-    }
-    if (a == 3) {
-      forward_inv();
-    }
-    //n++;
-  //}
-  _delay_ms(20);
-  stop();
+		forward_walls();
+	}
+	if (a == 3) {
+		forward_inv();
+	}
+	//n++;
+	//}
+	_delay_ms(20);
+	stop();
 }
 
 void forward_inv()
@@ -2041,76 +2060,79 @@ void forward_inv()
  * Logic: used to align the robot to the black line
  *
  */
-void static_reorientation() 
+void static_reorientation()
 {
-  LCD_Function(4);
-  stop();
-  ls = ADC_Conversion(1);
-  ms = ADC_Conversion(2);
-  
-  if (ms < 110) 
-  {
-    OCR5AL = 150;
-    OCR5BL = 150;
-    right();
-    _delay_ms(300);
-    stop();
-	OCR5AL = 110;
-	OCR5BL = 110;
-	left();
-	while (1) 
-	  { ls = ADC_Conversion(1);
-		  ms = ADC_Conversion(2);
-		  if (ls + ms >= 160) 
-		  {
-			  PORTA = 0x00; 
-			  break;
-		  }
-	  }
-	  stop();
-	  OCR5AL = base;
-	  OCR5BL = base;
-	 }
+	stop();
+	LCD_Function(4);
+	
+	
+	ms = ADC_Conversion(2);
+	
+	if (ms < 110)
+	{
+		OCR5AL = 150;
+		OCR5BL = 150;
+		right();
+		_delay_ms(300);
+		stop();
+		OCR5AL = 110;
+		OCR5BL = 110;
+		left();
+		while (1)
+		{
+			
+			ms = ADC_Conversion(2);
+			if (ms >= 80)
+			{
+				PORTA = 0x00;
+				break;
+			}
+		}
+		stop();
+		OCR5AL = base;
+		OCR5BL = base;
+	}
 
 }
 
-void static_reorientation_inv() 
+void static_reorientation_inv()
 {
-  LCD_Function(4);
-  stop();
-  ls = ADC_Conversion(1);
-  ms = ADC_Conversion(2);
-  rs = ADC_Conversion(3);
-  
-  if (ms > 110)
-  {
-	  OCR5AL = 150;
-	  OCR5BL = 150;
-	  right();
-	  _delay_ms(400);
-	  stop();
-	  OCR5AL = 110;
-	  OCR5BL = 110;
-	  left();
-	  _delay_ms(50);
-	  while (1)
-	  { ls = ADC_Conversion(1);
-		  ms = ADC_Conversion(2);
-		  rs = ADC_Conversion(3);
-		  if ((ls + ms <= 250)&&(rs>= 130))
-		  {
-			  PORTA = 0x00;
-			  break;
-		  }
-	  }
-	  stop();
-	  OCR5AL = base;
-	  OCR5BL = base;
-  }
+	LCD_Function(4);
+	stop();
+	ls = ADC_Conversion(1);
+	ms = ADC_Conversion(2);
+	rs = ADC_Conversion(3);
+	
+	if (ms > 110)
+	{
+		OCR5AL = 150;
+		OCR5BL = 150;
+		right();
+		_delay_ms(400);
+		stop();
+		OCR5AL = 110;
+		OCR5BL = 110;
+		left();
+		_delay_ms(50);
+		while (1)
+		{ ls = ADC_Conversion(1);
+			ms = ADC_Conversion(2);
+			rs = ADC_Conversion(3);
+			if ((ls + ms <= 250)&&(rs>= 130))
+			{
+				PORTA = 0x00;
+				break;
+			}
+		}
+		stop();
+		OCR5AL = base;
+		OCR5BL = base;
+	}
 }
 void forward_zigzag()
 {
 	LCD_Function(5);
+	int count2 = 0;
 	
 	
 	while (1)
@@ -2138,7 +2160,18 @@ void forward_zigzag()
 		else if (ls < 20 && ms < 20 && rs < 20)
 		{
 			
-			static_reorientation();
+			
+			++count2;
+			if (count2>=4)
+			{
+				static_reorientation();
+				count2 = 0;
+			}
+			else
+			{
+				continue;
+			}
+			
 			
 		}
 		else if (ls > ms)
@@ -2155,17 +2188,16 @@ void forward_zigzag()
 			OCR5AL = 160;
 			OCR5BL = 180;
 			_delay_ms(1);
-			
-
 		}
-		
-		
-		
 	}
-	
 	stop();
 	_delay_ms(100);
+	velocity(base,base);
+	forward();
+	_delay_ms(100);
+	stop();
 }
+
 
 /*----------------------------------------------------------TURNING MECHANISM ---------------------------------------------------------------*/
 /*
@@ -2176,88 +2208,82 @@ void forward_zigzag()
  * Logic: used to turn the robot to the right using the line sensor
  *
  */
-void right_turn_wls(void) {
+void right_turn_wls(void) 
+{
 
   forward();
-  _delay_ms(200);
+  _delay_ms(180);
+   OCR5AL = 150;
+   OCR5BL = 150;
   right(); //code which help the robot to ignore the black line which is going straight so that it can focus on line which is going to the right
   _delay_ms(200);
-  stop();
-  _delay_ms(50);
-  right();
   OCR5AL = 100;
   OCR5BL = 100;
   while (1) //while loop which detects black line using middle sensor so that the robot stops turning
   {
     rs = ADC_Conversion(3);
-    if (rs >= 80) {
+	
+    if (rs>80) 
+	{
       PORTA = 0x00; //Stops the robot mediately, partial condition to invoke "stop()" function 
       break;
     }
   }
-  left();
-  _delay_ms(15);
-  stop();
-  _delay_ms(200);
-  OCR5AL = base;
-  OCR5BL = base;
+stop();
+ OCR5AL = base;
+ OCR5BL = base;
 
 }
 
-void right_turn_inv(void) {
+void right_turn_inv(void) 
+{
+forward();
+_delay_ms(250);
+ OCR5AL = 150;
+ OCR5BL = 150;
+right(); //code which help the robot to ignore the black line which is going straight so that it can focus on line which is going to the right
+_delay_ms(200);
+OCR5AL = 110;
+OCR5BL = 110;
+while (1) //while loop which detects black line using middle sensor so that the robot stops turning
+{
+	
+	ms = ADC_Conversion(2);
+	ls = ADC_Conversion(1);
+	rs = ADC_Conversion(3);
+	if ((rs + ms <= 250)&&(ls>= 130))
+	{	PORTA = 0x00;//Stops the robot mediately, partial condition to invoke "stop()" function
+		stop();
+		break;
+	}
+}
 
-  forward();
-  _delay_ms(200);
-  right(); //code which help the robot to ignore the black line which is going straight so that it can focus on line which is going to the right
-  _delay_ms(200);
-  stop();
-  _delay_ms(50);
-  right();
-  OCR5AL = 100;
-  OCR5BL = 100;
-  while (1) //while loop which detects black line using middle sensor so that the robot stops turning
-  {
-    rs = ADC_Conversion(3);
-    ms = ADC_Conversion(2);
-    ls = ADC_Conversion(1);
-    if (rs >= 80 && ms < 80) {
-      PORTA = 0x00; //Stops the robot mediately, partial condition to invoke "stop()" function
-      break;
-    }
-  }
-  right();
-  _delay_ms(200);
-  stop();
-  _delay_ms(200);
-  OCR5AL = 250;
-  OCR5BL = 250;
-  static_reorientation_inv();
+static_reorientation_inv();
 
+  
 }
 
 void right_turn_wls_bwall(void) {
 
+  OCR5AL = 150;
+  OCR5BL = 150;
   right(); //code which help the robot to ignore the black line which is going straight so that it can focus on line which is going to the right
   _delay_ms(200);
-  stop();
-  _delay_ms(50);
-  right();
   OCR5AL = 100;
   OCR5BL = 100;
   while (1) //while loop which detects black line using middle sensor so that the robot stops turning
   {
-    rs = ADC_Conversion(3);
-    if (rs >= 80) {
-      PORTA = 0x00; //Stops the robot mediately, partial condition to invoke "stop()" function 
-      break;
-    }
+	  rs = ADC_Conversion(3);
+	  
+	  if (rs>80)
+	  {
+		  PORTA = 0x00; //Stops the robot mediately, partial condition to invoke "stop()" function
+		  break;
+	  }
   }
-  right();
-  _delay_ms(5);
   stop();
-  _delay_ms(200);
-  OCR5AL = base;
-  OCR5BL = base;
+   OCR5AL = base;
+   OCR5BL = base;
 
 }
 
@@ -2269,35 +2295,37 @@ void right_turn_wls_bwall(void) {
  * Logic: used to turn the robot to the left using the line sensor
  *
  */
-void left_turn_wls(void) {
+void left_turn_wls(void) 
+{
 	forward();
-	_delay_ms(250);
+	_delay_ms(180);
+	 OCR5AL = 150;
+	 OCR5BL = 150;
   left(); //code which help the robot to ignore the black line which is going straight so that it can focus on line which is going to the right
-  _delay_ms(200);
-  stop();
-  _delay_ms(50);
-  left();
-  OCR5AL = 100;
-  OCR5BL = 100;
+  _delay_ms(400);
+  OCR5AL = 110;
+  OCR5BL = 110;
   while (1) //while loop which detects black line using middle sensor so that the robot stops turning
   {
-    ms = ADC_Conversion(2);
-    if (ms >= 80) {
+
+	ls = ADC_Conversion(2);
+    if (ls >= 80) 
+	{
       PORTA = 0x00; //Stops the robot mediately, partial condition to invoke "stop()" function 
       break;
     }
   }
   stop();
-  _delay_ms(200);
   OCR5AL = base;
   OCR5BL = base;
-
-}
+ }
 
 void left_turn_inv(void) {
 
 	forward();
 	_delay_ms(250);
+	 OCR5AL = 150;
+	 OCR5BL = 150;
 	left(); //code which help the robot to ignore the black line which is going straight so that it can focus on line which is going to the right
 	_delay_ms(200);
 	OCR5AL = 110;
@@ -2322,28 +2350,25 @@ void left_turn_inv(void) {
 
 void left_turn_wls_bwall(void)
 {
+	OCR5AL = 150;
+	OCR5BL = 150;
 	left(); //code which help the robot to ignore the black line which is going straight so that it can focus on line which is going to the right
-	_delay_ms(200);
-	stop();
-	_delay_ms(50);
-	left();
-	OCR5AL = 100;
-	OCR5BL = 100;
+	_delay_ms(400);
+	OCR5AL = 110;
+	OCR5BL = 110;
 	while (1) //while loop which detects black line using middle sensor so that the robot stops turning
 	{
-		ls = ADC_Conversion(1);
-		if (ls >= 80) {
+
+		ls = ADC_Conversion(2);
+		if (ls >= 80)
+		{
 			PORTA = 0x00; //Stops the robot mediately, partial condition to invoke "stop()" function
 			break;
 		}
 	}
-	left();
-	_delay_ms(5);
 	stop();
-	_delay_ms(200);
-	OCR5AL = base;
-	OCR5BL = base;
-	
+	 OCR5AL = base;
+	 OCR5BL = base;
 }
 
 /*--------------------------------------------------------TEST CIRCUITS---------------------------------------------------------------------------------*/
