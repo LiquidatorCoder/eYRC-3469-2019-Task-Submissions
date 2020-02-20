@@ -362,7 +362,7 @@ void traverse(int path[], int u, int *size)
 			}
 			if (face == 'n' && fdir == 'n')
 			{
-				//printf("t 1\n");
+				////printf("t 1\n");
 				forward_wls(2,1);
 				face = fdir;
 				lcd_cursor(2, 7);
@@ -370,7 +370,7 @@ void traverse(int path[], int u, int *size)
 			}
 			else if (face == 'n' && fdir == 'e')
 			{
-				//printf("t 2\n");
+				////printf("t 2\n");
 				right_turn_wls();
 				forward_wls(2,1);
 				face = fdir;
@@ -379,7 +379,7 @@ void traverse(int path[], int u, int *size)
 			}
 			else if (face == 'n' && fdir == 's')
 			{
-				//printf("t 3\n");
+				////printf("t 3\n");
 				right_turn_wls();
 				right_turn_wls();
 				forward_wls(2,1);
@@ -389,7 +389,7 @@ void traverse(int path[], int u, int *size)
 			}
 			else if (face == 'n' && fdir == 'w')
 			{
-				//printf("t 4\n");
+				////printf("t 4\n");
 				left_turn_wls();
 				forward_wls(2,1);
 				face = fdir;
@@ -398,7 +398,7 @@ void traverse(int path[], int u, int *size)
 			}
 			else if (face == 'e' && fdir == 'e')
 			{
-				//printf("t 5\n");
+				////printf("t 5\n");
 				forward_wls(2,1);
 				face = fdir;
 				lcd_cursor(2, 7);
@@ -406,7 +406,7 @@ void traverse(int path[], int u, int *size)
 			}
 			else if (face == 'e' && fdir == 's')
 			{
-				//printf("t 6\n");
+				////printf("t 6\n");
 				right_turn_wls();
 				forward_wls(2,1);
 				face = fdir;
@@ -415,7 +415,7 @@ void traverse(int path[], int u, int *size)
 			}
 			else if (face == 'e' && fdir == 'w')
 			{
-				//printf("t 7\n");
+				////printf("t 7\n");
 				right_turn_wls();
 				right_turn_wls();
 				forward_wls(2,1);
@@ -425,7 +425,7 @@ void traverse(int path[], int u, int *size)
 			}
 			else if (face == 'e' && fdir == 'n')
 			{
-				//printf("t 8\n");
+				////printf("t 8\n");
 				left_turn_wls();
 				forward_wls(2,1);
 				face = fdir;
@@ -434,7 +434,7 @@ void traverse(int path[], int u, int *size)
 			}
 			else if (face == 's' && fdir == 's')
 			{
-				//printf("t 9\n");
+				////printf("t 9\n");
 				forward_wls(2,1);
 				face = fdir;
 				lcd_cursor(2, 7);
@@ -442,7 +442,7 @@ void traverse(int path[], int u, int *size)
 			}
 			else if (face == 's' && fdir == 'w')
 			{
-				//printf("t 10\n");
+				////printf("t 10\n");
 				right_turn_wls();
 				forward_wls(2,1);
 				face = fdir;
@@ -451,7 +451,7 @@ void traverse(int path[], int u, int *size)
 			}
 			else if (face == 's' && fdir == 'n')
 			{
-				//printf("t 11\n");
+				////printf("t 11\n");
 				right_turn_wls();
 				right_turn_wls();
 				forward_wls(2,1);
@@ -461,7 +461,7 @@ void traverse(int path[], int u, int *size)
 			}
 			else if (face == 's' && fdir == 'e')
 			{
-				//printf("t 12\n");
+				////printf("t 12\n");
 				left_turn_wls();
 				forward_wls(2,1);
 				face = fdir;
@@ -470,7 +470,7 @@ void traverse(int path[], int u, int *size)
 			}
 			else if (face == 'w' && fdir == 'w')
 			{
-				//printf("t 13\n");
+				////printf("t 13\n");
 				forward_wls(2,1);
 				face = fdir;
 				lcd_cursor(2, 7);
@@ -478,7 +478,7 @@ void traverse(int path[], int u, int *size)
 			}
 			else if (face == 'w' && fdir == 'n')
 			{
-				//printf("t 14\n");
+				////printf("t 14\n");
 				right_turn_wls();
 				forward_wls(2,1);
 				face = fdir;
@@ -487,7 +487,7 @@ void traverse(int path[], int u, int *size)
 			}
 			else if (face == 'w' && fdir == 'e')
 			{
-				//printf("t 15\n");
+				////printf("t 15\n");
 				right_turn_wls();
 				right_turn_wls();
 				forward_wls(2,1);
@@ -497,7 +497,7 @@ void traverse(int path[], int u, int *size)
 			}
 			else if (face == 'w' && fdir == 's')
 			{
-				//printf("t 16\n");
+				////printf("t 16\n");
 				left_turn_wls();
 				forward_wls(2,1);
 				face = fdir;
@@ -531,7 +531,7 @@ void traverse(int path[], int u, int *size)
 			}
 			if (face == 'n' && fdir == 'n')
 			{
-				//printf("wf 1\n");
+				////printf("wf 1\n");
 				forward_wls(1,1);
 				face = fdir;
 				lcd_cursor(2, 7);
@@ -539,7 +539,7 @@ void traverse(int path[], int u, int *size)
 			}
 			else if (face == 'n' && fdir == 'e')
 			{
-				//printf("wf 2\n");
+				////printf("wf 2\n");
 				right_turn_wls();
 				forward_wls(1,1);
 				face = fdir;
@@ -548,7 +548,7 @@ void traverse(int path[], int u, int *size)
 			}
 			else if (face == 'n' && fdir == 's')
 			{
-				//printf("wf 3\n");
+				////printf("wf 3\n");
 				right_turn_wls();
 				right_turn_wls();
 				forward_wls(1,1);
@@ -558,7 +558,7 @@ void traverse(int path[], int u, int *size)
 			}
 			else if (face == 'n' && fdir == 'w')
 			{
-				//printf("wf 4\n");
+				////printf("wf 4\n");
 				left_turn_wls();
 				forward_wls(1,1);
 				face = fdir;
@@ -567,7 +567,7 @@ void traverse(int path[], int u, int *size)
 			}
 			else if (face == 'e' && fdir == 'e')
 			{
-				//printf("wf 5\n");
+				////printf("wf 5\n");
 				forward_wls(1,1);
 				face = fdir;
 				lcd_cursor(2, 7);
@@ -575,7 +575,7 @@ void traverse(int path[], int u, int *size)
 			}
 			else if (face == 'e' && fdir == 's')
 			{
-				//printf("wf 6\n");
+				////printf("wf 6\n");
 				right_turn_wls();
 				forward_wls(1,1);
 				face = fdir;
@@ -584,7 +584,7 @@ void traverse(int path[], int u, int *size)
 			}
 			else if (face == 'e' && fdir == 'w')
 			{
-				//printf("wf 7\n");
+				////printf("wf 7\n");
 				right_turn_wls();
 				right_turn_wls();
 				forward_wls(1,1);
@@ -594,7 +594,7 @@ void traverse(int path[], int u, int *size)
 			}
 			else if (face == 'e' && fdir == 'n')
 			{
-				//printf("wf 8\n");
+				////printf("wf 8\n");
 				left_turn_wls();
 				forward_wls(1,1);
 				face = fdir;
@@ -603,7 +603,7 @@ void traverse(int path[], int u, int *size)
 			}
 			else if (face == 's' && fdir == 's')
 			{
-				//printf("wf 9\n");
+				////printf("wf 9\n");
 				forward_wls(1,1);
 				face = fdir;
 				lcd_cursor(2, 7);
@@ -611,7 +611,7 @@ void traverse(int path[], int u, int *size)
 			}
 			else if (face == 's' && fdir == 'w')
 			{
-				//printf("wf 10\n");
+				////printf("wf 10\n");
 				right_turn_wls();
 				forward_wls(1,1);
 				face = fdir;
@@ -620,7 +620,7 @@ void traverse(int path[], int u, int *size)
 			}
 			else if (face == 's' && fdir == 'n')
 			{
-				//printf("wf 11\n");
+				////printf("wf 11\n");
 				right_turn_wls();
 				right_turn_wls();
 				forward_wls(1,1);
@@ -630,7 +630,7 @@ void traverse(int path[], int u, int *size)
 			}
 			else if (face == 's' && fdir == 'e')
 			{
-				//printf("wf 12\n");
+				////printf("wf 12\n");
 				left_turn_wls();
 				forward_wls(1,1);
 				face = fdir;
@@ -639,7 +639,7 @@ void traverse(int path[], int u, int *size)
 			}
 			else if (face == 'w' && fdir == 'w')
 			{
-				//printf("wf 13\n");
+				////printf("wf 13\n");
 				forward_wls(1,1);
 				face = fdir;
 				lcd_cursor(2, 7);
@@ -647,7 +647,7 @@ void traverse(int path[], int u, int *size)
 			}
 			else if (face == 'w' && fdir == 'n')
 			{
-				//printf("wf 14\n");
+				////printf("wf 14\n");
 				right_turn_wls();
 				forward_wls(1,1);
 				face = fdir;
@@ -656,7 +656,7 @@ void traverse(int path[], int u, int *size)
 			}
 			else if (face == 'w' && fdir == 'e')
 			{
-				//printf("wf 15\n");
+				////printf("wf 15\n");
 				right_turn_wls();
 				right_turn_wls();
 				forward_wls(1,1);
@@ -666,7 +666,7 @@ void traverse(int path[], int u, int *size)
 			}
 			else if (face == 'w' && fdir == 's')
 			{
-				//printf("wf 16\n");
+				////printf("wf 16\n");
 				left_turn_wls();
 				forward_wls(1,1);
 				face = fdir;
@@ -700,7 +700,7 @@ void traverse(int path[], int u, int *size)
 			}
 			if (face == 'n' && fdir == 'n')
 			{
-				//printf("wf 1\n");
+				////printf("wf 1\n");
 				forward_zigzag();
 				face = fdir;
 				lcd_cursor(2, 7);
@@ -708,7 +708,7 @@ void traverse(int path[], int u, int *size)
 			}
 			else if (face == 'n' && fdir == 'e')
 			{
-				//printf("wf 2\n");
+				////printf("wf 2\n");
 				right_turn_wls();
 				forward_zigzag();
 				face = fdir;
@@ -717,7 +717,7 @@ void traverse(int path[], int u, int *size)
 			}
 			else if (face == 'n' && fdir == 's')
 			{
-				//printf("wf 3\n");
+				////printf("wf 3\n");
 				right_turn_wls();
 				right_turn_wls();
 				forward_zigzag();
@@ -727,7 +727,7 @@ void traverse(int path[], int u, int *size)
 			}
 			else if (face == 'n' && fdir == 'w')
 			{
-				//printf("wf 4\n");
+				////printf("wf 4\n");
 				left_turn_wls();
 				forward_zigzag();
 				face = fdir;
@@ -736,7 +736,7 @@ void traverse(int path[], int u, int *size)
 			}
 			else if (face == 'e' && fdir == 'e')
 			{
-				//printf("wf 5\n");
+				////printf("wf 5\n");
 				forward_zigzag();
 				face = fdir;
 				lcd_cursor(2, 7);
@@ -744,7 +744,7 @@ void traverse(int path[], int u, int *size)
 			}
 			else if (face == 'e' && fdir == 's')
 			{
-				//printf("wf 6\n");
+				////printf("wf 6\n");
 				right_turn_wls();
 				forward_zigzag();
 				face = fdir;
@@ -753,7 +753,7 @@ void traverse(int path[], int u, int *size)
 			}
 			else if (face == 'e' && fdir == 'w')
 			{
-				//printf("wf 7\n");
+				////printf("wf 7\n");
 				right_turn_wls();
 				right_turn_wls();
 				forward_zigzag();
@@ -763,7 +763,7 @@ void traverse(int path[], int u, int *size)
 			}
 			else if (face == 'e' && fdir == 'n')
 			{
-				//printf("wf 8\n");
+				////printf("wf 8\n");
 				left_turn_wls();
 				forward_zigzag();
 				face = fdir;
@@ -772,7 +772,7 @@ void traverse(int path[], int u, int *size)
 			}
 			else if (face == 's' && fdir == 's')
 			{
-				//printf("wf 9\n");
+				////printf("wf 9\n");
 				forward_zigzag();
 				face = fdir;
 				lcd_cursor(2, 7);
@@ -780,7 +780,7 @@ void traverse(int path[], int u, int *size)
 			}
 			else if (face == 's' && fdir == 'w')
 			{
-				//printf("wf 10\n");
+				////printf("wf 10\n");
 				right_turn_wls();
 				forward_zigzag();
 				face = fdir;
@@ -789,7 +789,7 @@ void traverse(int path[], int u, int *size)
 			}
 			else if (face == 's' && fdir == 'n')
 			{
-				//printf("wf 11\n");
+				////printf("wf 11\n");
 				right_turn_wls();
 				right_turn_wls();
 				forward_zigzag();
@@ -799,7 +799,7 @@ void traverse(int path[], int u, int *size)
 			}
 			else if (face == 's' && fdir == 'e')
 			{
-				//printf("wf 12\n");
+				////printf("wf 12\n");
 				left_turn_wls();
 				forward_zigzag();
 				face = fdir;
@@ -808,7 +808,7 @@ void traverse(int path[], int u, int *size)
 			}
 			else if (face == 'w' && fdir == 'w')
 			{
-				//printf("wf 13\n");
+				////printf("wf 13\n");
 				forward_zigzag();
 				face = fdir;
 				lcd_cursor(2, 7);
@@ -816,7 +816,7 @@ void traverse(int path[], int u, int *size)
 			}
 			else if (face == 'w' && fdir == 'n')
 			{
-				//printf("wf 14\n");
+				////printf("wf 14\n");
 				right_turn_wls();
 				forward_zigzag();
 				face = fdir;
@@ -825,7 +825,7 @@ void traverse(int path[], int u, int *size)
 			}
 			else if (face == 'w' && fdir == 'e')
 			{
-				//printf("wf 15\n");
+				////printf("wf 15\n");
 				right_turn_wls();
 				right_turn_wls();
 				forward_zigzag();
@@ -835,7 +835,7 @@ void traverse(int path[], int u, int *size)
 			}
 			else if (face == 'w' && fdir == 's')
 			{
-				//printf("wf 16\n");
+				////printf("wf 16\n");
 				left_turn_wls();
 				forward_zigzag();
 				face = fdir;
@@ -870,7 +870,7 @@ void traverse(int path[], int u, int *size)
 			}
 			if (face == 'n' && fdir == 'n')
 			{
-				//printf("t 1\n");
+				////printf("t 1\n");
 				forward_wls(0,1);
 				face = fdir;
 				lcd_cursor(2, 7);
@@ -878,7 +878,7 @@ void traverse(int path[], int u, int *size)
 			}
 			else if (face == 'n' && fdir == 'e')
 			{
-				//printf("t 2\n");
+				////printf("t 2\n");
 				right_turn_wls();
 				forward_wls(0,1);
 				face = fdir;
@@ -887,7 +887,7 @@ void traverse(int path[], int u, int *size)
 			}
 			else if (face == 'n' && fdir == 's')
 			{
-				//printf("t 3\n");
+				////printf("t 3\n");
 				right_turn_wls();
 				right_turn_wls();
 				forward_wls(0,1);
@@ -897,7 +897,7 @@ void traverse(int path[], int u, int *size)
 			}
 			else if (face == 'n' && fdir == 'w')
 			{
-				//printf("t 4\n");
+				////printf("t 4\n");
 				left_turn_wls();
 				forward_wls(0,1);
 				face = fdir;
@@ -906,7 +906,7 @@ void traverse(int path[], int u, int *size)
 			}
 			else if (face == 'e' && fdir == 'e')
 			{
-				//printf("t 5\n");
+				////printf("t 5\n");
 				forward_wls(0,1);
 				face = fdir;
 				lcd_cursor(2, 7);
@@ -914,7 +914,7 @@ void traverse(int path[], int u, int *size)
 			}
 			else if (face == 'e' && fdir == 's')
 			{
-				//printf("t 6\n");
+				////printf("t 6\n");
 				right_turn_wls();
 				forward_wls(0,1);
 				face = fdir;
@@ -923,7 +923,7 @@ void traverse(int path[], int u, int *size)
 			}
 			else if (face == 'e' && fdir == 'w')
 			{
-				//printf("t 7\n");
+				////printf("t 7\n");
 				right_turn_wls();
 				right_turn_wls();
 				forward_wls(0,1);
@@ -933,7 +933,7 @@ void traverse(int path[], int u, int *size)
 			}
 			else if (face == 'e' && fdir == 'n')
 			{
-				//printf("t 8\n");
+				////printf("t 8\n");
 				left_turn_wls();
 				forward_wls(0,1);
 				face = fdir;
@@ -942,7 +942,7 @@ void traverse(int path[], int u, int *size)
 			}
 			else if (face == 's' && fdir == 's')
 			{
-				//printf("t 9\n");
+				////printf("t 9\n");
 				forward_wls(0,1);
 				face = fdir;
 				lcd_cursor(2, 7);
@@ -950,7 +950,7 @@ void traverse(int path[], int u, int *size)
 			}
 			else if (face == 's' && fdir == 'w')
 			{
-				//printf("t 10\n");
+				////printf("t 10\n");
 				right_turn_wls();
 				forward_wls(0,1);
 				face = fdir;
@@ -959,7 +959,7 @@ void traverse(int path[], int u, int *size)
 			}
 			else if (face == 's' && fdir == 'n')
 			{
-				//printf("t 11\n");
+				////printf("t 11\n");
 				right_turn_wls();
 				right_turn_wls();
 				forward_wls(0,1);
@@ -969,7 +969,7 @@ void traverse(int path[], int u, int *size)
 			}
 			else if (face == 's' && fdir == 'e')
 			{
-				//printf("t 12\n");
+				////printf("t 12\n");
 				left_turn_wls();
 				forward_wls(0,1);
 				face = fdir;
@@ -978,7 +978,7 @@ void traverse(int path[], int u, int *size)
 			}
 			else if (face == 'w' && fdir == 'w')
 			{
-				//printf("t 13\n");
+				////printf("t 13\n");
 				forward_wls(0,1);
 				face = fdir;
 				lcd_cursor(2, 7);
@@ -986,7 +986,7 @@ void traverse(int path[], int u, int *size)
 			}
 			else if (face == 'w' && fdir == 'n')
 			{
-				//printf("t 14\n");
+				////printf("t 14\n");
 				right_turn_wls();
 				forward_wls(0,1);
 				face = fdir;
@@ -995,7 +995,7 @@ void traverse(int path[], int u, int *size)
 			}
 			else if (face == 'w' && fdir == 'e')
 			{
-				//printf("t 15\n");
+				////printf("t 15\n");
 				right_turn_wls();
 				right_turn_wls();
 				forward_wls(0,1);
@@ -1005,7 +1005,7 @@ void traverse(int path[], int u, int *size)
 			}
 			else if (face == 'w' && fdir == 's')
 			{
-				//printf("t 16\n");
+				////printf("t 16\n");
 				left_turn_wls();
 				forward_wls(0,1);
 				face = fdir;
@@ -1021,14 +1021,14 @@ void block_traverse()
 {
 	if (face == 'n' && fdir == 'n')
 	{
-		//printf("bt 1\n");
+		////printf("bt 1\n");
 		face = fdir;
 		lcd_cursor(2, 7);
 		lcd_wr_char(face);
 	}
 	else if (face == 'n' && fdir == 'e')
 	{
-		//printf("bt 2\n");
+		////printf("bt 2\n");
 		right_turn_wls();
 		face = fdir;
 		lcd_cursor(2, 7);
@@ -1036,14 +1036,14 @@ void block_traverse()
 	}
 	else if (face == 'n' && fdir == 's')
 	{
-		//printf("bt 3\n");
+		////printf("bt 3\n");
 		right_turn_wls();
 		right_turn_wls_bwall();
 		face = fdir;
 	}
 	else if (face == 'n' && fdir == 'w')
 	{
-		//printf("bt 4\n");
+		////printf("bt 4\n");
 		left_turn_wls();
 		face = fdir;
 		lcd_cursor(2, 7);
@@ -1051,14 +1051,14 @@ void block_traverse()
 	}
 	else if (face == 'e' && fdir == 'e')
 	{
-		//printf("bt 5\n");
+		////printf("bt 5\n");
 		face = fdir;
 		lcd_cursor(2, 7);
 		lcd_wr_char(face);
 	}
 	else if (face == 'e' && fdir == 's')
 	{
-		//printf("bt 6\n");
+		////printf("bt 6\n");
 		right_turn_wls();
 		face = fdir;
 		lcd_cursor(2, 7);
@@ -1066,7 +1066,7 @@ void block_traverse()
 	}
 	else if (face == 'e' && fdir == 'w')
 	{
-		//printf("bt 7\n");
+		////printf("bt 7\n");
 		right_turn_wls();
 		right_turn_wls_bwall();
 		face = fdir;
@@ -1075,7 +1075,7 @@ void block_traverse()
 	}
 	else if (face == 'e' && fdir == 'n')
 	{
-		//printf("bt 8\n");
+		////printf("bt 8\n");
 		left_turn_wls();
 		face = fdir;
 		lcd_cursor(2, 7);
@@ -1083,14 +1083,14 @@ void block_traverse()
 	}
 	else if (face == 's' && fdir == 's')
 	{
-		//printf("bt 9\n");
+		////printf("bt 9\n");
 		face = fdir;
 		lcd_cursor(2, 7);
 		lcd_wr_char(face);
 	}
 	else if (face == 's' && fdir == 'w')
 	{
-		//printf("bt 10\n");
+		////printf("bt 10\n");
 		right_turn_wls();
 		face = fdir;
 		lcd_cursor(2, 7);
@@ -1098,7 +1098,7 @@ void block_traverse()
 	}
 	else if (face == 's' && fdir == 'n')
 	{
-		//printf("bt 11\n");
+		////printf("bt 11\n");
 		right_turn_wls();
 		right_turn_wls_bwall();
 		face = fdir;
@@ -1107,7 +1107,7 @@ void block_traverse()
 	}
 	else if (face == 's' && fdir == 'e')
 	{
-		//printf("bt 12\n");
+		////printf("bt 12\n");
 		left_turn_wls();
 		face = fdir;
 		lcd_cursor(2, 7);
@@ -1115,14 +1115,14 @@ void block_traverse()
 	}
 	else if (face == 'w' && fdir == 'w')
 	{
-		//printf("bt 13\n");
+		////printf("bt 13\n");
 		face = fdir;
 		lcd_cursor(2, 7);
 		lcd_wr_char(face);
 	}
 	else if (face == 'w' && fdir == 'n')
 	{
-		//printf("bt 14\n");
+		////printf("bt 14\n");
 		right_turn_wls();
 		face = fdir;
 		lcd_cursor(2, 7);
@@ -1130,7 +1130,7 @@ void block_traverse()
 	}
 	else if (face == 'w' && fdir == 'e')
 	{
-		//printf("bt 15\n");
+		////printf("bt 15\n");
 		right_turn_wls();
 		right_turn_wls_bwall();
 		face = fdir;
@@ -1139,7 +1139,7 @@ void block_traverse()
 	}
 	else if (face == 'w' && fdir == 's')
 	{
-		//printf("bt 16\n");
+		////printf("bt 16\n");
 		left_turn_wls();
 		face = fdir;
 		lcd_cursor(2, 7);
@@ -1277,6 +1277,27 @@ void block_choose(int bnode,int block_placed[])
 	}
 }
 
+void block_choose2(int block,int block_placed[])
+{
+	if (block%2 == 0)
+	{
+		fdir = 'e';
+		block_traverse();
+		block_placed[block-1] = 1;
+		back();
+		_delay_ms(200);
+		stop();
+	}
+	else if (block%2 == 1)
+	{
+		fdir = 'w';
+		block_traverse();
+		block_placed[block-1] = 1;
+		back();
+		_delay_ms(200);
+		stop();
+	}
+}
 /* --------------------------------------------------------------*/
 //Timers ->
 void timer1_init(void) {
@@ -2377,14 +2398,7 @@ void init_devices(void) {
 int main()
 {
 	init_devices();
-	while (1)
-	{
-		LCD_ON();
-	}
-	//left_turn_inv();
-	//forward_wls(3,1);
-	
-	/*int house_no = 0;
+	int house_no = 0;
 	int block = 0;
 	int bnode;
 	int len = 0;
@@ -2392,16 +2406,13 @@ int main()
 	int *path = (int*)malloc(80);
 	u = 0;
 	face = 's';
-
 	forward_wls(0,1);
-
 	block = which_material[8];
 	if (block==0)
 	{
-		//int *path = (int*)malloc(80);
 		block = which_material[9];
 		lcd_init();
-		//printf("%Block - %d\n",block);
+		//printf("Block - %d\n",block);
 		//lcd_print(2,1,block,3);
 		bnode = which_node(block);
 		//printf("Node - %d\n",bnode);
@@ -2419,7 +2430,8 @@ int main()
 		//printf("Traverse Completed\n");
 		free(path);
 		len = 0;
-		block_choose(bnode,block_placed);
+		block_choose2(block,block_placed);
+		//block_choose(bnode,block_placed);
 		//printf("Block Choose Completed\n");
 		s_pick();
 		lcd_init();
@@ -2445,11 +2457,10 @@ int main()
 		free(path);
 		len = 0;
 	}
-
 	else
 	{
 		lcd_init();
-		//printf("%Block - %d\n",block);
+		//printf("Block - %d\n",block);
 		//lcd_print(2,1,block,3);
 		bnode = which_node(block);
 		//printf("Node - %d\n",bnode);
@@ -2468,7 +2479,7 @@ int main()
 		//printf("Traverse Completed\n");
 		free(path);
 		len = 0;
-		block_choose(bnode,block_placed);
+		block_choose2(block,block_placed);
 		//printf("Block Choose Completed\n");
 		m_pick();
 		lcd_init();
@@ -2476,7 +2487,7 @@ int main()
 
 		block = which_material[9];
 		lcd_init();
-		//printf("%Block - %d\n",block);
+		//printf("Block - %d\n",block);
 		//lcd_print(2,1,block,3);
 		bnode = which_node(block);
 		//printf("Node - %d\n",bnode);
@@ -2494,7 +2505,7 @@ int main()
 		//printf("Traverse Completed\n");
 		free(path);
 		len = 0;
-		block_choose(bnode,block_placed);
+		block_choose2(block,block_placed);
 		//printf("Block Choose Completed\n");
 		s_pick();
 		lcd_init();
@@ -2520,14 +2531,14 @@ int main()
 		free(path);
 		len = 0;
 	}
-
-
 	if (u==7)
 	{
 		right_turn_inv();
 		forward_wls(3,1);
 		face = 'e';
 		u = 8;
+		if (block_placed[10] == 0) block = 11;
+		else if (block_placed[11] == 0) block = 12;
 	}
 	else if (u==8)
 	{
@@ -2535,60 +2546,30 @@ int main()
 		forward_wls(3,1);
 		face = 'w';
 		u = 7;
+		if (block_placed[8] == 0) block = 9;
+		else if (block_placed[9] == 0) block = 10;
 	}
 
+	bnode = which_node(block);
 	dijkstra(G,n,u);
 	//printf("Dijkstra Completed\n");
-	dist_comp(b9n,b11n,path,&len);
+	//printf("Block - %d\n",block);
+	//printf("Node - %d\n",bnode);
+	dist_comp(bnode,bnode,path,&len);
 	//printf("Dist compare Completed\n");
 	for(int p = 0;p<len;p++)
 	{
 		//printf("%d\n",path[p]);
 		//lcd_print(1,2*p,path[p],2);
 	}
-	bnode = path[len-1];
 	traverse(path,u,&len);
 	//printf("Traverse Completed\n");
 	free(path);
 	len = 0;
-	block_choose(bnode,block_placed);
+	block_choose2(block,block_placed);
+	//block_choose(bnode,block_placed);
 	//printf("Block Choose Completed\n");
-	lcd_init();
-	u=bnode;
-	block = which_block(u);
-	for (int i = 0; i < 10; i++)
-	{
-		if (which_material[i] == block)
-		{
-			if (i==0) {house_no = 1;break;}
-			else if (i==1) {house_no = 1;break;}
-			else if (i==2) {house_no = 2;break;}
-			else if (i==3) {house_no = 2;break;}
-			else if (i==4) {house_no = 3;break;}
-			else if (i==5) {house_no = 3;break;}
-			else if (i==6) {house_no = 4;break;}
-			else if (i==7) {house_no = 4;break;}
-		}
-		else
-		{
-			house_no = -1;
-		}
-	}
-	if (house_no == -1)
-	{
-		if (block == 1) block =2;
-		else if (block == 2) block =1;
-		else if (block == 3) block =4;
-		else if (block == 4) block =3;
-		else if (block == 5) block =6;
-		else if (block == 6) block =5;
-		else if (block == 7) block =8;
-		else if (block == 8) block =7;
-		else if (block == 9) block =10;
-		else if (block == 10) block =9;
-		else if (block == 11) block =12;
-		else if (block == 12) block =11;
-	}
+	u = bnode;
 	for (int i = 0; i < 10; i++)
 	{
 		if (which_material[i] == block)
@@ -2611,8 +2592,6 @@ int main()
 	{
 		m_pick();
 	}
-	////printf("%d\n",block);
-	////printf("%d\n",house_no);
 	if (block == which_material[2*house_no - 1])
 	{
 	block = which_material[2*house_no - 2];  }
@@ -2620,24 +2599,29 @@ int main()
 	{
 		block = which_material[2*house_no - 1];
 	}
-	dijkstra(G,n,u);
-	//printf("Dijkstra Completed\n");
-	bnode = which_node(block);
-	dist_comp(bnode,bnode,path,&len);
-	//printf("Dist compare Completed\n");
-	for(int p = 0;p<len;p++)
+	if (block != 0)
 	{
-		//printf("%d\n",path[p]);
-		//lcd_print(1,2*p,path[p],2);
+		dijkstra(G,n,u);
+		//printf("Dijkstra Completed\n");
+		bnode = which_node(block);
+		dist_comp(bnode,bnode,path,&len);
+		//printf("Dist compare Completed\n");
+		//printf("Block - %d\n",block);
+		//printf("Node - %d\n",bnode);
+		for(int p = 0;p<len;p++)
+		{
+			//printf("%d\n",path[p]);
+			//lcd_print(1,2*p,path[p],2);
+		}
+		bnode = path[len-1];
+		traverse(path,u,&len);
+		//printf("Traverse Completed\n");
+		free(path);
+		len = 0;
+		block_choose2(block,block_placed);
+		//printf("Block Choose Completed\n");
+		s_pick();
 	}
-	bnode = path[len-1];
-	traverse(path,u,&len);
-	//printf("Traverse Completed\n");
-	free(path);
-	len = 0;
-	block_choose(bnode,block_placed);
-	//printf("Block Choose Completed\n");
-	s_pick();
 
 	dijkstra(G,n,u);
 	//printf("Dijkstra Completed\n");
@@ -2671,6 +2655,8 @@ int main()
 			m_place_hr();
 			s_place_hr();
 		}
+		if (block_placed[0] == 0) block = 1;
+		else if (block_placed[1] == 0) block = 2;
 	}
 	else if (house_no == 2)
 	{
@@ -2689,6 +2675,8 @@ int main()
 			m_place_hr();
 			s_place_hr();
 		}
+		if (block_placed[2] == 0) block = 3;
+		else if (block_placed[3] == 0) block = 4;
 	}
 	else if (house_no == 3)
 	{
@@ -2707,6 +2695,8 @@ int main()
 			m_place_hr();
 			s_place_hr();
 		}
+		if (block_placed[4] == 0) block = 5;
+		else if (block_placed[5] == 0) block = 6;
 	}
 	else if (house_no == 4)
 	{
@@ -2725,60 +2715,30 @@ int main()
 			m_place_hr();
 			s_place_hr();
 		}
+		if (block_placed[6] == 0) block = 7;
+		else if (block_placed[7] == 0) block = 8;
 	}
 
+	bnode = which_node(block);
 	dijkstra(G,n,u);
 	//printf("Dijkstra Completed\n");
-	dist_comp(b5n,b7n,path,&len);
+	//printf("Block - %d\n",block);
+	//printf("Node - %d\n",bnode);
+	dist_comp(bnode,bnode,path,&len);
 	//printf("Dist compare Completed\n");
 	for(int p = 0;p<len;p++)
 	{
 		//printf("%d\n",path[p]);
 		//lcd_print(1,2*p,path[p],2);
 	}
-	bnode = path[len-1];
 	traverse(path,u,&len);
 	//printf("Traverse Completed\n");
 	free(path);
 	len = 0;
-	block_choose(bnode,block_placed);
+	block_choose2(block,block_placed);
+	//block_choose(bnode,block_placed);
 	//printf("Block Choose Completed\n");
-	lcd_init();
-	u=bnode;
-	block = which_block(u);
-	for (int i = 0; i < 10; i++)
-	{
-		if (which_material[i] == block)
-		{
-			if (i==0) {house_no = 1;break;}
-			else if (i==1) {house_no = 1;break;}
-			else if (i==2) {house_no = 2;break;}
-			else if (i==3) {house_no = 2;break;}
-			else if (i==4) {house_no = 3;break;}
-			else if (i==5) {house_no = 3;break;}
-			else if (i==6) {house_no = 4;break;}
-			else if (i==7) {house_no = 4;break;}
-		}
-		else
-		{
-			house_no = -1;
-		}
-	}
-	if (house_no == -1)
-	{
-		if (block == 1) block =2;
-		else if (block == 2) block =1;
-		else if (block == 3) block =4;
-		else if (block == 4) block =3;
-		else if (block == 5) block =6;
-		else if (block == 6) block =5;
-		else if (block == 7) block =8;
-		else if (block == 8) block =7;
-		else if (block == 9) block =10;
-		else if (block == 10) block =9;
-		else if (block == 11) block =12;
-		else if (block == 12) block =11;
-	}
+	u = bnode;
 	for (int i = 0; i < 10; i++)
 	{
 		if (which_material[i] == block)
@@ -2801,8 +2761,6 @@ int main()
 	{
 		m_pick();
 	}
-	////printf("%d\n",block);
-	////printf("%d\n",house_no);
 	if (block == which_material[2*house_no - 1])
 	{
 	block = which_material[2*house_no - 2];  }
@@ -2810,30 +2768,34 @@ int main()
 	{
 		block = which_material[2*house_no - 1];
 	}
-	dijkstra(G,n,u);
-	//printf("Dijkstra Completed\n");
-	bnode = which_node(block);
-	dist_comp(bnode,bnode,path,&len);
-	//printf("Dist compare Completed\n");
-	for(int p = 0;p<len;p++)
+	if (block != 0)
 	{
-		//printf("%d\n",path[p]);
-		//lcd_print(1,2*p,path[p],2);
+		dijkstra(G,n,u);
+		//printf("Dijkstra Completed\n");
+		bnode = which_node(block);
+		dist_comp(bnode,bnode,path,&len);
+		//printf("Dist compare Completed\n");
+		//printf("Block - %d\n",block);
+		//printf("Node - %d\n",bnode);
+		for(int p = 0;p<len;p++)
+		{
+			//printf("%d\n",path[p]);
+			//lcd_print(1,2*p,path[p],2);
+		}
+		bnode = path[len-1];
+		traverse(path,u,&len);
+		//printf("Traverse Completed\n");
+		free(path);
+		len = 0;
+		block_choose2(block,block_placed);
+		//printf("Block Choose Completed\n");
+		s_pick();
 	}
-	bnode = path[len-1];
-	traverse(path,u,&len);
-	//printf("Traverse Completed\n");
-	free(path);
-	len = 0;
-	block_choose(bnode,block_placed);
-	//printf("Block Choose Completed\n");
-	s_pick();
-	//printf("u - %d\n",u);
+
 	dijkstra(G,n,u);
 	//printf("Dijkstra Completed\n");
-	//printf("House no - %d\n",house_no);
+	hnode = 0;
 	hnode = which_house(house_no);
-	//printf("Hnode - %d\n",hnode);
 	dist_comp(hnode,hnode,path,&len);
 	//printf("Dist compare Completed\n");
 	for(int p = 0;p<len;p++)
@@ -2862,6 +2824,8 @@ int main()
 			m_place_hr();
 			s_place_hr();
 		}
+		if (block_placed[0] == 0) block = 1;
+		else if (block_placed[1] == 0) block = 2;
 	}
 	else if (house_no == 2)
 	{
@@ -2880,6 +2844,8 @@ int main()
 			m_place_hr();
 			s_place_hr();
 		}
+		if (block_placed[2] == 0) block = 3;
+		else if (block_placed[3] == 0) block = 4;
 	}
 	else if (house_no == 3)
 	{
@@ -2898,6 +2864,8 @@ int main()
 			m_place_hr();
 			s_place_hr();
 		}
+		if (block_placed[4] == 0) block = 5;
+		else if (block_placed[5] == 0) block = 6;
 	}
 	else if (house_no == 4)
 	{
@@ -2916,60 +2884,30 @@ int main()
 			m_place_hr();
 			s_place_hr();
 		}
+		if (block_placed[6] == 0) block = 7;
+		else if (block_placed[7] == 0) block = 8;
 	}
-
+	free(path);
+	len = 0;
+	bnode = which_node(block);
 	dijkstra(G,n,u);
 	//printf("Dijkstra Completed\n");
-	dist_comp(b2n,b4n,path,&len);
+	//printf("Block - %d\n", block);
+	//printf("Node - %d\n", bnode);
+	dist_comp(bnode,bnode,path,&len);
 	//printf("Dist compare Completed\n");
 	for(int p = 0;p<len;p++)
 	{
 		//printf("%d\n",path[p]);
 		//lcd_print(1,2*p,path[p],2);
 	}
-	bnode = path[len-1];
 	traverse(path,u,&len);
 	//printf("Traverse Completed\n");
 	free(path);
 	len = 0;
-	block_choose(bnode,block_placed);
+	block_choose2(block,block_placed);
 	//printf("Block Choose Completed\n");
-	lcd_init();
-	u=bnode;
-	block = which_block(u);
-	for (int i = 0; i < 10; i++)
-	{
-		if (which_material[i] == block)
-		{
-			if (i==0) {house_no = 1;break;}
-			else if (i==1) {house_no = 1;break;}
-			else if (i==2) {house_no = 2;break;}
-			else if (i==3) {house_no = 2;break;}
-			else if (i==4) {house_no = 3;break;}
-			else if (i==5) {house_no = 3;break;}
-			else if (i==6) {house_no = 4;break;}
-			else if (i==7) {house_no = 4;break;}
-		}
-		else
-		{
-			house_no = -1;
-		}
-	}
-	if (house_no == -1)
-	{
-		if (block == 1) block =2;
-		else if (block == 2) block =1;
-		else if (block == 3) block =4;
-		else if (block == 4) block =3;
-		else if (block == 5) block =6;
-		else if (block == 6) block =5;
-		else if (block == 7) block =8;
-		else if (block == 8) block =7;
-		else if (block == 9) block =10;
-		else if (block == 10) block =9;
-		else if (block == 11) block =12;
-		else if (block == 12) block =11;
-	}
+	u = bnode;
 	for (int i = 0; i < 10; i++)
 	{
 		if (which_material[i] == block)
@@ -2992,8 +2930,6 @@ int main()
 	{
 		m_pick();
 	}
-	////printf("%d\n",block);
-	////printf("%d\n",house_no);
 	if (block == which_material[2*house_no - 1])
 	{
 	block = which_material[2*house_no - 2];  }
@@ -3001,30 +2937,33 @@ int main()
 	{
 		block = which_material[2*house_no - 1];
 	}
-	dijkstra(G,n,u);
-	//printf("Dijkstra Completed\n");
-	bnode = which_node(block);
-	dist_comp(bnode,bnode,path,&len);
-	//printf("Dist compare Completed\n");
-	for(int p = 0;p<len;p++)
+	if (block != 0)
 	{
-		//printf("%d\n",path[p]);
-		//lcd_print(1,2*p,path[p],2);
+		dijkstra(G,n,u);
+		//printf("Dijkstra Completed\n");
+		bnode = which_node(block);
+		dist_comp(bnode,bnode,path,&len);
+		//printf("Dist compare Completed\n");
+		//printf("Block - %d\n",block);
+		//printf("Node - %d\n",bnode);
+		for(int p = 0;p<len;p++)
+		{
+			//printf("%d\n",path[p]);
+			//lcd_print(1,2*p,path[p],2);
+		}
+		bnode = path[len-1];
+		traverse(path,u,&len);
+		//printf("Traverse Completed\n");
+		free(path);
+		len = 0;
+		block_choose2(block,block_placed);
+		//printf("Block Choose Completed\n");
+		s_pick();
 	}
-	bnode = path[len-1];
-	traverse(path,u,&len);
-	//printf("Traverse Completed\n");
-	free(path);
-	len = 0;
-	block_choose(bnode,block_placed);
-	//printf("Block Choose Completed\n");
-	s_pick();
-	//printf("u - %d\n",u);
 	dijkstra(G,n,u);
 	//printf("Dijkstra Completed\n");
-	//printf("House no - %d\n",house_no);
+	hnode = 0;
 	hnode = which_house(house_no);
-	//printf("Hnode - %d\n",hnode);
 	dist_comp(hnode,hnode,path,&len);
 	//printf("Dist compare Completed\n");
 	for(int p = 0;p<len;p++)
@@ -3053,6 +2992,8 @@ int main()
 			m_place_hr();
 			s_place_hr();
 		}
+		if (block_placed[0] == 0) block = 1;
+		else if (block_placed[1] == 0) block = 2;
 	}
 	else if (house_no == 2)
 	{
@@ -3071,6 +3012,8 @@ int main()
 			m_place_hr();
 			s_place_hr();
 		}
+		if (block_placed[2] == 0) block = 3;
+		else if (block_placed[3] == 0) block = 4;
 	}
 	else if (house_no == 3)
 	{
@@ -3089,6 +3032,8 @@ int main()
 			m_place_hr();
 			s_place_hr();
 		}
+		if (block_placed[4] == 0) block = 5;
+		else if (block_placed[5] == 0) block = 6;
 	}
 	else if (house_no == 4)
 	{
@@ -3107,32 +3052,183 @@ int main()
 			m_place_hr();
 			s_place_hr();
 		}
+		if (block_placed[6] == 0) block = 7;
+		else if (block_placed[7] == 0) block = 8;
 	}
 
-
-
-
-
+	free(path);
+	len = 0;
+	bnode = which_node(block);
+	dijkstra(G,n,u);
+	//printf("Dijkstra Completed\n");
+	//printf("Block - %d\n", block);
+	//printf("Node - %d\n", bnode);
+	dist_comp(bnode,bnode,path,&len);
+	//printf("Dist compare Completed\n");
+	for(int p = 0;p<len;p++)
+	{
+		//printf("%d\n",path[p]);
+		//lcd_print(1,2*p,path[p],2);
+	}
+	traverse(path,u,&len);
+	//printf("Traverse Completed\n");
+	free(path);
+	len = 0;
+	block_choose2(block,block_placed);
+	//printf("Block Choose Completed\n");
+	u = bnode;
+	for (int i = 0; i < 10; i++)
+	{
+		if (which_material[i] == block)
+		{
+			if (i==0) {house_no = 1;break;}
+			else if (i==1) {house_no = 1;break;}
+			else if (i==2) {house_no = 2;break;}
+			else if (i==3) {house_no = 2;break;}
+			else if (i==4) {house_no = 3;break;}
+			else if (i==5) {house_no = 3;break;}
+			else if (i==6) {house_no = 4;break;}
+			else if (i==7) {house_no = 4;break;}
+		}
+		else
+		{
+			house_no = -1;
+		}
+	}
+	if (house_no != -1)
+	{
+		m_pick();
+	}
+	if (block == which_material[2*house_no - 1])
+	{
+	block = which_material[2*house_no - 2];  }
+	else
+	{
+		block = which_material[2*house_no - 1];
+	}
+	if (block != 0)
+	{
+		dijkstra(G,n,u);
+		//printf("Dijkstra Completed\n");
+		bnode = which_node(block);
+		dist_comp(bnode,bnode,path,&len);
+		//printf("Dist compare Completed\n");
+		//printf("Block - %d\n",block);
+		//printf("Node - %d\n",bnode);
+		for(int p = 0;p<len;p++)
+		{
+			//printf("%d\n",path[p]);
+			//lcd_print(1,2*p,path[p],2);
+		}
+		bnode = path[len-1];
+		traverse(path,u,&len);
+		//printf("Traverse Completed\n");
+		free(path);
+		len = 0;
+		block_choose2(block,block_placed);
+		//printf("Block Choose Completed\n");
+		s_pick();
+	}
+	dijkstra(G,n,u);
+	//printf("Dijkstra Completed\n");
+	hnode = 0;
+	hnode = which_house(house_no);
+	dist_comp(hnode,hnode,path,&len);
+	//printf("Dist compare Completed\n");
+	for(int p = 0;p<len;p++)
+	{
+		//printf("%d\n",path[p]);
+		//lcd_print(1,2*p,path[p],2);
+	}
+	traverse(path,u,&len);
+	//printf("Traverse Completed\n");
+	free(path);
+	len = 0;
+	if (house_no == 1)
+	{
+		fdir = 'w';
+		block_traverse();
+		back();
+		_delay_ms(100);
+		stop();
+		if (house_config[house_no-1]==0)
+		{
+			m_place_lr();
+			s_place_lr();
+		}
+		else
+		{
+			m_place_hr();
+			s_place_hr();
+		}
+		if (block_placed[0] == 0) block = 1;
+		else if (block_placed[1] == 0) block = 2;
+	}
+	else if (house_no == 2)
+	{
+		fdir = 'e';
+		block_traverse();
+		back();
+		_delay_ms(100);
+		stop();
+		if (house_config[house_no-1]==0)
+		{
+			m_place_lr();
+			s_place_lr();
+		}
+		else
+		{
+			m_place_hr();
+			s_place_hr();
+		}
+		if (block_placed[2] == 0) block = 3;
+		else if (block_placed[3] == 0) block = 4;
+	}
+	else if (house_no == 3)
+	{
+		fdir = 'w';
+		block_traverse();
+		back();
+		_delay_ms(100);
+		stop();
+		if (house_config[house_no-1]==0)
+		{
+			m_place_lr();
+			s_place_lr();
+		}
+		else
+		{
+			m_place_hr();
+			s_place_hr();
+		}
+		if (block_placed[4] == 0) block = 5;
+		else if (block_placed[5] == 0) block = 6;
+	}
+	else if (house_no == 4)
+	{
+		fdir = 'e';
+		block_traverse();
+		back();
+		_delay_ms(100);
+		stop();
+		if (house_config[house_no-1]==0)
+		{
+			m_place_lr();
+			s_place_lr();
+		}
+		else
+		{
+			m_place_hr();
+			s_place_hr();
+		}
+		if (block_placed[6] == 0) block = 7;
+		else if (block_placed[7] == 0) block = 8;
+	}
 	for(int p = 0;p<12;p++)
 	{
-		//printf("%d\n",block_placed[p]);
+		//printf("%d -- %d\n",p+1,block_placed[p]);
 		//lcd_print(1,2*p,path[p],2);
 	}
-
-	////printf("%d\n",hnode);
-
-	//for(int p = 0;p<12;p++)
-	//{
-	////printf("%d\n",block_placed[p]);
-	//lcd_print(1,2*p,path[p],2);
-	//}
-	//for (int i = 0; i < 10; i++)
-	//{
-	//if (1 == which_material[i])
-	//{
-	//house_no = i;
-	//}
-	//}*/
 }
 
 /* --------------------------------------------------------------*/
