@@ -2034,7 +2034,7 @@ void forward_wls(int a, int node)
         rs = ADC_Conversion(3);
         wall =ADC_Conversion(11);
 
-        if ((a == 2) && (ls + ms + rs > 280)) // Certain nodes on the edge of the arena allow only two sensor to stand on them and hence have a different threshold than standard nodes
+        if ((a == 2) && (ls + ms + rs > 320)) // Certain nodes on the edge of the arena allow only two sensor to stand on them and hence have a different threshold than standard nodes
         {
 
             stop();
@@ -2131,7 +2131,11 @@ void forward_wls(int a, int node)
         forward_inv();
     }
     stop();
+	_delay_ms(50);
 	velocity(base,base);
+	forward();
+	_delay_ms(200);
+	stop();
 }
 
 void forward_inv()
@@ -2360,9 +2364,6 @@ void forward_zigzag()
 */
 void right_turn_wls(void)
 {
-    velocity(base,base);
-    forward();
-    _delay_ms(220);
     OCR5AL = 150;
     OCR5BL = 150;
     right(); //code which help the robot to ignore the black line which is going straight so that it can focus on line which is going to the right
@@ -2387,8 +2388,6 @@ void right_turn_wls(void)
 
 void right_turn_inv(void)
 {
-    forward();
-    _delay_ms(250);
     OCR5AL = 150;
     OCR5BL = 150;
     right(); //code which help the robot to ignore the black line which is going straight so that it can focus on line which is going to the right
@@ -2449,9 +2448,6 @@ void right_turn_wls_bwall(void)
 */
 void left_turn_wls(void)
 {
-	velocity(base,base);
-    forward();
-    _delay_ms(220);
     OCR5AL = 150;
     OCR5BL = 150;
     left(); //code which help the robot to ignore the black line which is going straight so that it can focus on line which is going to the right
@@ -2475,9 +2471,6 @@ void left_turn_wls(void)
 
 void left_turn_inv(void)
 {
-
-    forward();
-    _delay_ms(250);
     OCR5AL = 150;
     OCR5BL = 150;
     left(); //code which help the robot to ignore the black line which is going straight so that it can focus on line which is going to the right
