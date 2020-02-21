@@ -43,6 +43,9 @@ void stop();
 void static_reorientation();
 void static_reorientation_inv();
 void forward_mm(unsigned int DistanceInMM);
+void m_pick();
+void s_pick();
+void object_detect(void);
 
 /* --------------------------------------------------------------*/
 
@@ -99,7 +102,7 @@ char face = 'w';					//direction variables which include directions w,n,e,s
 char fdir = 'n';
 int house_config[5] = {1,0,0,1,0};
 int house_req[5] = {2,2,2,1,2};
-int which_material[10] = {3,11,9,5,4,7,1,0,2,8};
+int which_material[10] = {11,4,9,12,1,0,6,8,7,2};
 int dis[15];
 int pre[15];
 int b1n = 2;
@@ -158,8 +161,8 @@ void reverse(int a[],int n)
 int G[15][15] =
 {
     // 0  1	  2   3   4	  5	  6	  7	  8	  9	 10	 11	 12	 13	 14
-    {inf,2,inf,inf,inf,inf,inf,inf,inf,inf,inf,inf,inf,inf,2},//0
-    {2,inf,1,inf,inf,inf,inf,inf,inf,inf,inf,inf,inf,inf,inf},//1
+    {inf,4,inf,inf,inf,inf,inf,inf,inf,inf,inf,inf,inf,inf,4},//0
+    {4,inf,1,inf,inf,inf,inf,inf,inf,inf,inf,inf,inf,inf,inf},//1
     {inf,1,inf,1,inf,inf,inf,inf,inf,inf,inf,inf,inf,inf,inf},//2
     {inf,inf,1,inf,1,inf,inf,inf,inf,inf,inf,inf,wf,inf,inf},//3
     {inf,inf,inf,1,inf,1,inf,inf,inf,inf,inf,inf,inf,inf,inf},//4
@@ -172,7 +175,7 @@ int G[15][15] =
     {inf,inf,inf,inf,inf,inf,inf,inf,inf,inf,1,inf,1,inf,inf},//11
     {inf,inf,inf,wf,inf,inf,inf,inf,inf,inf,inf,1,inf,1,inf},//12
     {inf,inf,inf,inf,inf,inf,inf,inf,inf,inf,inf,inf,1,inf,1},//13
-    {2,inf,inf,inf,inf,inf,inf,inf,inf,inf,inf,inf,inf,1,inf}//14
+    {4,inf,inf,inf,inf,inf,inf,inf,inf,inf,inf,inf,inf,1,inf}//14
 };
 
 //n,e,s,w
@@ -1327,8 +1330,10 @@ void block_choose2(int block,int block_placed[])
         block_traverse();
         block_placed[block-1] = 1;
         back();
-        _delay_ms(250);
+        _delay_ms(200);
         stop();
+		_delay_ms(100);
+		object_detect();
     }
     else if (block%2 == 1)
     {
@@ -1336,8 +1341,16 @@ void block_choose2(int block,int block_placed[])
         block_traverse();
         block_placed[block-1] = 1;
         back();
-        _delay_ms(250);
+        _delay_ms(200);
         stop();
+		_delay_ms(100);
+		if (block == 1)
+		{
+			back();
+			_delay_ms(100);
+			stop();
+		}
+		object_detect();
     }
 }
 /* --------------------------------------------------------------*/
@@ -1749,9 +1762,42 @@ void LCD_Function(int a)
 * Logic: uses Servo 3 (Master) to pick the CM
 *
 */
+void object_detect(void)
+{   
+	//static_reorientation();
+	lcd_init();
+	stop();
+	_delay_ms(100);
+	unsigned int ob1= 800,ob2 = 800;
+	unsigned char sharp = 0;
+	velocity(150,150);
+	left();
+	_delay_ms(300);
+	stop();
+	_delay_ms(100);
+	velocity(100,100);
+	right();
+	while (1)
+	{ 
+		//lcd_print(1,7,ob1,3);
+		//lcd_print(2,7,ob2,3);
+		sharp = ADC_Conversion(13);
+		ob1 = Sharp_GP2D12_estimation(sharp);
+		if(ob2<ob1 && ob1 > 200 && sharp > 50)
+		{   
+			PORTA = 0x00;
+			stop();
+			break;
+		}
+		else
+		{
+			ob2 = ob1;
+		}
+	}
+}
 void m_pick(void)
 {
-    static_reorientation();
+   // static_reorientation();
     servo_1(90);
     _delay_ms(750);
     servo_1_free();
@@ -1777,8 +1823,8 @@ void m_pick(void)
 */
 void s_pick(void)
 {
-    static_reorientation();
-    servo_1(67);
+    //static_reorientation();
+    servo_1(66);
     _delay_ms(750);
     servo_1_free();
     servo_4(40);
@@ -1927,7 +1973,7 @@ void forward_walls()
         if ((wall >= 115) && (wall <= 130))
         {
             ++count4;
-            if (count4>15)
+            if (count4>7)
             {
                 OCR5AL = base;
                 OCR5BL = base;
@@ -1990,7 +2036,7 @@ void forward_wls(int a, int node)
 
         if ((a == 2) && (ls + ms + rs > 280)) // Certain nodes on the edge of the arena allow only two sensor to stand on them and hence have a different threshold than standard nodes
         {
-            _delay_ms(70);
+
             stop();
             break;
         }
@@ -2055,14 +2101,15 @@ void forward_wls(int a, int node)
             _delay_ms(1);
 
         }
-        else if (rs < 20 && ms < 20 && ls < 20)
+        else if (rs < 60 && ms < 60 && ls < 60)
         {
             ++count1;
             ++count3;
-            if (((count3>=200)||(count1>=1100) )&& (a != 2))
+            if (((count3>=800)||(count1>=1800) )&& (a != 2))
             {
                 PORTA = 0x00;
                 stop();
+				_delay_ms(100);
                 velocity(150,150);
                 back();
                 _delay_ms(150);
@@ -2083,8 +2130,8 @@ void forward_wls(int a, int node)
     {
         forward_inv();
     }
-
     stop();
+	velocity(base,base);
 }
 
 void forward_inv()
@@ -2142,15 +2189,16 @@ void forward_inv()
             _delay_ms(1);
 
         }
-        else if( rs< 100 && ms > 100 && ls < 100)
+        if( rs< 100 && ms > 100 && ls < 100)
         {
-            break;
+            PORTA =0x00;
+			break;
         }
 
 
     }
-    stop();
-    _delay_ms(100);
+   stop();
+   _delay_ms(100);
     static_reorientation();
     forward_wls(2,1);
 }
@@ -2312,9 +2360,9 @@ void forward_zigzag()
 */
 void right_turn_wls(void)
 {
-
+    velocity(base,base);
     forward();
-    _delay_ms(160);
+    _delay_ms(220);
     OCR5AL = 150;
     OCR5BL = 150;
     right(); //code which help the robot to ignore the black line which is going straight so that it can focus on line which is going to the right
@@ -2401,8 +2449,9 @@ void right_turn_wls_bwall(void)
 */
 void left_turn_wls(void)
 {
+	velocity(base,base);
     forward();
-    _delay_ms(160);
+    _delay_ms(220);
     OCR5AL = 150;
     OCR5BL = 150;
     left(); //code which help the robot to ignore the black line which is going straight so that it can focus on line which is going to the right
