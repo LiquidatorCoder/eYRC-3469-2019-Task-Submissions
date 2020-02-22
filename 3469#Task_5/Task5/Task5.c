@@ -2459,6 +2459,8 @@ int main()
 	int is_block2 = 0;
 	int is_block3 = 0;
 	int is_block4 = 0;
+	int is_block5 = 0;
+	int is_block6 = 0;
     int house_no = 0;
     int block = 0;
     int bnode;
@@ -2601,8 +2603,12 @@ int main()
 	    u = 8;
 	    is_block1 = check_block(11);
 	    is_block2 = check_block(12);
+	    is_block3 = check_block(7);
+	    is_block4 = check_block(8);
 	    if (block_placed[10] == 0 && is_block1==1) block = 11;
 	    else if (block_placed[11] == 0 && is_block2==1) block = 12;
+	    else if (block_placed[6] == 0 && is_block3==1) block = 7;
+	    else if (block_placed[7] == 0 && is_block4==1) block = 8;
     }
     else if (u==8)
     {
@@ -2612,8 +2618,12 @@ int main()
 	    u = 7;
 	    is_block1 = check_block(9);
 	    is_block2 = check_block(10);
+	    is_block3 = check_block(5);
+	    is_block4 = check_block(6);
 	    if (block_placed[8] == 0 && is_block1==1) block = 9;
 	    else if (block_placed[9] == 0 && is_block2==1) block = 10;
+	    else if (block_placed[6] == 0 && is_block3==1) block = 5;
+	    else if (block_placed[7] == 0 && is_block4==1) block = 6;
     }
 
     bnode = which_node(block);
@@ -2758,10 +2768,14 @@ int main()
 	    is_block2 = check_block(2);
 	    is_block3 = check_block(5);
 	    is_block4 = check_block(6);
+	    is_block5 = check_block(9);
+	    is_block6 = check_block(10);
 	    if (block_placed[0] == 0 && is_block1==1) block = 1;
 	    else if (block_placed[1] == 0 && is_block2==1) block = 2;
 	    else if (block_placed[4] == 0 && is_block3==1) block = 5;
 	    else if (block_placed[5] == 0 && is_block4==1) block = 6;
+	    else if (block_placed[8] == 0 && is_block5==1) block = 9;
+	    else if (block_placed[9] == 0 && is_block6==1) block = 10;
     }
     else if (house_no == 2)
     {
@@ -2784,10 +2798,14 @@ int main()
 	    is_block2 = check_block(4);
 	    is_block3 = check_block(7);
 	    is_block4 = check_block(8);
+	    is_block5 = check_block(11);
+	    is_block6 = check_block(12);
 	    if (block_placed[2] == 0 && is_block1==1) block = 3;
 	    else if (block_placed[3] == 0 && is_block2==1) block = 4;
 	    else if (block_placed[6] == 0 && is_block3==1) block = 7;
 	    else if (block_placed[7] == 0 && is_block4==1) block = 8;
+	    else if (block_placed[10] == 0 && is_block5==1) block = 11;
+	    else if (block_placed[11] == 0 && is_block6==1) block = 12;
     }
     else if (house_no == 3)
     {
@@ -2810,10 +2828,14 @@ int main()
 	    is_block2 = check_block(6);
 	    is_block3 = check_block(9);
 	    is_block4 = check_block(10);
+	    is_block5 = check_block(1);
+	    is_block6 = check_block(2);
 	    if (block_placed[4] == 0 && is_block1==1) block = 5;
 	    else if (block_placed[5] == 0 && is_block2==1) block = 6;
 	    else if (block_placed[8] == 0 && is_block3==1) block = 9;
 	    else if (block_placed[9] == 0 && is_block4==1) block = 10;
+	    else if (block_placed[0] == 0 && is_block5==1) block = 1;
+	    else if (block_placed[1] == 0 && is_block6==1) block = 2;
     }
     else if (house_no == 4)
     {
@@ -2833,13 +2855,17 @@ int main()
 		    s_place_hr();
 	    }
 	    is_block1 = check_block(7);
-	    is_block2 = check_block(8);
-	    is_block3 = check_block(11);
-	    is_block4 = check_block(12);
-	    if (block_placed[6] == 0 && is_block1==1) block = 7;
-	    else if (block_placed[7] == 0 && is_block2==1) block = 8;
-	    else if (block_placed[10] == 0 && is_block3==1) block = 11;
-	    else if (block_placed[11] == 0 && is_block4==1) block = 12;
+		is_block2 = check_block(8);
+		is_block3 = check_block(11);
+		is_block4 = check_block(12);
+		is_block5 = check_block(3);
+		is_block6 = check_block(4);
+		if (block_placed[6] == 0 && is_block1==1) block = 7;
+		else if (block_placed[7] == 0 && is_block2==1) block = 8;
+		else if (block_placed[10] == 0 && is_block3==1) block = 11;
+		else if (block_placed[11] == 0 && is_block4==1) block = 12;
+		else if (block_placed[2] == 0 && is_block5==1) block = 3;
+		else if (block_placed[3] == 0 && is_block6==1) block = 4;
     }
 
     bnode = which_node(block);
@@ -2984,10 +3010,14 @@ int main()
 	    is_block2 = check_block(2);
 	    is_block3 = check_block(5);
 	    is_block4 = check_block(6);
+	    is_block5 = check_block(9);
+	    is_block6 = check_block(10);
 	    if (block_placed[0] == 0 && is_block1==1) block = 1;
 	    else if (block_placed[1] == 0 && is_block2==1) block = 2;
 	    else if (block_placed[4] == 0 && is_block3==1) block = 5;
 	    else if (block_placed[5] == 0 && is_block4==1) block = 6;
+	    else if (block_placed[8] == 0 && is_block5==1) block = 9;
+	    else if (block_placed[9] == 0 && is_block6==1) block = 10;
     }
     else if (house_no == 2)
     {
@@ -3010,10 +3040,14 @@ int main()
 	    is_block2 = check_block(4);
 	    is_block3 = check_block(7);
 	    is_block4 = check_block(8);
+	    is_block5 = check_block(11);
+	    is_block6 = check_block(12);
 	    if (block_placed[2] == 0 && is_block1==1) block = 3;
 	    else if (block_placed[3] == 0 && is_block2==1) block = 4;
 	    else if (block_placed[6] == 0 && is_block3==1) block = 7;
 	    else if (block_placed[7] == 0 && is_block4==1) block = 8;
+	    else if (block_placed[10] == 0 && is_block5==1) block = 11;
+	    else if (block_placed[11] == 0 && is_block6==1) block = 12;
     }
     else if (house_no == 3)
     {
@@ -3036,10 +3070,14 @@ int main()
 	    is_block2 = check_block(6);
 	    is_block3 = check_block(9);
 	    is_block4 = check_block(10);
+	    is_block5 = check_block(1);
+	    is_block6 = check_block(2);
 	    if (block_placed[4] == 0 && is_block1==1) block = 5;
 	    else if (block_placed[5] == 0 && is_block2==1) block = 6;
 	    else if (block_placed[8] == 0 && is_block3==1) block = 9;
 	    else if (block_placed[9] == 0 && is_block4==1) block = 10;
+	    else if (block_placed[0] == 0 && is_block5==1) block = 1;
+	    else if (block_placed[1] == 0 && is_block6==1) block = 2;
     }
     else if (house_no == 4)
     {
@@ -3062,10 +3100,14 @@ int main()
 	    is_block2 = check_block(8);
 	    is_block3 = check_block(11);
 	    is_block4 = check_block(12);
+	    is_block5 = check_block(3);
+	    is_block6 = check_block(4);
 	    if (block_placed[6] == 0 && is_block1==1) block = 7;
 	    else if (block_placed[7] == 0 && is_block2==1) block = 8;
 	    else if (block_placed[10] == 0 && is_block3==1) block = 11;
 	    else if (block_placed[11] == 0 && is_block4==1) block = 12;
+	    else if (block_placed[2] == 0 && is_block5==1) block = 3;
+	    else if (block_placed[3] == 0 && is_block6==1) block = 4;
     }
     free(path);
     len = 0;
@@ -3209,10 +3251,14 @@ int main()
 	    is_block2 = check_block(2);
 	    is_block3 = check_block(5);
 	    is_block4 = check_block(6);
+	    is_block5 = check_block(9);
+	    is_block6 = check_block(10);
 	    if (block_placed[0] == 0 && is_block1==1) block = 1;
 	    else if (block_placed[1] == 0 && is_block2==1) block = 2;
 	    else if (block_placed[4] == 0 && is_block3==1) block = 5;
 	    else if (block_placed[5] == 0 && is_block4==1) block = 6;
+	    else if (block_placed[8] == 0 && is_block5==1) block = 9;
+	    else if (block_placed[9] == 0 && is_block6==1) block = 10;
     }
     else if (house_no == 2)
     {
@@ -3235,10 +3281,14 @@ int main()
 	    is_block2 = check_block(4);
 	    is_block3 = check_block(7);
 	    is_block4 = check_block(8);
+	    is_block5 = check_block(11);
+	    is_block6 = check_block(12);
 	    if (block_placed[2] == 0 && is_block1==1) block = 3;
 	    else if (block_placed[3] == 0 && is_block2==1) block = 4;
 	    else if (block_placed[6] == 0 && is_block3==1) block = 7;
 	    else if (block_placed[7] == 0 && is_block4==1) block = 8;
+	    else if (block_placed[10] == 0 && is_block5==1) block = 11;
+	    else if (block_placed[11] == 0 && is_block6==1) block = 12;
     }
     else if (house_no == 3)
     {
@@ -3261,10 +3311,14 @@ int main()
 	    is_block2 = check_block(6);
 	    is_block3 = check_block(9);
 	    is_block4 = check_block(10);
+	    is_block5 = check_block(1);
+	    is_block6 = check_block(2);
 	    if (block_placed[4] == 0 && is_block1==1) block = 5;
 	    else if (block_placed[5] == 0 && is_block2==1) block = 6;
 	    else if (block_placed[8] == 0 && is_block3==1) block = 9;
 	    else if (block_placed[9] == 0 && is_block4==1) block = 10;
+	    else if (block_placed[0] == 0 && is_block5==1) block = 1;
+	    else if (block_placed[1] == 0 && is_block6==1) block = 2;
     }
     else if (house_no == 4)
     {
@@ -3287,10 +3341,14 @@ int main()
 	    is_block2 = check_block(8);
 	    is_block3 = check_block(11);
 	    is_block4 = check_block(12);
+	    is_block5 = check_block(3);
+	    is_block6 = check_block(4);
 	    if (block_placed[6] == 0 && is_block1==1) block = 7;
 	    else if (block_placed[7] == 0 && is_block2==1) block = 8;
 	    else if (block_placed[10] == 0 && is_block3==1) block = 11;
 	    else if (block_placed[11] == 0 && is_block4==1) block = 12;
+	    else if (block_placed[2] == 0 && is_block5==1) block = 3;
+	    else if (block_placed[3] == 0 && is_block6==1) block = 4;
     }
 
     free(path);
@@ -3435,10 +3493,14 @@ int main()
 	    is_block2 = check_block(2);
 	    is_block3 = check_block(5);
 	    is_block4 = check_block(6);
+	    is_block5 = check_block(9);
+	    is_block6 = check_block(10);
 	    if (block_placed[0] == 0 && is_block1==1) block = 1;
 	    else if (block_placed[1] == 0 && is_block2==1) block = 2;
 	    else if (block_placed[4] == 0 && is_block3==1) block = 5;
 	    else if (block_placed[5] == 0 && is_block4==1) block = 6;
+	    else if (block_placed[8] == 0 && is_block5==1) block = 9;
+	    else if (block_placed[9] == 0 && is_block6==1) block = 10;
     }
     else if (house_no == 2)
     {
@@ -3461,10 +3523,14 @@ int main()
 	    is_block2 = check_block(4);
 	    is_block3 = check_block(7);
 	    is_block4 = check_block(8);
+	    is_block5 = check_block(11);
+	    is_block6 = check_block(12);
 	    if (block_placed[2] == 0 && is_block1==1) block = 3;
 	    else if (block_placed[3] == 0 && is_block2==1) block = 4;
 	    else if (block_placed[6] == 0 && is_block3==1) block = 7;
 	    else if (block_placed[7] == 0 && is_block4==1) block = 8;
+	    else if (block_placed[10] == 0 && is_block5==1) block = 11;
+	    else if (block_placed[11] == 0 && is_block6==1) block = 12;
     }
     else if (house_no == 3)
     {
@@ -3487,10 +3553,14 @@ int main()
 	    is_block2 = check_block(6);
 	    is_block3 = check_block(9);
 	    is_block4 = check_block(10);
+	    is_block5 = check_block(1);
+	    is_block6 = check_block(2);
 	    if (block_placed[4] == 0 && is_block1==1) block = 5;
 	    else if (block_placed[5] == 0 && is_block2==1) block = 6;
 	    else if (block_placed[8] == 0 && is_block3==1) block = 9;
 	    else if (block_placed[9] == 0 && is_block4==1) block = 10;
+	    else if (block_placed[0] == 0 && is_block5==1) block = 1;
+	    else if (block_placed[1] == 0 && is_block6==1) block = 2;
     }
     else if (house_no == 4)
     {
@@ -3513,10 +3583,14 @@ int main()
 	    is_block2 = check_block(8);
 	    is_block3 = check_block(11);
 	    is_block4 = check_block(12);
+	    is_block5 = check_block(3);
+	    is_block6 = check_block(4);
 	    if (block_placed[6] == 0 && is_block1==1) block = 7;
 	    else if (block_placed[7] == 0 && is_block2==1) block = 8;
 	    else if (block_placed[10] == 0 && is_block3==1) block = 11;
 	    else if (block_placed[11] == 0 && is_block4==1) block = 12;
+	    else if (block_placed[2] == 0 && is_block5==1) block = 3;
+	    else if (block_placed[3] == 0 && is_block6==1) block = 4;
     }
     for(int p = 0; p<12; p++)
     {
