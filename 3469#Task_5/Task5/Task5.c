@@ -138,6 +138,7 @@ unsigned long int ShaftCountLeft = 0; //to keep track of left position encoder
 unsigned long int ShaftCountRight = 0; //to keep track of right position encoder
 unsigned int Degrees; //to accept angle in degrees for turning
 unsigned int count1 = 0;
+int inv = 0;
 
 /* ----------------------------DIJKSTRA----------------------------------*/
 
@@ -160,13 +161,13 @@ void reverse(int a[],int n)
 }
 int check_block(int block)
 {
-	int i;
-	for(i = 0; i <10; i++)
-	{
-		if(which_material[i] == block)
-		return 1;
-	}
-	return 0;
+    int i;
+    for(i = 0; i <10; i++)
+    {
+        if(which_material[i] == block)
+            return 1;
+    }
+    return 0;
 }
 int G[15][15] =
 {
@@ -1475,8 +1476,6 @@ void servo_2(unsigned char degrees)
 //Function to rotate Servo 3 by a specified angle in the multiples of 1.86 degrees
 void servo_3(unsigned char degrees)
 {
-    PORTH |= (1 << 0);  //Master Servo motor demux pin set to 0
-    _delay_ms(20);
     float Pos = 0;
     Pos = ((float) degrees / 1.86) + 35.0;
     OCR1CH = 0x00;
@@ -1485,8 +1484,6 @@ void servo_3(unsigned char degrees)
 
 void servo_4(unsigned char degrees)
 {
-    PORTH &= ~(1 << 0);//Slave Servo motor demux pin set to 1
-    _delay_ms(20);
     float Pos = 0;
     Pos = ((float) degrees / 1.86) + 35.0;
     OCR1CH = 0x00;
@@ -1645,23 +1642,32 @@ void LCD_Function(int a)
 void object_detect(void)
 {
     //static_reorientation();
-    lcd_init();
     stop();
     _delay_ms(300);
     unsigned int ob1= 800,ob2 = 800;
     unsigned char sharp = 0;
     velocity(150,150);
-    left();
-    _delay_ms(200);
-    stop();
-    _delay_ms(100);
-    velocity(100,100);
-    right();
-    while (1)
-    {
-        //lcd_print(1,7,ob1,3);
-        //lcd_print(2,7,ob2,3);
-        sharp = ADC_Conversion(13);
+	if (u== 1 || u == 11)
+	{
+		right();
+		 _delay_ms(200);
+		 stop();
+		 _delay_ms(100);
+		 velocity(100,100);
+		 left();
+	} 
+	else
+	{
+		left();
+		 _delay_ms(200);
+		 stop();
+		 _delay_ms(100);
+		 velocity(100,100);
+		 right();
+	}
+     while (1)
+   {
+		sharp = ADC_Conversion(13);
         ob1 = Sharp_GP2D12_estimation(sharp);
         if(ob2<ob1 && ob1 > 200 && sharp > 50)
         {
@@ -1677,19 +1683,22 @@ void object_detect(void)
 }
 void m_pick(void)
 {
-    // static_reorientation();
-    servo_1(90);
-    _delay_ms(750);
-    servo_1_free();
-    servo_3(120);
-    _delay_ms(750);
-    servo_3_free();
-    servo_2(102);
-    _delay_ms(1000);
-    servo_3(20);
-    _delay_ms(750);
-    servo_2(0);
-    _delay_ms(1000);
+	
+	PORTH |= (1 << 0);  //Master Servo motor demux pin set to 0
+	_delay_ms(100);
+	// static_reorientation();
+	servo_1(95);
+	_delay_ms(750);
+	servo_1_free();
+	servo_3(140);
+	_delay_ms(750);
+	servo_3_free();
+	servo_2(102);
+	_delay_ms(1000);
+	servo_3(20);
+	_delay_ms(1000);
+	servo_2(0);
+	_delay_ms(1000);
 
 }
 
@@ -1703,49 +1712,107 @@ void m_pick(void)
 */
 void s_pick(void)
 {
-    //static_reorientation();
-    servo_1(66);
-    _delay_ms(750);
-    servo_1_free();
-    servo_4(40);
-    _delay_ms(1000);
-    servo_4_free();
-    servo_2(100);
-    _delay_ms(1500);
-    servo_4(160);
-    _delay_ms(750);
-    servo_2(0);
-    _delay_ms(1000);
-    servo_2_free();
-    servo_1(90);
-    _delay_ms(750);
-    servo_1_free();
+	PORTH &= ~(1 << 0);//Slave Servo motor demux pin set to 1
+	_delay_ms(100);
+	//static_reorientation();
+	servo_1(65);
+	_delay_ms(750);
+	servo_1_free();
+	servo_4(20);
+	_delay_ms(1000);
+	servo_4_free();
+	servo_2(100);
+	_delay_ms(1500);
+	servo_4(160);
+	_delay_ms(1000);
+	servo_2(0);
+	_delay_ms(1000);
+	servo_2_free();
+	servo_1(90);
+	_delay_ms(750);
+	servo_1_free();
 }
 
-void inv_place()
+void inv_place_1()
 {
-    _delay_ms(500);
     servo_1(5);
     _delay_ms(1000);
     servo_1_free();
-    servo_3(30);
-    _delay_ms(750);
-    servo_4(150);
-    _delay_ms(750);
-    servo_2(45);
+	
+	PORTH |= (1 << 0);  //Master Servo motor demux pin set to 0
+	_delay_ms(100);
+	
+    servo_3(25);
     _delay_ms(1000);
+	PORTH &= ~(1 << 0);//Slave Servo motor demux pin set to 1
+	_delay_ms(100);
+	
+    servo_4(150);
+    _delay_ms(1000);
+	
+    servo_2(40);
+    _delay_ms(1000);
+	
+	PORTH |= (1 << 0);  //Master Servo motor demux pin set to 0
+	_delay_ms(100);
+	
     servo_3(105);
-    _delay_ms(750);
+    _delay_ms(1000);
     servo_3_free();
+	
+	PORTH &= ~(1 << 0);//Slave Servo motor demux pin set to 1
+	_delay_ms(100);
     servo_4(40);
-    _delay_ms(750);
+    _delay_ms(1000);
     servo_3_free();
+	
     servo_2(0);
     _delay_ms(1000);
     servo_2_free();
     servo_1(95);
     _delay_ms(1000);
     servo_1_free();
+}
+
+void inv_place_2()
+{
+	servo_1(180);
+	_delay_ms(1000);
+	servo_1_free();
+	
+	PORTH |= (1 << 0);  //Master Servo motor demux pin set to 0
+	_delay_ms(100);
+	
+	servo_3(25);
+	_delay_ms(1000);
+	PORTH &= ~(1 << 0);//Slave Servo motor demux pin set to 1
+	_delay_ms(100);
+	
+	servo_4(150);
+	_delay_ms(1000);
+	
+	servo_2(40);
+	_delay_ms(1000);
+	
+	PORTH |= (1 << 0);  //Master Servo motor demux pin set to 0
+	_delay_ms(100);
+	
+	servo_3(105);
+	_delay_ms(1000);
+	servo_3_free();
+	
+	PORTH &= ~(1 << 0);//Slave Servo motor demux pin set to 1
+	_delay_ms(100);
+	servo_4(40);
+	_delay_ms(1000);
+	servo_3_free();
+	
+	servo_2(0);
+	_delay_ms(1000);
+	servo_2_free();
+	servo_1(95);
+	_delay_ms(1000);
+	servo_1_free();
 }
 
 /*
@@ -1756,8 +1823,10 @@ void inv_place()
 * Logic: uses Servo 3 (Master) to place the CM to low-rise house
 *
 */
-void m_place_lr(void)
+void place_lr(void)
 {
+	PORTH |= (1 << 0);  //Master Servo motor demux pin set to 0
+	_delay_ms(100);
     servo_1(95);
     _delay_ms(750);
     servo_1_free();
@@ -1767,60 +1836,53 @@ void m_place_lr(void)
     _delay_ms(750);
     servo_3(105);
     _delay_ms(750);
-    servo_2(0);
-    _delay_ms(1000);
-}
-
-/*
-*
-* Function Name: s_place_lr
-* Input: void
-* Output: void
-* Logic: uses Servo 4 (Slave) to place the CM to low-rise house
-*
-*/
-void s_place_lr(void)
-{
-    servo_1(72);
-    _delay_ms(750);
-    servo_4(150);
-    _delay_ms(750);
-    servo_2(65);
-    _delay_ms(1000);
-    servo_4(40);
-    _delay_ms(750);
+	
+	PORTH &= ~(1 << 0);//Slave Servo motor demux pin set to 1
+	_delay_ms(100);
+	 servo_1(72);
+	 _delay_ms(750);
+	 servo_4(150);
+	 _delay_ms(750);
+	 servo_2(65);
+	 _delay_ms(1000);
+	 servo_4(40);
+	 _delay_ms(750);
+	 
     servo_2(0);
     _delay_ms(1000);
     servo_1(95);
 }
 
-/*
-*
-* Function Name: s_place_hr
-* Input: void
-* Output: void
-* Logic: uses Servo 4 (Slave) to place the CM to high-rise house
-*
-*/
-void s_place_hr(void)
+void place_hr(void)
 {
-    servo_1(72);
-    _delay_ms(750);
-    servo_4(150);
-    _delay_ms(750);
-    servo_2(35);
-    _delay_ms(1000);
-    servo_4(40);
-    _delay_ms(750);
-    servo_2(0);
-    _delay_ms(1000);
-    servo_1(95);
+	PORTH |= (1 << 0);  //Master Servo motor demux pin set to 0
+	_delay_ms(100);
+	servo_1(95);
+	_delay_ms(750);
+	servo_1_free();
+	servo_3(30);
+	_delay_ms(750);
+	servo_2(35);
+	_delay_ms(750);
+	servo_3(105);
+	_delay_ms(750);
+	
+	PORTH &= ~(1 << 0);//Slave Servo motor demux pin set to 1
+	_delay_ms(100);
+	servo_1(72);
+	_delay_ms(750);
+	servo_4(150);
+	_delay_ms(750);
+	servo_2(35);
+	_delay_ms(1000);
+	servo_4(40);
+	_delay_ms(750);
+	
+	servo_2(0);
+	_delay_ms(1000);
+	servo_1(95);
 }
 
-void m_place_hr()
-{
-    //write your code here
-}
 /* --------------------------------------------------------------NAVIGATION SECTION---------------------------------------------------------------------------*/
 
 /*
@@ -1902,13 +1964,15 @@ void forward_wls(int a, int node)
     unsigned int count3 = 0;
     while (1)
     {
-        forward();
+		  ls = ADC_Conversion(1);
+		  ms = ADC_Conversion(2);
+		  rs = ADC_Conversion(3);
+		  wall =ADC_Conversion(11);
+        
+		forward();
         OCR5AL = base;
         OCR5BL = base;
-        ls = ADC_Conversion(1);
-        ms = ADC_Conversion(2);
-        rs = ADC_Conversion(3);
-        wall =ADC_Conversion(11);
+      
 
         if ((a == 2) && (ls + ms + rs > 300)) // Certain nodes on the edge of the arena allow only two sensor to stand on them and hence have a different threshold than standard nodes
         {
@@ -1949,7 +2013,7 @@ void forward_wls(int a, int node)
             stop();
             break;
         }
-        if ((ls < 60 && ms >= 125 && rs < 60)) // Motor speed is changed directly to adjust the robot rather than calling left or right to increase smoothness in motion
+       if ((ls < 60 && ms >= 125 && rs < 60)) // Motor speed is changed directly to adjust the robot rather than calling left or right to increase smoothness in motion
         {
             // Velocity function was not called and values were configured directly as function calling was increasing bot response time in while(1) loop
 
@@ -1970,7 +2034,7 @@ void forward_wls(int a, int node)
             OCR5BL = soft;
             _delay_ms(2);
         }
-        if ((ls < 40 && ms < 60 && rs > 140))
+        else if ((ls < 40 && ms < 60 && rs > 140))
         {
             soft_right();
             OCR5AL = 120;
@@ -1990,7 +2054,7 @@ void forward_wls(int a, int node)
         {
             ++count1;
             ++count3;
-            if ((count3>=100)||(count1>=500))
+            if ((count3>=150)||(count1>=500))
             {
                 PORTA = 0x00;
                 stop();
@@ -2044,7 +2108,8 @@ void forward_inv()
             back();
             _delay_ms(250);
             stop();
-            inv_place();
+			if (inv == 1) inv_place_1();
+			else if (inv == 0) inv_place_2();
             forward();
             _delay_ms(100);
             continue;
@@ -2339,7 +2404,7 @@ void left_turn_wls(void)
     while (1) //while loop which detects black line using middle sensor so that the robot stops turning
     {
 
-        ls = ADC_Conversion(2);
+        ls = ADC_Conversion(1);
         if (ls >= 80)
         {
             PORTA = 0x00; //Stops the robot mediately, partial condition to invoke "stop()" function
@@ -2455,12 +2520,12 @@ void init_devices(void)
 int main()
 {
     init_devices();
-	int is_block1 = 0;
-	int is_block2 = 0;
-	int is_block3 = 0;
-	int is_block4 = 0;
-	int is_block5 = 0;
-	int is_block6 = 0;
+    int is_block1 = 0;
+    int is_block2 = 0;
+    int is_block3 = 0;
+    int is_block4 = 0;
+    int is_block5 = 0;
+    int is_block6 = 0;
     int house_no = 0;
     int block = 0;
     int bnode;
@@ -2597,33 +2662,43 @@ int main()
     }
     if (u==7)
     {
-	    right_turn_inv();
-	    forward_wls(3,1);
-	    face = 'e';
-	    u = 8;
-	    is_block1 = check_block(11);
-	    is_block2 = check_block(12);
-	    is_block3 = check_block(7);
-	    is_block4 = check_block(8);
-	    if (block_placed[10] == 0 && is_block1==1) block = 11;
-	    else if (block_placed[11] == 0 && is_block2==1) block = 12;
-	    else if (block_placed[6] == 0 && is_block3==1) block = 7;
-	    else if (block_placed[7] == 0 && is_block4==1) block = 8;
+		inv = 0;
+        right_turn_inv();
+        forward_wls(3,1);
+        face = 'e';
+        u = 8;
+        is_block1 = check_block(11);
+        is_block2 = check_block(12);
+        is_block3 = check_block(7);
+        is_block4 = check_block(8);
+        if (block_placed[10] == 0 && is_block1==1)
+            block = 11;
+        else if (block_placed[11] == 0 && is_block2==1)
+            block = 12;
+        else if (block_placed[6] == 0 && is_block3==1)
+            block = 7;
+        else if (block_placed[7] == 0 && is_block4==1)
+            block = 8;
     }
     else if (u==8)
     {
-	    left_turn_inv();
-	    forward_wls(3,1);
-	    face = 'w';
-	    u = 7;
-	    is_block1 = check_block(9);
-	    is_block2 = check_block(10);
-	    is_block3 = check_block(5);
-	    is_block4 = check_block(6);
-	    if (block_placed[8] == 0 && is_block1==1) block = 9;
-	    else if (block_placed[9] == 0 && is_block2==1) block = 10;
-	    else if (block_placed[6] == 0 && is_block3==1) block = 5;
-	    else if (block_placed[7] == 0 && is_block4==1) block = 6;
+		inv = 1;
+        left_turn_inv();
+        forward_wls(3,1);
+        face = 'w';
+        u = 7;
+        is_block1 = check_block(9);
+        is_block2 = check_block(10);
+        is_block3 = check_block(5);
+        is_block4 = check_block(6);
+        if (block_placed[8] == 0 && is_block1==1)
+            block = 9;
+        else if (block_placed[9] == 0 && is_block2==1)
+            block = 10;
+        else if (block_placed[6] == 0 && is_block3==1)
+            block = 5;
+        else if (block_placed[7] == 0 && is_block4==1)
+            block = 6;
     }
 
     bnode = which_node(block);
@@ -2749,123 +2824,139 @@ int main()
     len = 0;
     if (house_no == 1)
     {
-	    fdir = 'w';
-	    block_traverse();
-	    back();
-	    _delay_ms(100);
-	    stop();
-	    if (house_config[house_no-1]==0)
-	    {
-		    m_place_lr();
-		    s_place_lr();
-	    }
-	    else
-	    {
-		    m_place_hr();
-		    s_place_hr();
-	    }
-	    is_block1 = check_block(1);
-	    is_block2 = check_block(2);
-	    is_block3 = check_block(5);
-	    is_block4 = check_block(6);
-	    is_block5 = check_block(9);
-	    is_block6 = check_block(10);
-	    if (block_placed[0] == 0 && is_block1==1) block = 1;
-	    else if (block_placed[1] == 0 && is_block2==1) block = 2;
-	    else if (block_placed[4] == 0 && is_block3==1) block = 5;
-	    else if (block_placed[5] == 0 && is_block4==1) block = 6;
-	    else if (block_placed[8] == 0 && is_block5==1) block = 9;
-	    else if (block_placed[9] == 0 && is_block6==1) block = 10;
+        fdir = 'w';
+        block_traverse();
+        back();
+        _delay_ms(100);
+        stop();
+        if (house_config[house_no-1]==0)
+        {
+            place_lr();
+        }
+        else
+        {
+            place_hr();
+        }
+        is_block1 = check_block(1);
+        is_block2 = check_block(2);
+        is_block3 = check_block(5);
+        is_block4 = check_block(6);
+        is_block5 = check_block(9);
+        is_block6 = check_block(10);
+        if (block_placed[0] == 0 && is_block1==1)
+            block = 1;
+        else if (block_placed[1] == 0 && is_block2==1)
+            block = 2;
+        else if (block_placed[4] == 0 && is_block3==1)
+            block = 5;
+        else if (block_placed[5] == 0 && is_block4==1)
+            block = 6;
+        else if (block_placed[8] == 0 && is_block5==1)
+            block = 9;
+        else if (block_placed[9] == 0 && is_block6==1)
+            block = 10;
     }
     else if (house_no == 2)
     {
-	    fdir = 'e';
-	    block_traverse();
-	    back();
-	    _delay_ms(100);
-	    stop();
-	    if (house_config[house_no-1]==0)
-	    {
-		    m_place_lr();
-		    s_place_lr();
-	    }
-	    else
-	    {
-		    m_place_hr();
-		    s_place_hr();
-	    }
-	    is_block1 = check_block(3);
-	    is_block2 = check_block(4);
-	    is_block3 = check_block(7);
-	    is_block4 = check_block(8);
-	    is_block5 = check_block(11);
-	    is_block6 = check_block(12);
-	    if (block_placed[2] == 0 && is_block1==1) block = 3;
-	    else if (block_placed[3] == 0 && is_block2==1) block = 4;
-	    else if (block_placed[6] == 0 && is_block3==1) block = 7;
-	    else if (block_placed[7] == 0 && is_block4==1) block = 8;
-	    else if (block_placed[10] == 0 && is_block5==1) block = 11;
-	    else if (block_placed[11] == 0 && is_block6==1) block = 12;
+        fdir = 'e';
+        block_traverse();
+        back();
+        _delay_ms(100);
+        stop();
+        if (house_config[house_no-1]==0)
+        {
+            place_lr();
+        }
+        else
+        {
+            place_hr();
+        }
+        is_block1 = check_block(3);
+        is_block2 = check_block(4);
+        is_block3 = check_block(7);
+        is_block4 = check_block(8);
+        is_block5 = check_block(11);
+        is_block6 = check_block(12);
+        if (block_placed[2] == 0 && is_block1==1)
+            block = 3;
+        else if (block_placed[3] == 0 && is_block2==1)
+            block = 4;
+        else if (block_placed[6] == 0 && is_block3==1)
+            block = 7;
+        else if (block_placed[7] == 0 && is_block4==1)
+            block = 8;
+        else if (block_placed[10] == 0 && is_block5==1)
+            block = 11;
+        else if (block_placed[11] == 0 && is_block6==1)
+            block = 12;
     }
     else if (house_no == 3)
     {
-	    fdir = 'w';
-	    block_traverse();
-	    back();
-	    _delay_ms(100);
-	    stop();
-	    if (house_config[house_no-1]==0)
-	    {
-		    m_place_lr();
-		    s_place_lr();
-	    }
-	    else
-	    {
-		    m_place_hr();
-		    s_place_hr();
-	    }
-	    is_block1 = check_block(5);
-	    is_block2 = check_block(6);
-	    is_block3 = check_block(9);
-	    is_block4 = check_block(10);
-	    is_block5 = check_block(1);
-	    is_block6 = check_block(2);
-	    if (block_placed[4] == 0 && is_block1==1) block = 5;
-	    else if (block_placed[5] == 0 && is_block2==1) block = 6;
-	    else if (block_placed[8] == 0 && is_block3==1) block = 9;
-	    else if (block_placed[9] == 0 && is_block4==1) block = 10;
-	    else if (block_placed[0] == 0 && is_block5==1) block = 1;
-	    else if (block_placed[1] == 0 && is_block6==1) block = 2;
+        fdir = 'w';
+        block_traverse();
+        back();
+        _delay_ms(100);
+        stop();
+        if (house_config[house_no-1]==0)
+        {
+            place_lr();
+        }
+        else
+        {
+            place_hr();
+        }
+        is_block1 = check_block(5);
+        is_block2 = check_block(6);
+        is_block3 = check_block(9);
+        is_block4 = check_block(10);
+        is_block5 = check_block(1);
+        is_block6 = check_block(2);
+        if (block_placed[4] == 0 && is_block1==1)
+            block = 5;
+        else if (block_placed[5] == 0 && is_block2==1)
+            block = 6;
+        else if (block_placed[8] == 0 && is_block3==1)
+            block = 9;
+        else if (block_placed[9] == 0 && is_block4==1)
+            block = 10;
+        else if (block_placed[0] == 0 && is_block5==1)
+            block = 1;
+        else if (block_placed[1] == 0 && is_block6==1)
+            block = 2;
     }
     else if (house_no == 4)
     {
-	    fdir = 'e';
-	    block_traverse();
-	    back();
-	    _delay_ms(100);
-	    stop();
-	    if (house_config[house_no-1]==0)
-	    {
-		    m_place_lr();
-		    s_place_lr();
-	    }
-	    else
-	    {
-		    m_place_hr();
-		    s_place_hr();
-	    }
-	    is_block1 = check_block(7);
-		is_block2 = check_block(8);
-		is_block3 = check_block(11);
-		is_block4 = check_block(12);
-		is_block5 = check_block(3);
-		is_block6 = check_block(4);
-		if (block_placed[6] == 0 && is_block1==1) block = 7;
-		else if (block_placed[7] == 0 && is_block2==1) block = 8;
-		else if (block_placed[10] == 0 && is_block3==1) block = 11;
-		else if (block_placed[11] == 0 && is_block4==1) block = 12;
-		else if (block_placed[2] == 0 && is_block5==1) block = 3;
-		else if (block_placed[3] == 0 && is_block6==1) block = 4;
+        fdir = 'e';
+        block_traverse();
+        back();
+        _delay_ms(100);
+        stop();
+        if (house_config[house_no-1]==0)
+        {
+            place_lr();
+        }
+        else
+        {
+            place_hr();
+        }
+        is_block1 = check_block(7);
+        is_block2 = check_block(8);
+        is_block3 = check_block(11);
+        is_block4 = check_block(12);
+        is_block5 = check_block(3);
+        is_block6 = check_block(4);
+        if (block_placed[6] == 0 && is_block1==1)
+            block = 7;
+        else if (block_placed[7] == 0 && is_block2==1)
+            block = 8;
+        else if (block_placed[10] == 0 && is_block3==1)
+            block = 11;
+        else if (block_placed[11] == 0 && is_block4==1)
+            block = 12;
+        else if (block_placed[2] == 0 && is_block5==1)
+            block = 3;
+        else if (block_placed[3] == 0 && is_block6==1)
+            block = 4;
     }
 
     bnode = which_node(block);
@@ -2991,123 +3082,139 @@ int main()
     len = 0;
     if (house_no == 1)
     {
-	    fdir = 'w';
-	    block_traverse();
-	    back();
-	    _delay_ms(100);
-	    stop();
-	    if (house_config[house_no-1]==0)
-	    {
-		    m_place_lr();
-		    s_place_lr();
-	    }
-	    else
-	    {
-		    m_place_hr();
-		    s_place_hr();
-	    }
-	    is_block1 = check_block(1);
-	    is_block2 = check_block(2);
-	    is_block3 = check_block(5);
-	    is_block4 = check_block(6);
-	    is_block5 = check_block(9);
-	    is_block6 = check_block(10);
-	    if (block_placed[0] == 0 && is_block1==1) block = 1;
-	    else if (block_placed[1] == 0 && is_block2==1) block = 2;
-	    else if (block_placed[4] == 0 && is_block3==1) block = 5;
-	    else if (block_placed[5] == 0 && is_block4==1) block = 6;
-	    else if (block_placed[8] == 0 && is_block5==1) block = 9;
-	    else if (block_placed[9] == 0 && is_block6==1) block = 10;
+        fdir = 'w';
+        block_traverse();
+        back();
+        _delay_ms(100);
+        stop();
+        if (house_config[house_no-1]==0)
+        {
+            place_lr();
+        }
+        else
+        {
+            place_hr();
+        }
+        is_block1 = check_block(1);
+        is_block2 = check_block(2);
+        is_block3 = check_block(5);
+        is_block4 = check_block(6);
+        is_block5 = check_block(9);
+        is_block6 = check_block(10);
+        if (block_placed[0] == 0 && is_block1==1)
+            block = 1;
+        else if (block_placed[1] == 0 && is_block2==1)
+            block = 2;
+        else if (block_placed[4] == 0 && is_block3==1)
+            block = 5;
+        else if (block_placed[5] == 0 && is_block4==1)
+            block = 6;
+        else if (block_placed[8] == 0 && is_block5==1)
+            block = 9;
+        else if (block_placed[9] == 0 && is_block6==1)
+            block = 10;
     }
     else if (house_no == 2)
     {
-	    fdir = 'e';
-	    block_traverse();
-	    back();
-	    _delay_ms(100);
-	    stop();
-	    if (house_config[house_no-1]==0)
-	    {
-		    m_place_lr();
-		    s_place_lr();
-	    }
-	    else
-	    {
-		    m_place_hr();
-		    s_place_hr();
-	    }
-	    is_block1 = check_block(3);
-	    is_block2 = check_block(4);
-	    is_block3 = check_block(7);
-	    is_block4 = check_block(8);
-	    is_block5 = check_block(11);
-	    is_block6 = check_block(12);
-	    if (block_placed[2] == 0 && is_block1==1) block = 3;
-	    else if (block_placed[3] == 0 && is_block2==1) block = 4;
-	    else if (block_placed[6] == 0 && is_block3==1) block = 7;
-	    else if (block_placed[7] == 0 && is_block4==1) block = 8;
-	    else if (block_placed[10] == 0 && is_block5==1) block = 11;
-	    else if (block_placed[11] == 0 && is_block6==1) block = 12;
+        fdir = 'e';
+        block_traverse();
+        back();
+        _delay_ms(100);
+        stop();
+        if (house_config[house_no-1]==0)
+        {
+            place_lr();
+        }
+        else
+        {
+            place_hr();
+        }
+        is_block1 = check_block(3);
+        is_block2 = check_block(4);
+        is_block3 = check_block(7);
+        is_block4 = check_block(8);
+        is_block5 = check_block(11);
+        is_block6 = check_block(12);
+        if (block_placed[2] == 0 && is_block1==1)
+            block = 3;
+        else if (block_placed[3] == 0 && is_block2==1)
+            block = 4;
+        else if (block_placed[6] == 0 && is_block3==1)
+            block = 7;
+        else if (block_placed[7] == 0 && is_block4==1)
+            block = 8;
+        else if (block_placed[10] == 0 && is_block5==1)
+            block = 11;
+        else if (block_placed[11] == 0 && is_block6==1)
+            block = 12;
     }
     else if (house_no == 3)
     {
-	    fdir = 'w';
-	    block_traverse();
-	    back();
-	    _delay_ms(100);
-	    stop();
-	    if (house_config[house_no-1]==0)
-	    {
-		    m_place_lr();
-		    s_place_lr();
-	    }
-	    else
-	    {
-		    m_place_hr();
-		    s_place_hr();
-	    }
-	    is_block1 = check_block(5);
-	    is_block2 = check_block(6);
-	    is_block3 = check_block(9);
-	    is_block4 = check_block(10);
-	    is_block5 = check_block(1);
-	    is_block6 = check_block(2);
-	    if (block_placed[4] == 0 && is_block1==1) block = 5;
-	    else if (block_placed[5] == 0 && is_block2==1) block = 6;
-	    else if (block_placed[8] == 0 && is_block3==1) block = 9;
-	    else if (block_placed[9] == 0 && is_block4==1) block = 10;
-	    else if (block_placed[0] == 0 && is_block5==1) block = 1;
-	    else if (block_placed[1] == 0 && is_block6==1) block = 2;
+        fdir = 'w';
+        block_traverse();
+        back();
+        _delay_ms(100);
+        stop();
+        if (house_config[house_no-1]==0)
+        {
+            place_lr();
+        }
+        else
+        {
+            place_hr();
+        }
+        is_block1 = check_block(5);
+        is_block2 = check_block(6);
+        is_block3 = check_block(9);
+        is_block4 = check_block(10);
+        is_block5 = check_block(1);
+        is_block6 = check_block(2);
+        if (block_placed[4] == 0 && is_block1==1)
+            block = 5;
+        else if (block_placed[5] == 0 && is_block2==1)
+            block = 6;
+        else if (block_placed[8] == 0 && is_block3==1)
+            block = 9;
+        else if (block_placed[9] == 0 && is_block4==1)
+            block = 10;
+        else if (block_placed[0] == 0 && is_block5==1)
+            block = 1;
+        else if (block_placed[1] == 0 && is_block6==1)
+            block = 2;
     }
     else if (house_no == 4)
     {
-	    fdir = 'e';
-	    block_traverse();
-	    back();
-	    _delay_ms(100);
-	    stop();
-	    if (house_config[house_no-1]==0)
-	    {
-		    m_place_lr();
-		    s_place_lr();
-	    }
-	    else
-	    {
-		    m_place_hr();
-		    s_place_hr();
-	    }
-	    is_block1 = check_block(7);
-	    is_block2 = check_block(8);
-	    is_block3 = check_block(11);
-	    is_block4 = check_block(12);
-	    is_block5 = check_block(3);
-	    is_block6 = check_block(4);
-	    if (block_placed[6] == 0 && is_block1==1) block = 7;
-	    else if (block_placed[7] == 0 && is_block2==1) block = 8;
-	    else if (block_placed[10] == 0 && is_block3==1) block = 11;
-	    else if (block_placed[11] == 0 && is_block4==1) block = 12;
-	    else if (block_placed[2] == 0 && is_block5==1) block = 3;
-	    else if (block_placed[3] == 0 && is_block6==1) block = 4;
+        fdir = 'e';
+        block_traverse();
+        back();
+        _delay_ms(100);
+        stop();
+        if (house_config[house_no-1]==0)
+        {
+            place_lr();
+        }
+        else
+        {
+            place_hr();
+        }
+        is_block1 = check_block(7);
+        is_block2 = check_block(8);
+        is_block3 = check_block(11);
+        is_block4 = check_block(12);
+        is_block5 = check_block(3);
+        is_block6 = check_block(4);
+        if (block_placed[6] == 0 && is_block1==1)
+            block = 7;
+        else if (block_placed[7] == 0 && is_block2==1)
+            block = 8;
+        else if (block_placed[10] == 0 && is_block3==1)
+            block = 11;
+        else if (block_placed[11] == 0 && is_block4==1)
+            block = 12;
+        else if (block_placed[2] == 0 && is_block5==1)
+            block = 3;
+        else if (block_placed[3] == 0 && is_block6==1)
+            block = 4;
     }
     free(path);
     len = 0;
@@ -3232,123 +3339,139 @@ int main()
     len = 0;
     if (house_no == 1)
     {
-	    fdir = 'w';
-	    block_traverse();
-	    back();
-	    _delay_ms(100);
-	    stop();
-	    if (house_config[house_no-1]==0)
-	    {
-		    m_place_lr();
-		    s_place_lr();
-	    }
-	    else
-	    {
-		    m_place_hr();
-		    s_place_hr();
-	    }
-	    is_block1 = check_block(1);
-	    is_block2 = check_block(2);
-	    is_block3 = check_block(5);
-	    is_block4 = check_block(6);
-	    is_block5 = check_block(9);
-	    is_block6 = check_block(10);
-	    if (block_placed[0] == 0 && is_block1==1) block = 1;
-	    else if (block_placed[1] == 0 && is_block2==1) block = 2;
-	    else if (block_placed[4] == 0 && is_block3==1) block = 5;
-	    else if (block_placed[5] == 0 && is_block4==1) block = 6;
-	    else if (block_placed[8] == 0 && is_block5==1) block = 9;
-	    else if (block_placed[9] == 0 && is_block6==1) block = 10;
+        fdir = 'w';
+        block_traverse();
+        back();
+        _delay_ms(100);
+        stop();
+        if (house_config[house_no-1]==0)
+        {
+            place_lr();
+        }
+        else
+        {
+            place_hr();
+        }
+        is_block1 = check_block(1);
+        is_block2 = check_block(2);
+        is_block3 = check_block(5);
+        is_block4 = check_block(6);
+        is_block5 = check_block(9);
+        is_block6 = check_block(10);
+        if (block_placed[0] == 0 && is_block1==1)
+            block = 1;
+        else if (block_placed[1] == 0 && is_block2==1)
+            block = 2;
+        else if (block_placed[4] == 0 && is_block3==1)
+            block = 5;
+        else if (block_placed[5] == 0 && is_block4==1)
+            block = 6;
+        else if (block_placed[8] == 0 && is_block5==1)
+            block = 9;
+        else if (block_placed[9] == 0 && is_block6==1)
+            block = 10;
     }
     else if (house_no == 2)
     {
-	    fdir = 'e';
-	    block_traverse();
-	    back();
-	    _delay_ms(100);
-	    stop();
-	    if (house_config[house_no-1]==0)
-	    {
-		    m_place_lr();
-		    s_place_lr();
-	    }
-	    else
-	    {
-		    m_place_hr();
-		    s_place_hr();
-	    }
-	    is_block1 = check_block(3);
-	    is_block2 = check_block(4);
-	    is_block3 = check_block(7);
-	    is_block4 = check_block(8);
-	    is_block5 = check_block(11);
-	    is_block6 = check_block(12);
-	    if (block_placed[2] == 0 && is_block1==1) block = 3;
-	    else if (block_placed[3] == 0 && is_block2==1) block = 4;
-	    else if (block_placed[6] == 0 && is_block3==1) block = 7;
-	    else if (block_placed[7] == 0 && is_block4==1) block = 8;
-	    else if (block_placed[10] == 0 && is_block5==1) block = 11;
-	    else if (block_placed[11] == 0 && is_block6==1) block = 12;
+        fdir = 'e';
+        block_traverse();
+        back();
+        _delay_ms(100);
+        stop();
+        if (house_config[house_no-1]==0)
+        {
+            place_lr();
+        }
+        else
+        {
+            place_hr();
+        }
+        is_block1 = check_block(3);
+        is_block2 = check_block(4);
+        is_block3 = check_block(7);
+        is_block4 = check_block(8);
+        is_block5 = check_block(11);
+        is_block6 = check_block(12);
+        if (block_placed[2] == 0 && is_block1==1)
+            block = 3;
+        else if (block_placed[3] == 0 && is_block2==1)
+            block = 4;
+        else if (block_placed[6] == 0 && is_block3==1)
+            block = 7;
+        else if (block_placed[7] == 0 && is_block4==1)
+            block = 8;
+        else if (block_placed[10] == 0 && is_block5==1)
+            block = 11;
+        else if (block_placed[11] == 0 && is_block6==1)
+            block = 12;
     }
     else if (house_no == 3)
     {
-	    fdir = 'w';
-	    block_traverse();
-	    back();
-	    _delay_ms(100);
-	    stop();
-	    if (house_config[house_no-1]==0)
-	    {
-		    m_place_lr();
-		    s_place_lr();
-	    }
-	    else
-	    {
-		    m_place_hr();
-		    s_place_hr();
-	    }
-	    is_block1 = check_block(5);
-	    is_block2 = check_block(6);
-	    is_block3 = check_block(9);
-	    is_block4 = check_block(10);
-	    is_block5 = check_block(1);
-	    is_block6 = check_block(2);
-	    if (block_placed[4] == 0 && is_block1==1) block = 5;
-	    else if (block_placed[5] == 0 && is_block2==1) block = 6;
-	    else if (block_placed[8] == 0 && is_block3==1) block = 9;
-	    else if (block_placed[9] == 0 && is_block4==1) block = 10;
-	    else if (block_placed[0] == 0 && is_block5==1) block = 1;
-	    else if (block_placed[1] == 0 && is_block6==1) block = 2;
+        fdir = 'w';
+        block_traverse();
+        back();
+        _delay_ms(100);
+        stop();
+        if (house_config[house_no-1]==0)
+        {
+            place_lr();
+        }
+        else
+        {
+            place_hr();
+        }
+        is_block1 = check_block(5);
+        is_block2 = check_block(6);
+        is_block3 = check_block(9);
+        is_block4 = check_block(10);
+        is_block5 = check_block(1);
+        is_block6 = check_block(2);
+        if (block_placed[4] == 0 && is_block1==1)
+            block = 5;
+        else if (block_placed[5] == 0 && is_block2==1)
+            block = 6;
+        else if (block_placed[8] == 0 && is_block3==1)
+            block = 9;
+        else if (block_placed[9] == 0 && is_block4==1)
+            block = 10;
+        else if (block_placed[0] == 0 && is_block5==1)
+            block = 1;
+        else if (block_placed[1] == 0 && is_block6==1)
+            block = 2;
     }
     else if (house_no == 4)
     {
-	    fdir = 'e';
-	    block_traverse();
-	    back();
-	    _delay_ms(100);
-	    stop();
-	    if (house_config[house_no-1]==0)
-	    {
-		    m_place_lr();
-		    s_place_lr();
-	    }
-	    else
-	    {
-		    m_place_hr();
-		    s_place_hr();
-	    }
-	    is_block1 = check_block(7);
-	    is_block2 = check_block(8);
-	    is_block3 = check_block(11);
-	    is_block4 = check_block(12);
-	    is_block5 = check_block(3);
-	    is_block6 = check_block(4);
-	    if (block_placed[6] == 0 && is_block1==1) block = 7;
-	    else if (block_placed[7] == 0 && is_block2==1) block = 8;
-	    else if (block_placed[10] == 0 && is_block3==1) block = 11;
-	    else if (block_placed[11] == 0 && is_block4==1) block = 12;
-	    else if (block_placed[2] == 0 && is_block5==1) block = 3;
-	    else if (block_placed[3] == 0 && is_block6==1) block = 4;
+        fdir = 'e';
+        block_traverse();
+        back();
+        _delay_ms(100);
+        stop();
+        if (house_config[house_no-1]==0)
+        {
+            place_lr();
+        }
+        else
+        {
+            place_hr();
+        }
+        is_block1 = check_block(7);
+        is_block2 = check_block(8);
+        is_block3 = check_block(11);
+        is_block4 = check_block(12);
+        is_block5 = check_block(3);
+        is_block6 = check_block(4);
+        if (block_placed[6] == 0 && is_block1==1)
+            block = 7;
+        else if (block_placed[7] == 0 && is_block2==1)
+            block = 8;
+        else if (block_placed[10] == 0 && is_block3==1)
+            block = 11;
+        else if (block_placed[11] == 0 && is_block4==1)
+            block = 12;
+        else if (block_placed[2] == 0 && is_block5==1)
+            block = 3;
+        else if (block_placed[3] == 0 && is_block6==1)
+            block = 4;
     }
 
     free(path);
@@ -3474,123 +3597,139 @@ int main()
     len = 0;
     if (house_no == 1)
     {
-	    fdir = 'w';
-	    block_traverse();
-	    back();
-	    _delay_ms(100);
-	    stop();
-	    if (house_config[house_no-1]==0)
-	    {
-		    m_place_lr();
-		    s_place_lr();
-	    }
-	    else
-	    {
-		    m_place_hr();
-		    s_place_hr();
-	    }
-	    is_block1 = check_block(1);
-	    is_block2 = check_block(2);
-	    is_block3 = check_block(5);
-	    is_block4 = check_block(6);
-	    is_block5 = check_block(9);
-	    is_block6 = check_block(10);
-	    if (block_placed[0] == 0 && is_block1==1) block = 1;
-	    else if (block_placed[1] == 0 && is_block2==1) block = 2;
-	    else if (block_placed[4] == 0 && is_block3==1) block = 5;
-	    else if (block_placed[5] == 0 && is_block4==1) block = 6;
-	    else if (block_placed[8] == 0 && is_block5==1) block = 9;
-	    else if (block_placed[9] == 0 && is_block6==1) block = 10;
+        fdir = 'w';
+        block_traverse();
+        back();
+        _delay_ms(100);
+        stop();
+        if (house_config[house_no-1]==0)
+        {
+            place_lr();
+        }
+        else
+        {
+            place_hr();
+        }
+        is_block1 = check_block(1);
+        is_block2 = check_block(2);
+        is_block3 = check_block(5);
+        is_block4 = check_block(6);
+        is_block5 = check_block(9);
+        is_block6 = check_block(10);
+        if (block_placed[0] == 0 && is_block1==1)
+            block = 1;
+        else if (block_placed[1] == 0 && is_block2==1)
+            block = 2;
+        else if (block_placed[4] == 0 && is_block3==1)
+            block = 5;
+        else if (block_placed[5] == 0 && is_block4==1)
+            block = 6;
+        else if (block_placed[8] == 0 && is_block5==1)
+            block = 9;
+        else if (block_placed[9] == 0 && is_block6==1)
+            block = 10;
     }
     else if (house_no == 2)
     {
-	    fdir = 'e';
-	    block_traverse();
-	    back();
-	    _delay_ms(100);
-	    stop();
-	    if (house_config[house_no-1]==0)
-	    {
-		    m_place_lr();
-		    s_place_lr();
-	    }
-	    else
-	    {
-		    m_place_hr();
-		    s_place_hr();
-	    }
-	    is_block1 = check_block(3);
-	    is_block2 = check_block(4);
-	    is_block3 = check_block(7);
-	    is_block4 = check_block(8);
-	    is_block5 = check_block(11);
-	    is_block6 = check_block(12);
-	    if (block_placed[2] == 0 && is_block1==1) block = 3;
-	    else if (block_placed[3] == 0 && is_block2==1) block = 4;
-	    else if (block_placed[6] == 0 && is_block3==1) block = 7;
-	    else if (block_placed[7] == 0 && is_block4==1) block = 8;
-	    else if (block_placed[10] == 0 && is_block5==1) block = 11;
-	    else if (block_placed[11] == 0 && is_block6==1) block = 12;
+        fdir = 'e';
+        block_traverse();
+        back();
+        _delay_ms(100);
+        stop();
+        if (house_config[house_no-1]==0)
+        {
+            place_lr();
+        }
+        else
+        {
+            place_hr();
+        }
+        is_block1 = check_block(3);
+        is_block2 = check_block(4);
+        is_block3 = check_block(7);
+        is_block4 = check_block(8);
+        is_block5 = check_block(11);
+        is_block6 = check_block(12);
+        if (block_placed[2] == 0 && is_block1==1)
+            block = 3;
+        else if (block_placed[3] == 0 && is_block2==1)
+            block = 4;
+        else if (block_placed[6] == 0 && is_block3==1)
+            block = 7;
+        else if (block_placed[7] == 0 && is_block4==1)
+            block = 8;
+        else if (block_placed[10] == 0 && is_block5==1)
+            block = 11;
+        else if (block_placed[11] == 0 && is_block6==1)
+            block = 12;
     }
     else if (house_no == 3)
     {
-	    fdir = 'w';
-	    block_traverse();
-	    back();
-	    _delay_ms(100);
-	    stop();
-	    if (house_config[house_no-1]==0)
-	    {
-		    m_place_lr();
-		    s_place_lr();
-	    }
-	    else
-	    {
-		    m_place_hr();
-		    s_place_hr();
-	    }
-	    is_block1 = check_block(5);
-	    is_block2 = check_block(6);
-	    is_block3 = check_block(9);
-	    is_block4 = check_block(10);
-	    is_block5 = check_block(1);
-	    is_block6 = check_block(2);
-	    if (block_placed[4] == 0 && is_block1==1) block = 5;
-	    else if (block_placed[5] == 0 && is_block2==1) block = 6;
-	    else if (block_placed[8] == 0 && is_block3==1) block = 9;
-	    else if (block_placed[9] == 0 && is_block4==1) block = 10;
-	    else if (block_placed[0] == 0 && is_block5==1) block = 1;
-	    else if (block_placed[1] == 0 && is_block6==1) block = 2;
+        fdir = 'w';
+        block_traverse();
+        back();
+        _delay_ms(100);
+        stop();
+        if (house_config[house_no-1]==0)
+        {
+            place_lr();
+        }
+        else
+        {
+            place_hr();
+        }
+        is_block1 = check_block(5);
+        is_block2 = check_block(6);
+        is_block3 = check_block(9);
+        is_block4 = check_block(10);
+        is_block5 = check_block(1);
+        is_block6 = check_block(2);
+        if (block_placed[4] == 0 && is_block1==1)
+            block = 5;
+        else if (block_placed[5] == 0 && is_block2==1)
+            block = 6;
+        else if (block_placed[8] == 0 && is_block3==1)
+            block = 9;
+        else if (block_placed[9] == 0 && is_block4==1)
+            block = 10;
+        else if (block_placed[0] == 0 && is_block5==1)
+            block = 1;
+        else if (block_placed[1] == 0 && is_block6==1)
+            block = 2;
     }
     else if (house_no == 4)
     {
-	    fdir = 'e';
-	    block_traverse();
-	    back();
-	    _delay_ms(100);
-	    stop();
-	    if (house_config[house_no-1]==0)
-	    {
-		    m_place_lr();
-		    s_place_lr();
-	    }
-	    else
-	    {
-		    m_place_hr();
-		    s_place_hr();
-	    }
-	    is_block1 = check_block(7);
-	    is_block2 = check_block(8);
-	    is_block3 = check_block(11);
-	    is_block4 = check_block(12);
-	    is_block5 = check_block(3);
-	    is_block6 = check_block(4);
-	    if (block_placed[6] == 0 && is_block1==1) block = 7;
-	    else if (block_placed[7] == 0 && is_block2==1) block = 8;
-	    else if (block_placed[10] == 0 && is_block3==1) block = 11;
-	    else if (block_placed[11] == 0 && is_block4==1) block = 12;
-	    else if (block_placed[2] == 0 && is_block5==1) block = 3;
-	    else if (block_placed[3] == 0 && is_block6==1) block = 4;
+        fdir = 'e';
+        block_traverse();
+        back();
+        _delay_ms(100);
+        stop();
+        if (house_config[house_no-1]==0)
+        {
+            place_lr();
+        }
+        else
+        {
+            place_hr();
+        }
+        is_block1 = check_block(7);
+        is_block2 = check_block(8);
+        is_block3 = check_block(11);
+        is_block4 = check_block(12);
+        is_block5 = check_block(3);
+        is_block6 = check_block(4);
+        if (block_placed[6] == 0 && is_block1==1)
+            block = 7;
+        else if (block_placed[7] == 0 && is_block2==1)
+            block = 8;
+        else if (block_placed[10] == 0 && is_block3==1)
+            block = 11;
+        else if (block_placed[11] == 0 && is_block4==1)
+            block = 12;
+        else if (block_placed[2] == 0 && is_block5==1)
+            block = 3;
+        else if (block_placed[3] == 0 && is_block6==1)
+            block = 4;
     }
     for(int p = 0; p<12; p++)
     {
