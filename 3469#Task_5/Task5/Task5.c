@@ -1211,7 +1211,7 @@ void block_choose2(int block,int block_placed[])
         block_traverse();
         block_placed[block-1] = 1;
         back();
-        _delay_ms(200);
+        _delay_ms(250);
         stop();
         _delay_ms(100);
         object_detect();
@@ -1222,7 +1222,7 @@ void block_choose2(int block,int block_placed[])
         block_traverse();
         block_placed[block-1] = 1;
         back();
-        _delay_ms(200);
+        _delay_ms(250);
         stop();
         _delay_ms(100);
         if (block == 1)
@@ -2852,11 +2852,23 @@ int main()
         stop();
         if (house_config[house_no-1]==0)
         {
+			back();
+			_delay_ms(400);
+			stop();
             place_lr();
+			forward();
+			_delay_ms(150);
+			stop();
         }
         else
         {
+			back();
+			_delay_ms(400);
+			stop();
             place_hr();
+			forward();
+			_delay_ms(150);
+			stop();
         }
         is_block1 = check_block(1);
         is_block2 = check_block(2);
@@ -2886,11 +2898,23 @@ int main()
         stop();
         if (house_config[house_no-1]==0)
         {
+			back();
+			_delay_ms(400);
+			stop();
             place_lr();
+			forward();
+			_delay_ms(150);
+			stop();
         }
         else
         {
+			back();
+			_delay_ms(400);
+			stop();
             place_hr();
+			forward();
+			_delay_ms(150);
+			stop();
         }
         is_block1 = check_block(3);
         is_block2 = check_block(4);
@@ -2920,11 +2944,23 @@ int main()
         stop();
         if (house_config[house_no-1]==0)
         {
+			back();
+			_delay_ms(400);
+			stop();
             place_lr();
+			forward();
+			_delay_ms(150);
+			stop();
         }
         else
         {
+			back();
+			_delay_ms(400);
+			stop();
             place_hr();
+			forward();
+			_delay_ms(150);
+			stop();
         }
         is_block1 = check_block(5);
         is_block2 = check_block(6);
@@ -2954,11 +2990,23 @@ int main()
         stop();
         if (house_config[house_no-1]==0)
         {
+			back();
+			_delay_ms(400);
+			stop();
             place_lr();
+			forward();
+			_delay_ms(150);
+			stop();
         }
         else
         {
+			back();
+			_delay_ms(400);
+			stop();
             place_hr();
+			forward();
+			_delay_ms(150);
+			stop();
         }
         is_block1 = check_block(7);
         is_block2 = check_block(8);
@@ -3110,11 +3158,23 @@ int main()
         stop();
         if (house_config[house_no-1]==0)
         {
+			back();
+			_delay_ms(400);
+			stop();
             place_lr();
+			forward();
+			_delay_ms(150);
+			stop();
         }
         else
         {
+			back();
+			_delay_ms(400);
+			stop();
             place_hr();
+			forward();
+			_delay_ms(150);
+			stop();
         }
         is_block1 = check_block(1);
         is_block2 = check_block(2);
@@ -3144,11 +3204,23 @@ int main()
         stop();
         if (house_config[house_no-1]==0)
         {
+			back();
+			_delay_ms(400);
+			stop();
             place_lr();
+			forward();
+			_delay_ms(150);
+			stop();
         }
         else
         {
+			back();
+			_delay_ms(400);
+			stop();
             place_hr();
+			forward();
+			_delay_ms(150);
+			stop();
         }
         is_block1 = check_block(3);
         is_block2 = check_block(4);
@@ -3178,11 +3250,23 @@ int main()
         stop();
         if (house_config[house_no-1]==0)
         {
+			back();
+			_delay_ms(400);
+			stop();
             place_lr();
+			forward();
+			_delay_ms(150);
+			stop();
         }
         else
         {
+			back();
+			_delay_ms(400);
+			stop();
             place_hr();
+			forward();
+			_delay_ms(150);
+			stop();
         }
         is_block1 = check_block(5);
         is_block2 = check_block(6);
@@ -3212,11 +3296,23 @@ int main()
         stop();
         if (house_config[house_no-1]==0)
         {
+			back();
+			_delay_ms(400);
+			stop();
             place_lr();
+			forward();
+			_delay_ms(150);
+			stop();
         }
         else
         {
+			back();
+			_delay_ms(400);
+			stop();
             place_hr();
+			forward();
+			_delay_ms(150);
+			stop();
         }
         is_block1 = check_block(7);
         is_block2 = check_block(8);
@@ -3367,11 +3463,23 @@ int main()
         stop();
         if (house_config[house_no-1]==0)
         {
+			back();
+			_delay_ms(400);
+			stop();
             place_lr();
+			forward();
+			_delay_ms(150);
+			stop();
         }
         else
         {
+			back();
+			_delay_ms(400);
+			stop();
             place_hr();
+			forward();
+			_delay_ms(150);
+			stop();
         }
         is_block1 = check_block(1);
         is_block2 = check_block(2);
@@ -3401,11 +3509,23 @@ int main()
         stop();
         if (house_config[house_no-1]==0)
         {
+			back();
+			_delay_ms(400);
+			stop();
             place_lr();
+			forward();
+			_delay_ms(150);
+			stop();
         }
         else
         {
+			back();
+			_delay_ms(400);
+			stop();
             place_hr();
+			forward();
+			_delay_ms(150);
+			stop();
         }
         is_block1 = check_block(3);
         is_block2 = check_block(4);
@@ -3435,11 +3555,23 @@ int main()
         stop();
         if (house_config[house_no-1]==0)
         {
+			back();
+			_delay_ms(400);
+			stop();
             place_lr();
+			forward();
+			_delay_ms(150);
+			stop();
         }
         else
         {
+			back();
+			_delay_ms(400);
+			stop();
             place_hr();
+			forward();
+			_delay_ms(150);
+			stop();
         }
         is_block1 = check_block(5);
         is_block2 = check_block(6);
@@ -3469,11 +3601,23 @@ int main()
         stop();
         if (house_config[house_no-1]==0)
         {
+			back();
+			_delay_ms(400);
+			stop();
             place_lr();
+			forward();
+			_delay_ms(150);
+			stop();
         }
         else
         {
+			back();
+			_delay_ms(400);
+			stop();
             place_hr();
+			forward();
+			_delay_ms(150);
+			stop();
         }
         is_block1 = check_block(7);
         is_block2 = check_block(8);
@@ -3625,11 +3769,23 @@ int main()
         stop();
         if (house_config[house_no-1]==0)
         {
+			back();
+			_delay_ms(400);
+			stop();
             place_lr();
+			forward();
+			_delay_ms(150);
+			stop();
         }
         else
         {
+			back();
+			_delay_ms(400);
+			stop();
             place_hr();
+			forward();
+			_delay_ms(150);
+			stop();
         }
         is_block1 = check_block(1);
         is_block2 = check_block(2);
@@ -3659,11 +3815,23 @@ int main()
         stop();
         if (house_config[house_no-1]==0)
         {
+			back();
+			_delay_ms(400);
+			stop();
             place_lr();
+			forward();
+			_delay_ms(150);
+			stop();
         }
         else
         {
+			back();
+			_delay_ms(400);
+			stop();
             place_hr();
+			forward();
+			_delay_ms(150);
+			stop();
         }
         is_block1 = check_block(3);
         is_block2 = check_block(4);
@@ -3693,11 +3861,23 @@ int main()
         stop();
         if (house_config[house_no-1]==0)
         {
+			back();
+			_delay_ms(400);
+			stop();
             place_lr();
+			forward();
+			_delay_ms(150);
+			stop();
         }
         else
         {
+			back();
+			_delay_ms(400);
+			stop();
             place_hr();
+			forward();
+			_delay_ms(150);
+			stop();
         }
         is_block1 = check_block(5);
         is_block2 = check_block(6);
@@ -3727,11 +3907,23 @@ int main()
         stop();
         if (house_config[house_no-1]==0)
         {
+			back();
+			_delay_ms(400);
+			stop();
             place_lr();
+			forward();
+			_delay_ms(150);
+			stop();
         }
         else
         {
+			back();
+			_delay_ms(400);
+			stop();
             place_hr();
+			forward();
+			_delay_ms(150);
+			stop();
         }
         is_block1 = check_block(7);
         is_block2 = check_block(8);
