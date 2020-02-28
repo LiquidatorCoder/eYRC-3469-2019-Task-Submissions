@@ -1695,29 +1695,28 @@ void m_pick(void)
 {
 	unsigned char i = 0;
 	PORTH |= (1 << 0);  //Master Servo motor demux pin set to 0
-	_delay_ms(50);
-	_delay_ms(50);
-	// static_reorientation();
-	servo_1(95);
-	_delay_ms(1000);
+	_delay_ms(100);
+	_delay_ms(100);
+	servo_1(95);							//Base Motor set for m_pick
+	_delay_ms(400);
 	servo_1_free();
-	servo_3(140);
+	_delay_ms(100);
+	servo_3(140);							//master gripper open for m_pick
 	_delay_ms(750);
-	for (i = 0; i <97; i++)
+	for (i = 0; i <137; i++)							//Arm Servo moved down for m_pick
 	{
 		servo_2(i);
-		_delay_ms(10);
+		_delay_ms(6);
 	}
-	//servo_2(90);
-	//_delay_ms(1000);
-	servo_3(10);
-	_delay_ms(500);
-	_delay_ms(500);
-	servo_2(0);
+	_delay_ms(100);
+	servo_3(0);									//Master Gripper closed for m_pick
+	_delay_ms(750);
+	servo_2(15);							//Arm Servo moved up after m_pick
 	_delay_ms(1000);
+	servo_2_free();
+
 
 }
-
 /*
 *
 * Function Name: s_pick
@@ -1729,26 +1728,24 @@ void m_pick(void)
 void s_pick(void)
 {
 	unsigned char i = 0;
-	PORTH &= ~(1 << 0);//Slave Servo motor demux pin set to 1
-	_delay_ms(50);
-	_delay_ms(50);
-	// static_reorientation();
-	servo_1(65);
-	_delay_ms(1000);
+	PORTH |= (1 << 3);  //Master Servo motor demux pin set to 0
+	_delay_ms(100);
+	_delay_ms(100);
+	servo_1(65);							//Base Motor set for m_pick
+	_delay_ms(400);
 	servo_1_free();
-	servo_4(10);
-	_delay_ms(1000);
-	for (i = 0; i <97; i++)
+	_delay_ms(100);
+	servo_3(10);							//master gripper open for m_pick
+	_delay_ms(750);
+	for (i = 0; i <137; i++)							//Arm Servo moved down for m_pick
 	{
 		servo_2(i);
-		_delay_ms(10);
+		_delay_ms(6);
 	}
-	//servo_2(90);
-	//_delay_ms(1000);
-	servo_4(165);
-	_delay_ms(500);
-	_delay_ms(500);
-	servo_2(0);
+	_delay_ms(100);
+	servo_3(165);									//Master Gripper closed for m_pick
+	_delay_ms(750);
+	servo_2(15);							//Arm Servo moved up after m_pick
 	_delay_ms(1000);
 	servo_2_free();
 	servo_1(90);
@@ -2612,7 +2609,7 @@ void pet_walk()
 	
 }
 /*--------------------------------------------------------------MAIN-----------------------------------------------------------*/
-
+/*
 int main()
 {
     init_devices();
@@ -4062,7 +4059,7 @@ int main()
     }
 }
 
-/* --------------------------------------------------------------*/
+ --------------------------------------------------------------*/
 
 //int main()
 //{
@@ -4137,3 +4134,11 @@ int main()
 	//forward_wls(3,1);
 //}
 //
+
+int main()
+{
+	init_devices();
+	m_pick();
+	_delay_ms(100);
+	s_pick();
+}
