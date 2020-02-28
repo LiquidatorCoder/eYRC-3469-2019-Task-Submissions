@@ -1211,26 +1211,26 @@ void block_choose2(int block,int block_placed[])
         fdir = 'e';
         block_traverse();
         block_placed[block-1] = 1;
-		velocity(base,base);
-		stop();
-		_delay_ms(100);
+        velocity(base,base);
+        stop();
+        _delay_ms(100);
         back();
         _delay_ms(200);
         stop();
         _delay_ms(100);
         object_detect();
-		velocity(base,base);
-		
+        velocity(base,base);
+
     }
     else if (block%2 == 1)
     {
         fdir = 'w';
         block_traverse();
         block_placed[block-1] = 1;
-		velocity(base,base);
-         stop();
-         _delay_ms(100);
-	    back();
+        velocity(base,base);
+        stop();
+        _delay_ms(100);
+        back();
         _delay_ms(200);
         stop();
         _delay_ms(100);
@@ -1239,10 +1239,10 @@ void block_choose2(int block,int block_placed[])
             back();
             _delay_ms(50);
             stop();
-			_delay_ms(100);
+            _delay_ms(100);
         }
         object_detect();
-		velocity(base,base);
+        velocity(base,base);
     }
 }
 /* --------------------------------------------------------------*/
@@ -1338,7 +1338,7 @@ void servo3_pin_config(void)
 void demux_pin_config(void)
 {
     DDRH = DDRH | 0xFF; //making PORTH pin output
-    PORTH &= ~(1 << 0); //Master
+    PORTH &= ~(1 << 0);
 }
 
 //ADC pin configuration
@@ -1653,32 +1653,32 @@ void LCD_Function(int a)
 void object_detect(void)
 {
     //static_reorientation();
-    
-  unsigned char ob1= 0,ob2 =0;
-   
-  
+
+    unsigned char ob1= 0,ob2 =0;
+
+
     velocity(150,150);
-	if (u == 2 || u == 11)
-	{
-		right();
-		 _delay_ms(300);
-		 stop();
-		 _delay_ms(100);
-		 velocity(100,100);
-		 left();
-	} 
-	else
-	{
-		left();
-		 _delay_ms(300);
-		 stop();
-		 _delay_ms(100);
-		 velocity(110,110);
-		 right();
-	}
-     while (1)
-   {
-		
+    if (u == 2 || u == 11)
+    {
+        right();
+        _delay_ms(300);
+        stop();
+        _delay_ms(100);
+        velocity(100,100);
+        left();
+    }
+    else
+    {
+        left();
+        _delay_ms(300);
+        stop();
+        _delay_ms(100);
+        velocity(110,110);
+        right();
+    }
+    while (1)
+    {
+
         ob1 = ADC_Conversion(13) ;
         if (ob2 > ob1 && ob1 > 55 && ob1 < 95)
         {
@@ -1686,34 +1686,34 @@ void object_detect(void)
             stop();
             break;
         }
-      
-       ob2 = ob1;
-        
+
+        ob2 = ob1;
+
     }
 }
 void m_pick(void)
 {
-	unsigned char i = 0;
-	PORTH |= (1 << 0);  //Master Servo motor demux pin set to 0
-	_delay_ms(100);
-	_delay_ms(100);
-	servo_1(95);							//Base Motor set for m_pick
-	_delay_ms(400);
-	servo_1_free();
-	_delay_ms(100);
-	servo_3(140);							//master gripper open for m_pick
-	_delay_ms(750);
-	for (i = 0; i <137; i++)							//Arm Servo moved down for m_pick
-	{
-		servo_2(i);
-		_delay_ms(6);
-	}
-	_delay_ms(100);
-	servo_3(0);									//Master Gripper closed for m_pick
-	_delay_ms(750);
-	servo_2(15);							//Arm Servo moved up after m_pick
-	_delay_ms(1000);
-	servo_2_free();
+    unsigned char i = 0;
+    PORTH |= (1 << 0);  //Master Servo motor demux pin set to 0
+    _delay_ms(100);
+    _delay_ms(100);
+    servo_1(95);							//Base Motor set for m_pick
+    _delay_ms(400);
+    servo_1_free();
+    _delay_ms(100);
+    servo_3(140);							//master gripper open for m_pick
+    _delay_ms(750);
+    for (i = 0; i <137; i++)							//Arm Servo moved down for m_pick
+    {
+        servo_2(i);
+        _delay_ms(6);
+    }
+    _delay_ms(100);
+    servo_3(0);									//Master Gripper closed for m_pick
+    _delay_ms(750);
+    servo_2(15);							//Arm Servo moved up after m_pick
+    _delay_ms(1000);
+    servo_2_free();
 
 
 }
@@ -1727,135 +1727,135 @@ void m_pick(void)
 */
 void s_pick(void)
 {
-	unsigned char i = 0;
-	PORTH |= (1 << 3);  //Master Servo motor demux pin set to 0
-	_delay_ms(100);
-	_delay_ms(100);
-	servo_1(65);							//Base Motor set for m_pick
-	_delay_ms(400);
-	servo_1_free();
-	_delay_ms(100);
-	servo_3(10);							//master gripper open for m_pick
-	_delay_ms(750);
-	for (i = 0; i <137; i++)							//Arm Servo moved down for m_pick
-	{
-		servo_2(i);
-		_delay_ms(6);
-	}
-	_delay_ms(100);
-	servo_3(165);									//Master Gripper closed for m_pick
-	_delay_ms(750);
-	servo_2(15);							//Arm Servo moved up after m_pick
-	_delay_ms(1000);
-	servo_2_free();
-	servo_1(90);
-	_delay_ms(750);
-	servo_1_free();
+    unsigned char i = 0;
+    PORTH |= (1 << 3);  //Master Servo motor demux pin set to 0
+    _delay_ms(100);
+    _delay_ms(100);
+    servo_1(65);							//Base Motor set for m_pick
+    _delay_ms(400);
+    servo_1_free();
+    _delay_ms(100);
+    servo_3(10);							//master gripper open for m_pick
+    _delay_ms(750);
+    for (i = 0; i <137; i++)							//Arm Servo moved down for m_pick
+    {
+        servo_2(i);
+        _delay_ms(6);
+    }
+    _delay_ms(100);
+    servo_3(165);									//Master Gripper closed for m_pick
+    _delay_ms(750);
+    servo_2(15);							//Arm Servo moved up after m_pick
+    _delay_ms(1000);
+    servo_2_free();
+    servo_1(90);
+    _delay_ms(750);
+    servo_1_free();
 }
 
 void inv_place_1()
 {
-	velocity(base,base);
-	right();
-	_delay_ms(50);
-	stop();
+    velocity(base,base);
+    right();
+    _delay_ms(50);
+    stop();
     servo_1(5);
     _delay_ms(1000);
     servo_1_free();
-	
-	//PORTH |= (1 << 0);  //Master Servo motor demux pin set to 0
-	//_delay_ms(100);
-	//
+
+    //PORTH |= (1 << 0);  //Master Servo motor demux pin set to 0
+    //_delay_ms(100);
+    //
     //servo_3(25);
     //_delay_ms(1000);
-	//
-	//PORTH &= ~(1 << 0);//Slave Servo motor demux pin set to 1
-	//_delay_ms(100);
-	//
+    //
+    //PORTH &= ~(1 << 0);//Slave Servo motor demux pin set to 1
+    //_delay_ms(100);
+    //
     //servo_4(150);
     //_delay_ms(1000);
-	
+
     servo_2(45);
     _delay_ms(1000);
-	
-	PORTH |= (1 << 0);  //Master Servo motor demux pin set to 0
-	_delay_ms(100);
-	
+
+    PORTH |= (1 << 0);  //Master Servo motor demux pin set to 0
+    _delay_ms(100);
+
     servo_3(105);
     _delay_ms(1000);
     servo_3_free();
-	
-	servo_1(0);
-	_delay_ms(1000);
-	servo_1_free();
-	
-	PORTH &= ~(1 << 0);//Slave Servo motor demux pin set to 1
-	_delay_ms(100);
+
+    servo_1(0);
+    _delay_ms(1000);
+    servo_1_free();
+
+    PORTH &= ~(1 << 0);//Slave Servo motor demux pin set to 1
+    _delay_ms(100);
     servo_4(40);
     _delay_ms(1000);
     servo_3_free();
-	
+
     servo_2(0);
     _delay_ms(1000);
     servo_2_free();
     servo_1(95);
     _delay_ms(1000);
     servo_1_free();
-	left();
-	_delay_ms(50);
-	stop();
+    left();
+    _delay_ms(50);
+    stop();
 }
 
 void inv_place_2()
 {
-	velocity(base,base);
-	left();
-	_delay_ms(50);
-	stop();
-	servo_1(180);
-	_delay_ms(1000);
-	servo_1_free();
-	
-	//PORTH |= (1 << 0);  //Master Servo motor demux pin set to 0
-	//_delay_ms(100);
-	//
-	//servo_3(25);
-	//_delay_ms(1000);
-	//
-	//PORTH &= ~(1 << 0);//Slave Servo motor demux pin set to 1
-	//_delay_ms(100);
-	//
-	//servo_4(150);
-	//_delay_ms(1000);
-	
-	servo_2(45);
-	_delay_ms(1000);
-	
-	PORTH |= (1 << 0);  //Master Servo motor demux pin set to 0
-	_delay_ms(100);
-	
-	servo_3(105);
-	_delay_ms(1000);
-	servo_3_free();
-	servo_1(175);
-	_delay_ms(1000);
-	servo_1_free();
-	
-	PORTH &= ~(1 << 0);//Slave Servo motor demux pin set to 1
-	_delay_ms(100);
-	servo_4(40);
-	_delay_ms(1000);
-	servo_3_free();
-	
-	servo_2(0);
-	_delay_ms(1000);
-	servo_2_free();
-	servo_1(95);
-	_delay_ms(1000);
-	servo_1_free();
-	right();
-	_delay_ms(50);
-	stop();
+    velocity(base,base);
+    left();
+    _delay_ms(50);
+    stop();
+    servo_1(180);
+    _delay_ms(1000);
+    servo_1_free();
+
+    //PORTH |= (1 << 0);  //Master Servo motor demux pin set to 0
+    //_delay_ms(100);
+    //
+    //servo_3(25);
+    //_delay_ms(1000);
+    //
+    //PORTH &= ~(1 << 0);//Slave Servo motor demux pin set to 1
+    //_delay_ms(100);
+    //
+    //servo_4(150);
+    //_delay_ms(1000);
+
+    servo_2(45);
+    _delay_ms(1000);
+
+    PORTH |= (1 << 0);  //Master Servo motor demux pin set to 0
+    _delay_ms(100);
+
+    servo_3(105);
+    _delay_ms(1000);
+    servo_3_free();
+    servo_1(175);
+    _delay_ms(1000);
+    servo_1_free();
+
+    PORTH &= ~(1 << 0);//Slave Servo motor demux pin set to 1
+    _delay_ms(100);
+    servo_4(40);
+    _delay_ms(1000);
+    servo_3_free();
+
+    servo_2(0);
+    _delay_ms(1000);
+    servo_2_free();
+    servo_1(95);
+    _delay_ms(1000);
+    servo_1_free();
+    right();
+    _delay_ms(50);
+    stop();
 }
 
 /*
@@ -1868,8 +1868,8 @@ void inv_place_2()
 */
 void place_lr(void)
 {
-	PORTH |= (1 << 0);  //Master Servo motor demux pin set to 0
-	_delay_ms(100);
+    PORTH |= (1 << 0);  //Master Servo motor demux pin set to 0
+    _delay_ms(100);
     servo_1(95);
     _delay_ms(750);
     servo_1_free();
@@ -1879,18 +1879,18 @@ void place_lr(void)
     _delay_ms(750);
     servo_3(105);
     _delay_ms(750);
-	
-	PORTH &= ~(1 << 0);//Slave Servo motor demux pin set to 1
-	_delay_ms(100);
-	 servo_1(72);
-	 _delay_ms(750);
-	 //servo_4(150);
-	 //_delay_ms(750);
-	 //servo_2(65);
-	 //_delay_ms(1000);
-	 servo_3(40);
-	 _delay_ms(750);
-	 
+
+    PORTH &= ~(1 << 0);//Slave Servo motor demux pin set to 1
+    _delay_ms(100);
+    servo_1(72);
+    _delay_ms(750);
+    //servo_4(150);
+    //_delay_ms(750);
+    //servo_2(65);
+    //_delay_ms(1000);
+    servo_3(40);
+    _delay_ms(750);
+
     servo_2(0);
     _delay_ms(1000);
     servo_1(95);
@@ -1898,32 +1898,32 @@ void place_lr(void)
 
 void place_hr(void)
 {
-	PORTH |= (1 << 0);  //Master Servo motor demux pin set to 0
-	_delay_ms(100);
-	servo_1(95);
-	_delay_ms(750);
-	servo_1_free();
-	//servo_3(30);
-	//_delay_ms(750);
-	servo_2(35);
-	_delay_ms(750);
-	servo_3(105);
-	_delay_ms(750);
-	
-	PORTH &= ~(1 << 0);//Slave Servo motor demux pin set to 1
-	_delay_ms(100);
-	servo_1(72);
-	_delay_ms(750);
-	//servo_4(150);
-	//_delay_ms(750);
-	//servo_2(65);
-	//_delay_ms(1000);
-	servo_3(40);
-	_delay_ms(750);
-	
-	servo_2(0);
-	_delay_ms(1000);
-	servo_1(95);
+    PORTH |= (1 << 0);  //Master Servo motor demux pin set to 0
+    _delay_ms(100);
+    servo_1(95);
+    _delay_ms(750);
+    servo_1_free();
+    //servo_3(30);
+    //_delay_ms(750);
+    servo_2(35);
+    _delay_ms(750);
+    servo_3(105);
+    _delay_ms(750);
+
+    PORTH &= ~(1 << 0);//Slave Servo motor demux pin set to 1
+    _delay_ms(100);
+    servo_1(72);
+    _delay_ms(750);
+    //servo_4(150);
+    //_delay_ms(750);
+    //servo_2(65);
+    //_delay_ms(1000);
+    servo_3(40);
+    _delay_ms(750);
+
+    servo_2(0);
+    _delay_ms(1000);
+    servo_1(95);
 }
 
 /* --------------------------------------------------------------NAVIGATION SECTION---------------------------------------------------------------------------*/
@@ -2007,15 +2007,15 @@ void forward_wls(int a, int node)
     unsigned int count3 = 0;
     while (1)
     {
-		  ls = ADC_Conversion(1);
-		  ms = ADC_Conversion(2);
-		  rs = ADC_Conversion(3);
-		  wall =ADC_Conversion(11);
-        
-		forward();
+        ls = ADC_Conversion(1);
+        ms = ADC_Conversion(2);
+        rs = ADC_Conversion(3);
+        wall =ADC_Conversion(11);
+
+        forward();
         OCR5AL = base;
         OCR5BL = base;
-      
+
 
         if ((a == 2) && (ls + ms + rs > 300)) // Certain nodes on the edge of the arena allow only two sensor to stand on them and hence have a different threshold than standard nodes
         {
@@ -2052,11 +2052,11 @@ void forward_wls(int a, int node)
             _delay_ms(50);
             velocity(base,base);
             forward();
-            _delay_ms(200);
+            _delay_ms(250);
             stop();
             break;
         }
-       if ((ls < 60 && ms >= 125 && rs < 60)) // Motor speed is changed directly to adjust the robot rather than calling left or right to increase smoothness in motion
+        if ((ls < 60 && ms >= 125 && rs < 60)) // Motor speed is changed directly to adjust the robot rather than calling left or right to increase smoothness in motion
         {
             // Velocity function was not called and values were configured directly as function calling was increasing bot response time in while(1) loop
 
@@ -2093,11 +2093,11 @@ void forward_wls(int a, int node)
             _delay_ms(3);
 
         }
-        if (ms < 60 && (ls + rs < 80)&& (a ==  0))
+        if (ms < 60 && (ls + rs < 40)&& (a ==  0))
         {
             ++count1;
             ++count3;
-            if ((count3>=250)||(count1>=500))
+            if ((count3>=600))
             {
                 PORTA = 0x00;
                 stop();
@@ -2151,8 +2151,10 @@ void forward_inv()
             back();
             _delay_ms(400);
             stop();
-			if (inv == 1) inv_place_1();
-			else if (inv == 0) inv_place_2();
+            if (inv == 1)
+                inv_place_1();
+            else if (inv == 0)
+                inv_place_2();
             forward();
             _delay_ms(200);
             continue;
@@ -2509,32 +2511,7 @@ void left_turn_wls_bwall(void)
     OCR5BL = base;
 }
 
-/*--------------------------------------------------------TEST CIRCUITS---------------------------------------------------------------------------------*/
-void circuit_1(void)
-{
 
-    forward_wls(0,1);
-    right_turn_wls();
-    forward_wls(2,1);
-    right_turn_wls();
-    forward_wls(0,2);
-    right_turn_wls();
-    forward_wls(1,1);
-    left_turn_wls();
-    forward_wls(0,2);
-    left_turn_wls();
-    forward_zigzag();
-    right_turn_wls();
-    forward_wls(0,1);
-    forward_wls(2,1);
-    right_turn_inv();
-    forward_wls(3,1);
-    right_turn_wls();
-    forward_wls(0,5);
-    forward_wls(2,1);
-    right_turn_wls();
-    forward_wls(2,1);
-}
 /* -------------------------------------------------------------INITIALIZATION--------------------------------------------------*/
 
 //Function to Initialize ADC
@@ -2558,64 +2535,21 @@ void init_devices(void)
     lcd_set_4bit(); //These functions need not to be inside interrupt blocked code
     lcd_init();
 }
-/*------------------------------------------------------------------------------------------------------------------------------*/
-void pet_walk()
-{
-	while (1)
-	{
-		unsigned char w;
-		w = ADC_Conversion(13);
-		if (w < 150 && w > 50)
-		{
-			forward();
-			velocity(200,200);
-		}
-		else if (w>200)
-		{
-			back();
-			velocity(200,200);
-		}
-		else if (w >=150 && w <= 200)
-		{
-			stop();
-		}
-		else if (w <= 50)
-		{
-			 unsigned char ob1= 0,ob2 =0;
-			 velocity(150,150);
-			left();
-		    _delay_ms(300);
-		    stop();
-		   _delay_ms(100);
-		   velocity(100,100);
-		   right();
-		 while (1)
-			 {
-				 
-				 ob1 = ADC_Conversion(13) ;
-				 if (ob2 > ob1 && ob1 > 55)
-				 {
-					 PORTA = 0x00;
-					 stop();
-					 break;
-				 }
-				 
-				 ob2 = ob1;
-				 
-			 }
-			
-		}
-	}
-	
-}
+
+
 /*--------------------------------------------------------------MAIN-----------------------------------------------------------*/
-/*
+
 int main()
 {
     init_devices();
-	//lcd_init();
-	//while(1)
-	//{LCD_ON();}
+    _delay_ms(2000);
+    while (1)
+    {
+        m_pick();
+        _delay_ms(2000);
+        s_pick();
+        _delay_ms(2000);
+    }
     int is_block1 = 0;
     int is_block2 = 0;
     int is_block3 = 0;
@@ -2657,9 +2591,9 @@ int main()
         //block_choose(bnode,block_placed);
         //printf("Block Choose Completed\n");
         s_pick();
-		forward();
-		_delay_ms(150);
-		stop();
+        forward();
+        _delay_ms(150);
+        stop();
         lcd_init();
         for(int p = 0; p<=12; p++)
         {
@@ -2709,9 +2643,9 @@ int main()
         block_choose2(block,block_placed);
         //printf("Block Choose Completed\n");
         m_pick();
-		forward();
-		_delay_ms(150);
-		stop();
+        forward();
+        _delay_ms(150);
+        stop();
         lcd_init();
         u=bnode;
 
@@ -2738,9 +2672,9 @@ int main()
         block_choose2(block,block_placed);
         //printf("Block Choose Completed\n");
         s_pick();
-		forward();
-		_delay_ms(150);
-		stop();
+        forward();
+        _delay_ms(150);
+        stop();
         lcd_init();
         for(int p = 0; p<=12; p++)
         {
@@ -2767,7 +2701,7 @@ int main()
     }
     if (u==7)
     {
-		inv = 0;
+        inv = 0;
         right_turn_inv();
         forward_wls(3,1);
         face = 'e';
@@ -2787,7 +2721,7 @@ int main()
     }
     else if (u==8)
     {
-		inv = 1;
+        inv = 1;
         left_turn_inv();
         forward_wls(3,1);
         face = 'w';
@@ -2879,9 +2813,9 @@ int main()
     if (house_no != -1)
     {
         m_pick();
-		forward();
-		_delay_ms(150);
-		stop();
+        forward();
+        _delay_ms(150);
+        stop();
     }
     if (block == which_material[2*house_no - 1])
     {
@@ -2913,9 +2847,9 @@ int main()
         block_choose2(block,block_placed);
         //printf("Block Choose Completed\n");
         s_pick();
-		forward();
-		_delay_ms(150);
-		stop();
+        forward();
+        _delay_ms(150);
+        stop();
     }
 
     dijkstra(G,n,u);
@@ -2942,23 +2876,23 @@ int main()
         stop();
         if (house_config[house_no-1]==0)
         {
-			back();
-			_delay_ms(300);
-			stop();
+            back();
+            _delay_ms(300);
+            stop();
             place_lr();
-			forward();
-			_delay_ms(150);
-			stop();
+            forward();
+            _delay_ms(150);
+            stop();
         }
         else
         {
-			back();
-			_delay_ms(300);
-			stop();
+            back();
+            _delay_ms(300);
+            stop();
             place_hr();
-			forward();
-			_delay_ms(150);
-			stop();
+            forward();
+            _delay_ms(150);
+            stop();
         }
         is_block1 = check_block(1);
         is_block2 = check_block(2);
@@ -2988,23 +2922,23 @@ int main()
         stop();
         if (house_config[house_no-1]==0)
         {
-			back();
-			_delay_ms(300);
-			stop();
+            back();
+            _delay_ms(300);
+            stop();
             place_lr();
-			forward();
-			_delay_ms(150);
-			stop();
+            forward();
+            _delay_ms(150);
+            stop();
         }
         else
         {
-			back();
-			_delay_ms(300);
-			stop();
+            back();
+            _delay_ms(300);
+            stop();
             place_hr();
-			forward();
-			_delay_ms(150);
-			stop();
+            forward();
+            _delay_ms(150);
+            stop();
         }
         is_block1 = check_block(3);
         is_block2 = check_block(4);
@@ -3034,23 +2968,23 @@ int main()
         stop();
         if (house_config[house_no-1]==0)
         {
-			back();
-			_delay_ms(300);
-			stop();
+            back();
+            _delay_ms(300);
+            stop();
             place_lr();
-			forward();
-			_delay_ms(150);
-			stop();
+            forward();
+            _delay_ms(150);
+            stop();
         }
         else
         {
-			back();
-			_delay_ms(300);
-			stop();
+            back();
+            _delay_ms(300);
+            stop();
             place_hr();
-			forward();
-			_delay_ms(150);
-			stop();
+            forward();
+            _delay_ms(150);
+            stop();
         }
         is_block1 = check_block(5);
         is_block2 = check_block(6);
@@ -3080,23 +3014,23 @@ int main()
         stop();
         if (house_config[house_no-1]==0)
         {
-			back();
-			_delay_ms(300);
-			stop();
+            back();
+            _delay_ms(300);
+            stop();
             place_lr();
-			forward();
-			_delay_ms(150);
-			stop();
+            forward();
+            _delay_ms(150);
+            stop();
         }
         else
         {
-			back();
-			_delay_ms(300);
-			stop();
+            back();
+            _delay_ms(300);
+            stop();
             place_hr();
-			forward();
-			_delay_ms(150);
-			stop();
+            forward();
+            _delay_ms(150);
+            stop();
         }
         is_block1 = check_block(7);
         is_block2 = check_block(8);
@@ -3191,9 +3125,9 @@ int main()
     if (house_no != -1)
     {
         m_pick();
-		forward();
-		_delay_ms(150);
-		stop();
+        forward();
+        _delay_ms(150);
+        stop();
     }
     if (block == which_material[2*house_no - 1])
     {
@@ -3225,9 +3159,9 @@ int main()
         block_choose2(block,block_placed);
         //printf("Block Choose Completed\n");
         s_pick();
-		forward();
-		_delay_ms(150);
-		stop();
+        forward();
+        _delay_ms(150);
+        stop();
     }
 
     dijkstra(G,n,u);
@@ -3254,23 +3188,23 @@ int main()
         stop();
         if (house_config[house_no-1]==0)
         {
-			back();
-			_delay_ms(300);
-			stop();
+            back();
+            _delay_ms(300);
+            stop();
             place_lr();
-			forward();
-			_delay_ms(150);
-			stop();
+            forward();
+            _delay_ms(150);
+            stop();
         }
         else
         {
-			back();
-			_delay_ms(300);
-			stop();
+            back();
+            _delay_ms(300);
+            stop();
             place_hr();
-			forward();
-			_delay_ms(150);
-			stop();
+            forward();
+            _delay_ms(150);
+            stop();
         }
         is_block1 = check_block(1);
         is_block2 = check_block(2);
@@ -3300,23 +3234,23 @@ int main()
         stop();
         if (house_config[house_no-1]==0)
         {
-			back();
-			_delay_ms(300);
-			stop();
+            back();
+            _delay_ms(300);
+            stop();
             place_lr();
-			forward();
-			_delay_ms(150);
-			stop();
+            forward();
+            _delay_ms(150);
+            stop();
         }
         else
         {
-			back();
-			_delay_ms(300);
-			stop();
+            back();
+            _delay_ms(300);
+            stop();
             place_hr();
-			forward();
-			_delay_ms(150);
-			stop();
+            forward();
+            _delay_ms(150);
+            stop();
         }
         is_block1 = check_block(3);
         is_block2 = check_block(4);
@@ -3346,23 +3280,23 @@ int main()
         stop();
         if (house_config[house_no-1]==0)
         {
-			back();
-			_delay_ms(300);
-			stop();
+            back();
+            _delay_ms(300);
+            stop();
             place_lr();
-			forward();
-			_delay_ms(150);
-			stop();
+            forward();
+            _delay_ms(150);
+            stop();
         }
         else
         {
-			back();
-			_delay_ms(300);
-			stop();
+            back();
+            _delay_ms(300);
+            stop();
             place_hr();
-			forward();
-			_delay_ms(150);
-			stop();
+            forward();
+            _delay_ms(150);
+            stop();
         }
         is_block1 = check_block(5);
         is_block2 = check_block(6);
@@ -3392,23 +3326,23 @@ int main()
         stop();
         if (house_config[house_no-1]==0)
         {
-			back();
-			_delay_ms(300);
-			stop();
+            back();
+            _delay_ms(300);
+            stop();
             place_lr();
-			forward();
-			_delay_ms(150);
-			stop();
+            forward();
+            _delay_ms(150);
+            stop();
         }
         else
         {
-			back();
-			_delay_ms(300);
-			stop();
+            back();
+            _delay_ms(300);
+            stop();
             place_hr();
-			forward();
-			_delay_ms(150);
-			stop();
+            forward();
+            _delay_ms(150);
+            stop();
         }
         is_block1 = check_block(7);
         is_block2 = check_block(8);
@@ -3503,9 +3437,9 @@ int main()
     if (house_no != -1)
     {
         m_pick();
-		forward();
-		_delay_ms(150);
-		stop();
+        forward();
+        _delay_ms(150);
+        stop();
     }
     if (block == which_material[2*house_no - 1])
     {
@@ -3537,9 +3471,9 @@ int main()
         block_choose2(block,block_placed);
         //printf("Block Choose Completed\n");
         s_pick();
-		forward();
-		_delay_ms(150);
-		stop();
+        forward();
+        _delay_ms(150);
+        stop();
     }
     dijkstra(G,n,u);
     //printf("Dijkstra Completed\n");
@@ -3565,23 +3499,23 @@ int main()
         stop();
         if (house_config[house_no-1]==0)
         {
-			back();
-			_delay_ms(300);
-			stop();
+            back();
+            _delay_ms(300);
+            stop();
             place_lr();
-			forward();
-			_delay_ms(150);
-			stop();
+            forward();
+            _delay_ms(150);
+            stop();
         }
         else
         {
-			back();
-			_delay_ms(300);
-			stop();
+            back();
+            _delay_ms(300);
+            stop();
             place_hr();
-			forward();
-			_delay_ms(150);
-			stop();
+            forward();
+            _delay_ms(150);
+            stop();
         }
         is_block1 = check_block(1);
         is_block2 = check_block(2);
@@ -3611,23 +3545,23 @@ int main()
         stop();
         if (house_config[house_no-1]==0)
         {
-			back();
-			_delay_ms(300);
-			stop();
+            back();
+            _delay_ms(300);
+            stop();
             place_lr();
-			forward();
-			_delay_ms(150);
-			stop();
+            forward();
+            _delay_ms(150);
+            stop();
         }
         else
         {
-			back();
-			_delay_ms(300);
-			stop();
+            back();
+            _delay_ms(300);
+            stop();
             place_hr();
-			forward();
-			_delay_ms(150);
-			stop();
+            forward();
+            _delay_ms(150);
+            stop();
         }
         is_block1 = check_block(3);
         is_block2 = check_block(4);
@@ -3657,23 +3591,23 @@ int main()
         stop();
         if (house_config[house_no-1]==0)
         {
-			back();
-			_delay_ms(300);
-			stop();
+            back();
+            _delay_ms(300);
+            stop();
             place_lr();
-			forward();
-			_delay_ms(150);
-			stop();
+            forward();
+            _delay_ms(150);
+            stop();
         }
         else
         {
-			back();
-			_delay_ms(300);
-			stop();
+            back();
+            _delay_ms(300);
+            stop();
             place_hr();
-			forward();
-			_delay_ms(150);
-			stop();
+            forward();
+            _delay_ms(150);
+            stop();
         }
         is_block1 = check_block(5);
         is_block2 = check_block(6);
@@ -3703,23 +3637,23 @@ int main()
         stop();
         if (house_config[house_no-1]==0)
         {
-			back();
-			_delay_ms(300);
-			stop();
+            back();
+            _delay_ms(300);
+            stop();
             place_lr();
-			forward();
-			_delay_ms(150);
-			stop();
+            forward();
+            _delay_ms(150);
+            stop();
         }
         else
         {
-			back();
-			_delay_ms(300);
-			stop();
+            back();
+            _delay_ms(300);
+            stop();
             place_hr();
-			forward();
-			_delay_ms(150);
-			stop();
+            forward();
+            _delay_ms(150);
+            stop();
         }
         is_block1 = check_block(7);
         is_block2 = check_block(8);
@@ -3815,9 +3749,9 @@ int main()
     if (house_no != -1)
     {
         m_pick();
-		forward();
-		_delay_ms(150);
-		stop();
+        forward();
+        _delay_ms(150);
+        stop();
     }
     if (block == which_material[2*house_no - 1])
     {
@@ -3849,9 +3783,9 @@ int main()
         block_choose2(block,block_placed);
         //printf("Block Choose Completed\n");
         s_pick();
-		forward();
-		_delay_ms(150);
-		stop();
+        forward();
+        _delay_ms(150);
+        stop();
     }
     dijkstra(G,n,u);
     //printf("Dijkstra Completed\n");
@@ -3877,23 +3811,23 @@ int main()
         stop();
         if (house_config[house_no-1]==0)
         {
-			back();
-			_delay_ms(300);
-			stop();
+            back();
+            _delay_ms(300);
+            stop();
             place_lr();
-			forward();
-			_delay_ms(150);
-			stop();
+            forward();
+            _delay_ms(150);
+            stop();
         }
         else
         {
-			back();
-			_delay_ms(300);
-			stop();
+            back();
+            _delay_ms(300);
+            stop();
             place_hr();
-			forward();
-			_delay_ms(150);
-			stop();
+            forward();
+            _delay_ms(150);
+            stop();
         }
         is_block1 = check_block(1);
         is_block2 = check_block(2);
@@ -3923,23 +3857,23 @@ int main()
         stop();
         if (house_config[house_no-1]==0)
         {
-			back();
-			_delay_ms(300);
-			stop();
+            back();
+            _delay_ms(300);
+            stop();
             place_lr();
-			forward();
-			_delay_ms(150);
-			stop();
+            forward();
+            _delay_ms(150);
+            stop();
         }
         else
         {
-			back();
-			_delay_ms(300);
-			stop();
+            back();
+            _delay_ms(300);
+            stop();
             place_hr();
-			forward();
-			_delay_ms(150);
-			stop();
+            forward();
+            _delay_ms(150);
+            stop();
         }
         is_block1 = check_block(3);
         is_block2 = check_block(4);
@@ -3969,23 +3903,23 @@ int main()
         stop();
         if (house_config[house_no-1]==0)
         {
-			back();
-			_delay_ms(300);
-			stop();
+            back();
+            _delay_ms(300);
+            stop();
             place_lr();
-			forward();
-			_delay_ms(150);
-			stop();
+            forward();
+            _delay_ms(150);
+            stop();
         }
         else
         {
-			back();
-			_delay_ms(300);
-			stop();
+            back();
+            _delay_ms(300);
+            stop();
             place_hr();
-			forward();
-			_delay_ms(150);
-			stop();
+            forward();
+            _delay_ms(150);
+            stop();
         }
         is_block1 = check_block(5);
         is_block2 = check_block(6);
@@ -4015,23 +3949,23 @@ int main()
         stop();
         if (house_config[house_no-1]==0)
         {
-			back();
-			_delay_ms(300);
-			stop();
+            back();
+            _delay_ms(300);
+            stop();
             place_lr();
-			forward();
-			_delay_ms(150);
-			stop();
+            forward();
+            _delay_ms(150);
+            stop();
         }
         else
         {
-			back();
-			_delay_ms(300);
-			stop();
+            back();
+            _delay_ms(300);
+            stop();
             place_hr();
-			forward();
-			_delay_ms(150);
-			stop();
+            forward();
+            _delay_ms(150);
+            stop();
         }
         is_block1 = check_block(7);
         is_block2 = check_block(8);
@@ -4059,86 +3993,5 @@ int main()
     }
 }
 
- --------------------------------------------------------------*/
 
-//int main()
-//{
-	//init_devices();
-	//forward_wls(0,1);
-	//left_turn_wls();
-	//back();
-	//_delay_ms(250);
-	//stop();
-	//s_pick();
-	//right_turn_wls();
-	//right_turn_wls();
-	//back();
-	//_delay_ms(300);
-	//stop();
-	//m_pick();
-	//left_turn_wls();
-	//
-	//forward_wls(0,1);
-	//right_turn_wls();
-	//back();
-	//_delay_ms(400);
-	//stop();
-	//place_lr();
-	//forward();
-	//_delay_ms(150);
-	//stop();
-	//left_turn_wls();
-	//
-	//forward_wls(0,1);
-	//left_turn_wls();
-	//back();
-	//_delay_ms(250);
-	//stop();
-	//s_pick();
-	//right_turn_wls();
-	//right_turn_wls();
-	//back();
-	//_delay_ms(300);
-	//stop();
-	//m_pick();
-	//left_turn_wls();
-	//
-	//forward_wls(0,1);
-	//right_turn_wls();
-	//back();
-	//_delay_ms(400);
-	//stop();
-	//place_hr();
-	//forward();
-	//_delay_ms(150);
-	//stop();
-	//left_turn_wls();
-	//
-	//forward_wls(0,1);
-	//left_turn_wls();
-	//back();
-	//_delay_ms(250);
-	//stop();
-	//s_pick();
-	//right_turn_wls();
-	//right_turn_wls();
-	//back();
-	//_delay_ms(300);
-	//stop();
-	//m_pick();
-	//left_turn_wls();
-	//
-	//forward_wls(2,1);
-	//left_turn_inv();
-	//inv = 1;
-	//forward_wls(3,1);
-//}
-//
 
-int main()
-{
-	init_devices();
-	m_pick();
-	_delay_ms(100);
-	s_pick();
-}
