@@ -1735,7 +1735,7 @@ void s_pick(void)
     _delay_ms(400);
     servo_1_free();
     _delay_ms(100);
-    servo_3(10);							//master gripper open for m_pick
+    servo_3(30);							//master gripper open for m_pick
     _delay_ms(750);
     for (i = 0; i <137; i++)							//Arm Servo moved down for m_pick
     {
@@ -1743,7 +1743,7 @@ void s_pick(void)
         _delay_ms(6);
     }
     _delay_ms(100);
-    servo_3(165);									//Master Gripper closed for m_pick
+    servo_3(180);									//Master Gripper closed for m_pick
     _delay_ms(750);
     servo_2(15);							//Arm Servo moved up after m_pick
     _delay_ms(1000);
@@ -1775,13 +1775,13 @@ void inv_place_1()
     //servo_4(150);
     //_delay_ms(1000);
 
-    servo_2(45);
+    servo_2(70);
     _delay_ms(1000);
 
     PORTH |= (1 << 0);  //Master Servo motor demux pin set to 0
     _delay_ms(100);
 
-    servo_3(105);
+    servo_3(140);
     _delay_ms(1000);
     servo_3_free();
 
@@ -1789,13 +1789,13 @@ void inv_place_1()
     _delay_ms(1000);
     servo_1_free();
 
-    PORTH &= ~(1 << 0);//Slave Servo motor demux pin set to 1
+    PORTH |= (1 << 3); //Slave Servo motor demux pin set to 1
     _delay_ms(100);
-    servo_4(40);
+    servo_4(30);
     _delay_ms(1000);
     servo_3_free();
 
-    servo_2(0);
+    servo_2(15);
     _delay_ms(1000);
     servo_2_free();
     servo_1(95);
@@ -1828,26 +1828,26 @@ void inv_place_2()
     //servo_4(150);
     //_delay_ms(1000);
 
-    servo_2(45);
+    servo_2(70);
     _delay_ms(1000);
 
     PORTH |= (1 << 0);  //Master Servo motor demux pin set to 0
     _delay_ms(100);
 
-    servo_3(105);
+    servo_3(140);
     _delay_ms(1000);
     servo_3_free();
     servo_1(175);
     _delay_ms(1000);
     servo_1_free();
 
-    PORTH &= ~(1 << 0);//Slave Servo motor demux pin set to 1
+    PORTH |= (1 << 3);//Slave Servo motor demux pin set to 1
     _delay_ms(100);
     servo_4(40);
     _delay_ms(1000);
     servo_3_free();
 
-    servo_2(0);
+    servo_2(15);
     _delay_ms(1000);
     servo_2_free();
     servo_1(95);
@@ -1875,25 +1875,27 @@ void place_lr(void)
     servo_1_free();
     //servo_3(30);
     //_delay_ms(750);
-    servo_2(65);
+    servo_2(95);
     _delay_ms(750);
-    servo_3(105);
+    servo_3(140);
     _delay_ms(750);
 
-    PORTH &= ~(1 << 0);//Slave Servo motor demux pin set to 1
+    PORTH |= (1 << 3);//Slave Servo motor demux pin set to 1
     _delay_ms(100);
-    servo_1(72);
+    servo_1(65);
     _delay_ms(750);
     //servo_4(150);
     //_delay_ms(750);
     //servo_2(65);
     //_delay_ms(1000);
-    servo_3(40);
+    servo_3(30);
     _delay_ms(750);
 
-    servo_2(0);
+    servo_2(15);
     _delay_ms(1000);
     servo_1(95);
+	_delay_ms(750);
+	servo_1_free();
 }
 
 void place_hr(void)
@@ -1905,25 +1907,27 @@ void place_hr(void)
     servo_1_free();
     //servo_3(30);
     //_delay_ms(750);
-    servo_2(35);
+    servo_2(65);
     _delay_ms(750);
-    servo_3(105);
+    servo_3(140);
     _delay_ms(750);
 
-    PORTH &= ~(1 << 0);//Slave Servo motor demux pin set to 1
+    PORTH |= (1 << 3);//Slave Servo motor demux pin set to 1
     _delay_ms(100);
-    servo_1(72);
+    servo_1(65);
     _delay_ms(750);
     //servo_4(150);
     //_delay_ms(750);
     //servo_2(65);
     //_delay_ms(1000);
-    servo_3(40);
+    servo_3(30);
     _delay_ms(750);
 
-    servo_2(0);
+    servo_2(15);
     _delay_ms(1000);
     servo_1(95);
+    _delay_ms(750);
+    servo_1_free();
 }
 
 /* --------------------------------------------------------------NAVIGATION SECTION---------------------------------------------------------------------------*/
@@ -2538,18 +2542,9 @@ void init_devices(void)
 
 
 /*--------------------------------------------------------------MAIN-----------------------------------------------------------*/
-
 int main()
 {
     init_devices();
-    _delay_ms(2000);
-    while (1)
-    {
-        m_pick();
-        _delay_ms(2000);
-        s_pick();
-        _delay_ms(2000);
-    }
     int is_block1 = 0;
     int is_block2 = 0;
     int is_block3 = 0;
@@ -3992,6 +3987,3 @@ int main()
         //lcd_print(1,2*p,path[p],2);
     }
 }
-
-
-
