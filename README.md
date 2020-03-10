@@ -17,27 +17,35 @@ The team that finishes the given task in the least amount of time whilst incurri
 Remark : Visual Studio Installed and V_REP Installed
 Passed
 ## Task 1.1
-95/100
+**95**/100
 ![Task 1.1 Graph](Results/task_1_1_graph.png)
 
 Remark : Good Work
 ## Task 1.2
-88/100
+**88**/100
 ![Task 1.2 Graph](Results/task_1_2_graph.png)
 
 Remark : You have picked 7 and placed 2
 ## Task 2
 Remark : Good
 ## Task 3
-88/100
+**88**/100
 ![Task 3 Graph](Results/task_3_graph.png)
 
 Remark : Good Work
 ## Task 4
-433/380 (30% bonus for early submission)
+**433**/380 (30% bonus for early submission)
 ![Task 4 Graph](Results/task_4_graph.png)
 
 Remark : Good work, Make your arm sturdy.
+## Task 5
+Original Configuration: 1494
+Bonus Configuration: 1315
+Code: 50
+Total = 1494 + (1315*0.33) + 50 = **1982**
+![Task 5 Graph](Results/task_5_graph.png)
+
+Remark : Original Configuration: Had penalty and missed one pick and drop
 # Demo
 ## Hardware Testing
 https://youtu.be/kqlR-GdEUJE
